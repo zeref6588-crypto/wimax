@@ -8,6 +8,37 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<meta name="description" content="Blog de Redes de Computadoras I sobre WiMAX (IEEE 802.16): historia interactiva, cómo funciona, simulador de cobertura, mapa de despliegues, galería de fotos, WiMAX en Bolivia, quiz y referencias APA.">
+<meta name="author" content="Juan Daniel Mamani Coro">
+<meta name="keywords" content="WiMAX, IEEE 802.16, WiBro, 802.16e, banda ancha inalámbrica, OFDMA, redes de computadoras, Entel, Bolivia">
+<meta name="robots" content="index, follow">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#eef2ff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0e2a" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="es_BO">
+<meta property="og:site_name" content="Ondas sin cable">
+<meta property="og:title" content="Ondas sin cable · Blog sobre WiMAX (IEEE 802.16)">
+<meta property="og:description" content="Historia interactiva, simulador de cobertura, mapa de despliegues, galería de fotos y referencias APA sobre WiMAX.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ondas sin cable · WiMAX (IEEE 802.16)">
+<meta name="twitter:description" content="Historia, simulador de cobertura, mapa, galería de fotos y quiz sobre WiMAX.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='24'%20fill='%23ffd84a'/%3E%3Cpath%20d='M22%2046a28%2028%200%200%201%2056%200'%20fill='none'%20stroke='%23ff4f93'%20stroke-width='8'/%3E%3Ccircle%20cx='50'%20cy='46'%20r='9'%20fill='%230b1030'/%3E%3Cpath%20d='M50%2055v31M38%2088h24M50%2066l10%2014M50%2066l-10%2014'%20fill='none'%20stroke='%230b1030'%20stroke-width='8'%20stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ondas sin cable: WiMAX (IEEE 802.16)",
+  "inLanguage": "es",
+  "about": { "@type": "Thing", "name": "WiMAX" },
+  "keywords": "WiMAX, IEEE 802.16, WiBro, banda ancha inalámbrica, Entel Bolivia",
+  "author": { "@type": "Person", "name": "Juan Daniel Mamani Coro" },
+  "publisher": { "@type": "EducationalOrganization", "name": "INCOS El Alto" },
+  "dateModified": "2026-09-29",
+  "learningResourceType": "Investigación",
+  "educationalLevel": "Educación superior"
+}
+</script>
 <style>
   :root {
     --bg: #eef2ff;
@@ -367,14 +398,244 @@
     .flip-inner, .card, .btn, .bar-row .bar i, .tabpanel, .tl-panel.swap, #mapInfo.swap { transition: none; animation: none; }
     .wave { opacity: .5; transform: scale(.7); }
   }
+
+  /* ===== Ampliación visual 1: detalles globales ===== */
+  .icon-btn { flex: none; width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 3px solid var(--line); background: var(--mint); color: #0b1030; font-size: 1rem; cursor: pointer; margin-right: .3rem; }
+  .icon-btn:hover { transform: rotate(-14deg); }
+  .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .kbd { font-family: var(--display); font-size: .68rem; font-weight: 700; border: 2px solid var(--line); border-radius: 6px; padding: .05rem .35rem; background: var(--surface); box-shadow: 1px 1px 0 var(--shadow-c); }
+
+  /* Cinta de datos con botón de pausa */
+  .ticker { position: relative; }
+  .ticker-pause { position: absolute; right: .45rem; top: 50%; transform: translateY(-50%); z-index: 3; width: 2.2rem; height: 1.7rem; border: 3px solid var(--line); border-radius: 999px; background: var(--surface); color: #0b1030; font-size: .68rem; font-weight: 700; cursor: pointer; line-height: 1; }
+  .ticker-pause[aria-pressed="true"] { background: var(--pink); }
+  .ticker[data-paused="1"] .ticker-track { animation-play-state: paused; }
+
+  /* Portada con auroras y capas */
+  .hero { position: relative; overflow: clip; }
+  .hero .wrap { position: relative; z-index: 1; }
+  .hero::before, .hero::after { content: ""; position: absolute; width: 26rem; height: 26rem; border-radius: 50%; filter: blur(46px); opacity: .5; pointer-events: none; }
+  .hero::before { background: var(--pink); top: -6rem; right: -6rem; animation: floaty 16s ease-in-out infinite; }
+  .hero::after { background: var(--lilac); bottom: -11rem; left: -9rem; animation: floaty 21s ease-in-out infinite reverse; }
+  @keyframes floaty { 50% { transform: translate3d(0, 2.5rem, 0) scale(1.12); } }
+
+  /* Separador entre secciones */
+  .sec + .sec::before { content: ""; display: block; height: 14px; margin-bottom: 1.6rem; background: repeating-linear-gradient(45deg, var(--line) 0 9px, transparent 9px 18px); opacity: .12; }
+
+  /* Sección señalada desde un enlace */
+  section.sec:target .sec-head { animation: targetFlash 1.5s ease-out; border-radius: 14px; }
+  @keyframes targetFlash { from { background: var(--hl-yellow); box-shadow: 0 0 0 10px var(--hl-yellow); } to { background: transparent; box-shadow: none; } }
+  .chip:nth-child(4) { background: var(--pink); color: #0b1030; }
+
+  /* Impresión y guardado en PDF */
+  @media print {
+    html { scroll-behavior: auto; }
+    .ticker, .pillnav-wrap, .progress, .rail, .totop, .palette, .toast, .lightbox, .gallery-ctrl, .skip { display: none !important; }
+    .bar i[data-w] { border-right: 3px solid var(--line); }
+    body { background: #fff !important; color: #000; }
+    .card, details.acc, .table-scroll, .mapbox, .tile, .photo, .polaroid { box-shadow: none !important; break-inside: avoid; }
+    section.sec { padding-block: .8rem; }
+    .js .reveal { opacity: 1 !important; transform: none !important; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .72em; word-break: break-all; }
+  }
+
+  /* ===== Ampliación visual 2: galería de fotos ===== */
+  .polaroid { background: var(--surface); border: 3px solid var(--line); border-radius: 16px; box-shadow: 6px 6px 0 var(--shadow-c); padding: .7rem .7rem 1rem; }
+  .polaroid img { display: block; width: 100%; height: auto; border: 3px solid var(--line); border-radius: 10px; background: var(--bg); }
+  .polaroid figcaption { font-size: .8rem; line-height: 1.45; color: var(--muted); margin-top: .55rem; }
+  .polaroid-hero { position: relative; z-index: 3; width: min(72%, 16rem); margin: -3.4rem 0 0 -1rem; transform: rotate(-4deg); transition: transform .25s; }
+  .polaroid-hero:hover { transform: rotate(-1deg) scale(1.03); }
+  @media (max-width: 40rem) { .polaroid-hero { margin: -1.6rem 0 0; width: min(100%, 18rem); } }
+
+  .gallery-head { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+  .gallery-ctrl { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+  .gallery { display: grid; gap: 1.3rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  .photo { background: var(--surface); border: 3px solid var(--line); border-radius: 20px; box-shadow: 6px 6px 0 var(--shadow-c); padding: .8rem .8rem 1rem; position: relative; transition: transform .2s, box-shadow .2s; }
+  .photo:nth-child(3n+1) { transform: rotate(-1.1deg); }
+  .photo:nth-child(3n+2) { transform: rotate(.9deg); }
+  .photo:hover, .photo:focus-within { transform: rotate(0) translate(-2px, -3px); box-shadow: 9px 10px 0 var(--shadow-c); z-index: 2; }
+  .photo .shot { position: relative; display: block; width: 100%; padding: 0; border: 3px solid var(--line); border-radius: 12px; overflow: hidden; cursor: zoom-in; background: linear-gradient(110deg, var(--bg) 30%, var(--hl-yellow) 50%, var(--bg) 70%); background-size: 220% 100%; animation: shimmer 1.6s linear infinite; }
+  .photo .shot.loaded, .photo .shot.failed { animation: none; background: var(--bg); }
+  .photo img { display: block; width: 100%; height: 13rem; object-fit: cover; transition: transform .35s; }
+  .photo:hover img { transform: scale(1.06); }
+  .photo .shot.loaded::after { content: "🔍"; position: absolute; right: .5rem; bottom: .5rem; background: var(--yellow); color: #0b1030; border: 2px solid var(--line); border-radius: 999px; padding: 0 .45rem; font-size: .85rem; opacity: 0; transition: opacity .2s; }
+  .photo .shot:hover::after { opacity: 1; }
+  .photo .shot.failed img { display: none; }
+  .photo .shot.failed::before { content: attr(data-fallback); display: grid; place-items: center; height: 13rem; padding: 1rem; text-align: center; font-weight: 700; font-size: .9rem; color: var(--muted); }
+  .photo h3 { font-family: var(--display); font-size: .95rem; line-height: 1.3; margin: .7rem 0 .3rem; letter-spacing: -.02em; }
+  .photo p { margin: 0 0 .4rem; font-size: .92rem; }
+  .credit { display: inline-block; font-size: .72rem; font-weight: 700; color: var(--muted); border: 2px solid var(--line); border-radius: 999px; padding: 0 .5rem; background: var(--bg); margin-top: .2rem; }
+  @keyframes shimmer { to { background-position: -120% 0; } }
+
+  /* Modo carrusel de la galería */
+  .gallery.mode-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1.1rem; padding: .4rem .2rem 1.2rem; }
+  .gallery.mode-carousel .photo { flex: 0 0 min(22rem, 82vw); scroll-snap-align: center; }
+  .gallery.mode-carousel::-webkit-scrollbar { height: 10px; }
+  .gallery.mode-carousel::-webkit-scrollbar-thumb { background: var(--pink); border: 2px solid var(--line); border-radius: 999px; }
+
+  /* Visor ampliado */
+  .lightbox { position: fixed; inset: 0; z-index: 90; background: rgba(11,16,48,.88); display: grid; grid-template-rows: auto 1fr auto; gap: .6rem; padding: 1rem; }
+  .lightbox[hidden] { display: none !important; }
+  .lightbox figure { margin: 0; display: grid; gap: .6rem; min-height: 0; align-content: center; }
+  .lightbox img { max-width: min(100%, 70rem); max-height: 66vh; margin-inline: auto; border: 4px solid var(--yellow); border-radius: 14px; background: #fff; }
+  .lightbox figcaption { color: #f1f4ff; text-align: center; font-size: .92rem; max-width: 62ch; margin-inline: auto; }
+  .lightbox .lb-bar { display: flex; gap: .5rem; align-items: center; justify-content: space-between; color: #f1f4ff; flex-wrap: wrap; }
+  .lightbox .lb-bar b { font-family: var(--display); font-size: .82rem; }
+  body.lb-open { overflow: hidden; }
+
+  /* ===== Ampliación visual 3: diagrama, tráfico y comparador ===== */
+  .anatomy { display: grid; gap: 1.3rem; }
+  @media (min-width: 52rem) { .anatomy { grid-template-columns: 1.3fr .7fr; align-items: start; } }
+  .stage { position: relative; border: 3px solid var(--line); border-radius: 20px; box-shadow: 6px 6px 0 var(--shadow-c); background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 72%); overflow: hidden; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .s-sky { fill: var(--hl-blue); }
+  .s-hill { fill: var(--hl-mint); }
+  .s-steel { fill: var(--line); }
+  .s-panel { fill: var(--surface); stroke: var(--line); stroke-width: 3; }
+  .s-wifi { fill: var(--pink); stroke: var(--line); stroke-width: 3; }
+  .s-roof { fill: var(--yellow); stroke: var(--line); stroke-width: 3; }
+  .s-house { fill: var(--lilac); stroke: var(--line); stroke-width: 3; }
+  .s-dash { stroke: var(--blue); stroke-width: 4; stroke-dasharray: 10 8; fill: none; animation: dashmove 1.5s linear infinite; }
+  .s-dash.d2 { stroke: var(--mint); }
+  .s-dash.d3 { stroke: var(--yellow); }
+  @keyframes dashmove { to { stroke-dashoffset: -18; } }
+  .s-lbl { font-family: var(--display); font-size: 11px; fill: var(--ink); }
+  .hot { position: absolute; transform: translate(-50%, -50%); width: 2.1rem; height: 2.1rem; border-radius: 50%; border: 3px solid var(--line); background: var(--surface); color: var(--ink); font-family: var(--display); font-weight: 700; font-size: .85rem; cursor: pointer; box-shadow: 2px 2px 0 var(--shadow-c); }
+  .hot:hover { background: var(--yellow); }
+  .hot[aria-pressed="true"] { background: var(--pink); color: #0b1030; }
+  .hot::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 3px solid var(--pink); opacity: 0; }
+  .hot[aria-pressed="true"]::after { animation: pinPing 1.7s ease-out infinite; }
+  .hot-list { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .9rem; }
+  .hot-panel { min-height: 12rem; }
+  .hot-panel h3 { font-family: var(--display); font-size: 1.1rem; }
+  .hot-panel p { margin: 0 0 .6rem; }
+
+  /* Visualizador de subportadoras y QoS */
+  .sc-wrap { border: 3px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: 5px 5px 0 var(--shadow-c); padding: .9rem; overflow-x: auto; }
+  .sc-grid { display: grid; gap: 4px; grid-template-columns: repeat(14, minmax(1.05rem, 1fr)); grid-auto-rows: 1.05rem; min-width: 21rem; }
+  .sc-grid i { background: var(--bg); border: 2px solid var(--line); border-radius: 4px; transition: background .35s, transform .35s; transition-delay: var(--d, 0s); }
+  .sc-grid i.on { background: var(--c, var(--mint)); transform: scale(1.1); }
+  .sc-grid i.pulse { animation: scPulse 1.5s ease-in-out infinite; }
+  @keyframes scPulse { 50% { opacity: .5; } }
+  .sc-axis { display: flex; justify-content: space-between; font-size: .72rem; font-weight: 700; color: var(--muted); margin-top: .45rem; }
+  .sc-legend { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .3rem; }
+  .sc-legend span { display: inline-flex; align-items: center; gap: .35rem; font-size: .82rem; font-weight: 700; }
+  .sc-legend i { width: 1rem; height: 1rem; border: 2px solid var(--line); border-radius: 4px; display: inline-block; }
+  .qos-note { font-size: .92rem; color: var(--muted); }
+  .qos-note b { color: var(--ink); }
+  .qosviz { display: grid; gap: 1.1rem; }
+  .qosviz .seg { flex-wrap: wrap; border-radius: 20px; }
+  .qosviz .seg button { flex: 1 1 4.5rem; }
+  .vs .card { padding: 1.2rem 1.3rem; }
+
+  /* Bandas de frecuencia clicables */
+  .bands .band { border: 3px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: .25rem .8rem; font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer; box-shadow: 2px 2px 0 var(--shadow-c); }
+  .bands .band:hover { background: var(--hl-yellow); }
+  .bands .band b { color: var(--link); }
+
+  /* Comparador frente a frente */
+  .vs { display: grid; gap: 1.1rem; }
+  .vs-pick { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .vs-card { display: grid; gap: 1.1rem; }
+  @media (min-width: 46rem) { .vs-card { grid-template-columns: 1fr 1fr; } }
+  .vs-side { border: 3px solid var(--line); border-radius: 20px; box-shadow: 6px 6px 0 var(--shadow-c); padding: 1rem 1.1rem; background: var(--surface); }
+  .vs-side.win { background: var(--hl-mint); }
+  .vs-side h3 { font-family: var(--display); font-size: 1.05rem; margin: 0 0 .3rem; }
+  .vs-side ul { margin: .4rem 0 0; padding-left: 1.1rem; font-size: .95rem; }
+  .vs-side li { margin-bottom: .3rem; }
+  .vs-crit { margin-top: 1.1rem; }
+  .vs-row { display: grid; grid-template-columns: 7.5rem 1fr 1fr; gap: .6rem; align-items: center; margin-bottom: .5rem; font-size: .88rem; font-weight: 700; }
+  @media (max-width: 34rem) { .vs-row { grid-template-columns: 1fr; gap: .2rem; margin-bottom: .9rem; } }
+  .vs-legend { display: flex; gap: 1rem; font-size: .82rem; color: var(--muted); font-weight: 700; flex-wrap: wrap; margin-bottom: .7rem; }
+  .vs-legend i { width: .9rem; height: .9rem; border: 2px solid var(--line); border-radius: 4px; display: inline-block; vertical-align: -.15rem; }
+  .vs-track { height: 1.4rem; border: 3px solid var(--line); border-radius: 999px; background: var(--bg); overflow: hidden; }
+  .vs-track i { display: block; height: 100%; width: 0; background: var(--pink); border-right: 3px solid var(--line); transition: width .9s cubic-bezier(.2,.8,.2,1); }
+  .vs-track.alt i { background: var(--blue); }
+
+  /* Línea de vida de los servicios */
+  .gantt { list-style: none; padding: 0; margin: .4rem 0 0; }
+  .gantt li { margin-bottom: .8rem; }
+  .gantt .g-lbl { display: flex; flex-wrap: wrap; gap: .4rem; align-items: baseline; font-weight: 700; font-size: .92rem; margin-bottom: .25rem; }
+  .gantt .g-lbl small { font-weight: 500; color: var(--muted); font-size: .8rem; }
+  .gantt .bar { position: relative; height: 1.4rem; }
+  .gantt .bar i { position: absolute; top: 0; bottom: 0; left: var(--from, 0%); }
+  .gantt li:nth-child(1) .bar i { background: var(--pink); }
+  .gantt li:nth-child(2) .bar i { background: var(--blue); }
+  .gantt li:nth-child(3) .bar i { background: var(--lilac); }
+  .gantt li:nth-child(4) .bar i { background: var(--mint); }
+  .gantt li:nth-child(5) .bar i { background: #ff9d5c; }
+  .gantt li:nth-child(6) .bar i { background: var(--yellow); }
+  .g-axis { display: flex; justify-content: space-between; font-size: .74rem; font-weight: 700; color: var(--muted); border-top: 3px solid var(--line); padding-top: .3rem; }
+  /* ===== Ampliación visual 4: navegación flotante y avisos ===== */
+  .rail { position: fixed; right: .9rem; top: 50%; transform: translateY(-50%); z-index: 40; display: none; flex-direction: column; gap: .55rem; }
+  @media (min-width: 75rem) { .rail { display: flex; } }
+  .rail a { width: 1rem; height: 1rem; border-radius: 50%; border: 3px solid var(--line); background: var(--surface); box-shadow: 2px 2px 0 var(--shadow-c); position: relative; }
+  .rail a[aria-current="true"] { background: var(--pink); transform: scale(1.25); }
+  .rail a span { position: absolute; right: 1.6rem; top: 50%; transform: translateY(-50%); white-space: nowrap; background: var(--ink); color: var(--bg); font-size: .72rem; font-weight: 700; padding: .15rem .5rem; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .rail a:hover span, .rail a:focus-visible span { opacity: 1; }
+
+  .totop { position: fixed; right: 1rem; bottom: 1rem; z-index: 41; width: 3.3rem; height: 3.3rem; border-radius: 50%; border: 3px solid var(--line); background: var(--yellow); color: #0b1030; font-size: 1.05rem; cursor: pointer; box-shadow: 4px 4px 0 var(--shadow-c); display: grid; place-items: center; }
+  .totop[hidden] { display: none !important; }
+  .totop svg { position: absolute; inset: -3px; width: calc(100% + 6px); height: calc(100% + 6px); transform: rotate(-90deg); }
+  .totop circle { fill: none; stroke: var(--pink); stroke-width: 4; stroke-dasharray: 100 100; stroke-dashoffset: 100; }
+
+  /* Buscador rápido (Ctrl + K) */
+  .palette { position: fixed; inset: 0; z-index: 95; background: rgba(11,16,48,.72); display: grid; align-content: start; justify-items: center; padding: 12vh 1rem 1rem; }
+  .palette[hidden] { display: none !important; }
+  .palette-box { width: min(100%, 34rem); background: var(--surface); border: 3px solid var(--line); border-radius: 20px; box-shadow: 8px 8px 0 var(--shadow-c); overflow: hidden; }
+  .palette-box header { display: flex; align-items: center; gap: .6rem; padding: .6rem .8rem; border-bottom: 3px solid var(--line); background: var(--hl-yellow); }
+  .palette-box input { flex: 1; border: 0; background: transparent; font: inherit; font-weight: 700; color: var(--ink); outline: none; min-width: 0; }
+  .pal-list { list-style: none; margin: 0; padding: .4rem; max-height: 56vh; overflow-y: auto; }
+  .pal-list a, .pal-list button { display: block; width: 100%; text-align: left; text-decoration: none; color: var(--ink); font: inherit; font-weight: 700; border: 0; background: transparent; border-radius: 12px; padding: .5rem .7rem; cursor: pointer; }
+  .pal-list small { display: block; font-weight: 500; color: var(--muted); font-size: .8rem; }
+  .pal-list .on a, .pal-list .on button, .pal-list a:hover, .pal-list button:hover { background: var(--hl-yellow); }
+  .pal-empty { padding: .8rem; color: var(--muted); font-weight: 700; }
+  .pal-foot { padding: .5rem .8rem; border-top: 3px solid var(--line); font-size: .78rem; color: var(--muted); font-weight: 700; display: flex; gap: .6rem; flex-wrap: wrap; }
+
+  /* Avisos flotantes */
+  .toast { position: fixed; left: 50%; bottom: 1.2rem; transform: translateX(-50%) translateY(1.5rem); z-index: 96; background: var(--ink); color: var(--bg); border: 3px solid var(--line); border-radius: 999px; padding: .5rem 1.1rem; font-weight: 700; font-size: .9rem; opacity: 0; transition: opacity .25s, transform .25s; pointer-events: none; max-width: 90vw; text-align: center; }
+  .toast.on { opacity: 1; transform: translateX(-50%); }
+
+  /* Confeti del quiz */
+  .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 80; overflow: hidden; }
+  .confetti i { position: absolute; top: -2rem; width: .7rem; height: 1rem; border: 2px solid var(--line); border-radius: 3px; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(108vh) rotate(540deg); } }
+
+  /* Utilidades de las referencias y el quiz */
+  .copyref { font-family: var(--display); font-size: .62rem; font-weight: 700; border: 2px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: .05rem .5rem; cursor: pointer; margin-left: .35rem; vertical-align: .12rem; }
+  .copyref:hover { background: var(--mint); }
+  .best { font-weight: 700; color: var(--muted); }
+
+  /* Pie de página ampliado */
+  footer.site .wrap { align-items: flex-start; }
+  .foot-main strong { display: block; }
+  .foot-tag { margin: .25rem 0 0; font-size: .88rem; max-width: 34ch; }
+  .foot-nav { display: flex; flex-wrap: wrap; gap: .3rem .9rem; font-weight: 700; font-size: .88rem; max-width: 22rem; }
+  .foot-nav a { text-decoration: none; color: #0b1030; border-bottom: 2px solid transparent; }
+  .foot-nav a:hover { border-bottom-color: #0b1030; }
+  .foot-legal { display: flex; flex-direction: column; gap: .35rem; font-size: .85rem; max-width: 40ch; }
+  .foot-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .3rem; }
+  .foot-legal .btn { text-decoration: none; background: var(--pink); }
+  .foot-legal .btn.alt { background: var(--surface); color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero::before, .hero::after, .stage .s-dash, .sc-grid i.pulse, .confetti i, .photo .shot, .hot[aria-pressed="true"]::after { animation: none !important; }
+    .photo, .photo:nth-child(3n+1), .photo:nth-child(3n+2), .polaroid-hero { transform: none; }
+    .sc-grid i, .vs-track i, .toast { transition: none; }
+  }
+  @media (max-width: 46rem) {
+    .gallery { grid-template-columns: 1fr; }
+    .totop { right: .8rem; bottom: .8rem; }
+  }
 </style>
 </head>
 <body>
 <a class="skip" href="#contenido">Saltar al contenido</a>
 <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
 
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track">
+<div class="ticker">
+  <button class="ticker-pause" id="tickerPause" type="button" aria-label="Pausar la cinta de datos" aria-pressed="false">❙❙</button>
+  <div class="ticker-track" aria-hidden="true">
     <div class="ticker-set">
       <span>✦ IEEE 802.16</span><span>✦ WiMAX Forum, 2001</span><span>✦ Hasta 75 Mbps en teoría</span><span>✦ WiBro: Seúl, 2006</span><span>✦ Baltimore, 2008</span><span>✦ Entel en Bolivia, 3,5 GHz</span><span>✦ Sprint apaga WiMAX en 2015</span><span>✦ UQ lo apaga en 2020</span>
     </div>
@@ -389,9 +650,12 @@
     <a class="logo" href="#inicio">Ondas sin cable</a>
     <div class="links">
       <a href="#inicio">🏠 Inicio</a>
+      <a href="#datos">📊 Datos</a>
       <a href="#investigaciones">📚 Investigaciones</a>
+      <a href="#galeria">🖼️ Galería</a>
       <a href="#sobre-mi">👤 Sobre mí</a>
     </div>
+    <button class="icon-btn" id="paletteBtn" type="button" aria-label="Buscar en la página (atajo: Ctrl más K)" title="Buscar en la página (Ctrl + K)">🔍</button>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Cambiar a tema oscuro" aria-pressed="false">🌙</button>
   </nav>
 </div>
@@ -405,6 +669,7 @@
         <span class="chip">🎓 <span data-f="alumno"></span></span>
         <span class="chip">🏫 <span data-f="instituto"></span></span>
         <span class="chip">📚 <span data-f="materia"></span></span>
+        <span class="chip">⏱️ <span id="ageChip">25</span> años desde el WiMAX Forum</span>
       </div>
     </div>
     <div class="hero-art">
@@ -419,11 +684,15 @@
       <span class="sticker s1">IEEE 802.16</span>
       <span class="sticker s2">3,5 GHz</span>
       <span class="sticker s3">desde 2001</span>
+      <figure class="polaroid polaroid-hero">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/WiMAX2.1_base_station_by_UQ_Communications.jpg/960px-WiMAX2.1_base_station_by_UQ_Communications.jpg" alt="Estación base WiMAX 2.1 de UQ Communications en Japón: antenas sectoriales montadas sobre un mástil" width="960" height="506" loading="lazy" decoding="async">
+        <figcaption>Así es una estación base real, en Japón. Foto: <a href="https://commons.wikimedia.org/wiki/File:WiMAX2.1_base_station_by_UQ_Communications.jpg">Yoh-Plus</a>, CC BY 4.0.</figcaption>
+      </figure>
     </div>
   </div>
 </header>
 
-<noscript><div class="wrap"><div class="card">Activa JavaScript para ver la línea de tiempo, el simulador, el mapa y el quiz.</div></div></noscript>
+<noscript><div class="wrap"><div class="card">Activa JavaScript para ver la línea de tiempo, el simulador, el mapa, el visor de fotos, el visualizador de tráfico, el comparador y el quiz. Las fotos, el texto y las referencias se leen igual sin JavaScript.</div></div></noscript>
 
 <main id="contenido">
 
@@ -447,7 +716,7 @@
       <nav class="index reveal" aria-label="Contenido de la investigación 01">
         <strong>Dentro de la investigación 01</strong>
         <div>
-          <a href="#datos">Datos</a><a href="#historia">Historia</a><a href="#personajes">Personajes</a><a href="#funcionamiento">Cómo funciona</a><a href="#cobertura">Cobertura</a><a href="#mapa">Mapa</a><a href="#bolivia">Bolivia</a><a href="#empresas">Empresas</a><a href="#legado">Legado</a><a href="#quiz">Quiz</a><a href="#glosario">Glosario</a><a href="#referencias">Referencias</a>
+          <a href="#datos">Datos</a><a href="#historia">Historia</a><a href="#personajes">Personajes</a><a href="#funcionamiento">Cómo funciona</a><a href="#qosviz">Tráfico y QoS</a><a href="#anatomia">Anatomía</a><a href="#cobertura">Cobertura</a><a href="#mapa">Mapa</a><a href="#galeria">Galería de fotos</a><a href="#bolivia">Bolivia</a><a href="#empresas">Empresas</a><a href="#legado">Legado</a><a href="#vs">Comparador</a><a href="#vida">Línea de vida</a><a href="#quiz">Quiz</a><a href="#glosario">Glosario</a><a href="#referencias">Referencias</a>
         </div>
       </nav>
     </div>
@@ -569,17 +838,88 @@
           <div class="body">
             <p>No hubo una banda única para WiMAX: cada regulador y operador eligió la suya.</p>
             <div class="bands">
-              <span><b>2,3 GHz</b> Corea del Sur <span class="cite">(Wikipedia contributors, s. f.-b)</span></span>
-              <span><b>2,3 GHz</b> Nigeria <span class="cite">(Guardian Nigeria, s. f.)</span></span>
-              <span><b>2,5 GHz</b> Estados Unidos <span class="cite">(CIO Australia, 2014)</span></span>
-              <span><b>3,3 GHz</b> India, BSNL <span class="cite">(Telecoms.com, 2008b)</span></span>
-              <span><b>3,5 GHz</b> Pakistán <span class="cite">(Telecoms.com, 2008b)</span></span>
-              <span><b>3,5 GHz</b> Bolivia <span class="cite">(Entel, s. f.-a)</span></span>
-              <span><b>3,5 GHz</b> Chile <span class="cite">(La Tercera, 2024)</span></span>
+              <button type="button" class="band" data-pin="seul"><b>2,3 GHz</b> Corea del Sur <span class="cite">(Wikipedia contributors, s. f.-b)</span></button>
+              <button type="button" class="band" data-pin="abuja"><b>2,3 GHz</b> Nigeria <span class="cite">(Guardian Nigeria, s. f.)</span></button>
+              <button type="button" class="band" data-pin="baltimore"><b>2,5 GHz</b> Estados Unidos <span class="cite">(CIO Australia, 2014)</span></button>
+              <button type="button" class="band" data-pin="delhi"><b>3,3 GHz</b> India, BSNL <span class="cite">(Telecoms.com, 2008b)</span></button>
+              <button type="button" class="band" data-pin="islamabad"><b>3,5 GHz</b> Pakistán <span class="cite">(Telecoms.com, 2008b)</span></button>
+              <button type="button" class="band" data-pin="lapaz"><b>3,5 GHz</b> Bolivia <span class="cite">(Entel, s. f.-a)</span></button>
+              <button type="button" class="band" data-pin="santiago"><b>3,5 GHz</b> Chile <span class="cite">(La Tercera, 2024)</span></button>
             </div>
+            <p class="note">Toca una banda y te llevo al punto correspondiente del <a href="#mapa">mapa de despliegues</a>.</p>
           </div>
         </details>
       </div>
+
+      <!-- TRÁFICO Y QoS: visualizador de subportadoras -->
+      <div class="reveal" id="qosviz" style="margin-top:2.4rem">
+        <h3 style="font-family:var(--display);margin:0 0 .8rem">Cómo se reparte el canal entre varios usuarios</h3>
+        <p class="prose" style="max-width:68ch">En OFDMA el canal se parte en subportadoras y el operador entrega esas porciones a cada usuario según su clase de tráfico. Elige una clase y observa cómo se ocupa el recurso a lo largo del tiempo. <span class="cite">Modelo didáctico: los patrones son ilustrativos y no reproducen el estándar (Belghith et al., s. f.; Andrews et al., 2007).</span></p>
+        <div class="qosviz card" style="margin-top:1rem">
+          <div>
+            <div class="seg" id="qosSeg" role="group" aria-label="Clase de tráfico QoS"></div>
+            <p class="qos-note" id="qosInfo" aria-live="polite"></p>
+          </div>
+          <div class="sc-wrap">
+            <div class="sc-grid" id="scGrid" aria-hidden="true"></div>
+            <div class="sc-axis"><span>tiempo →</span><span>↓ subportadoras</span></div>
+          </div>
+          <div class="sc-legend" id="scLegend"></div>
+        </div>
+      </div>
+
+      <!-- ANATOMÍA DE UNA RED WiMAX -->
+      <div class="reveal" id="anatomia" style="margin-top:2.6rem">
+        <h3 style="font-family:var(--display);margin:0 0 .8rem">Anatomía de una red WiMAX</h3>
+        <p class="prose" style="max-width:68ch">Toca los números del dibujo para recorrer el camino que sigue una señal desde una casa hasta internet. <span class="cite">Esquema didáctico basado en Andrews et al. (2007), Eklund et al. (2002) y Entel (s. f.-a).</span></p>
+        <div class="anatomy" style="margin-top:1.2rem">
+          <div class="stage" id="stage">
+            <svg viewBox="0 0 640 360" role="img" aria-label="Dibujo de una red WiMAX: torre con antenas sectoriales, casa con equipo de cliente en el techo, enlace de backhaul y edificio del operador">
+              <rect class="s-sky" x="0" y="0" width="640" height="360"/>
+              <circle cx="248" cy="86" r="150" fill="none" stroke="var(--pink)" stroke-width="3" stroke-dasharray="8 10" opacity=".5"/>
+              <circle cx="248" cy="86" r="98" fill="none" stroke="var(--blue)" stroke-width="3" stroke-dasharray="8 10" opacity=".45"/>
+              <ellipse class="s-hill" cx="70" cy="330" rx="150" ry="36"/>
+              <ellipse class="s-hill" cx="604" cy="336" rx="130" ry="30"/>
+              <path d="M0 322 H640" stroke="var(--line)" stroke-width="6"/>
+              <path class="s-steel" d="M228 322 L248 96 L268 322 Z"/>
+              <path class="s-steel" d="M234 268 H262 M238 216 H258 M234 268 L258 216 M262 268 L238 216"/>
+              <rect class="s-wifi" x="226" y="72" width="44" height="12" rx="5"/>
+              <rect class="s-wifi" x="240" y="44" width="16" height="30" rx="6"/>
+              <rect class="s-panel" x="228" y="140" width="40" height="30" rx="6"/>
+              <path class="s-dash" d="M236 96 C204 152, 176 202, 154 246"/>
+              <path class="s-house" d="M96 322 V262 L152 222 L208 262 V322 Z"/>
+              <path class="s-roof" d="M86 266 L152 216 L218 266 L206 266 L152 228 L94 266 Z"/>
+              <rect class="s-panel" x="118" y="286" width="26" height="34" rx="4"/>
+              <rect class="s-panel" x="139" y="202" width="24" height="16" rx="4"/>
+              <path class="s-dash d3" d="M151 198 C180 156, 208 126, 236 100" opacity=".65"/>
+              <path class="s-dash d2" d="M272 122 C344 152, 402 190, 466 232"/>
+              <rect class="s-panel" x="470" y="212" width="132" height="112" rx="10"/>
+              <rect class="s-wifi" x="484" y="228" width="26" height="20" rx="4"/>
+              <rect class="s-wifi" x="522" y="228" width="26" height="20" rx="4"/>
+              <rect class="s-wifi" x="560" y="228" width="26" height="20" rx="4"/>
+              <rect class="s-house" x="500" y="272" width="70" height="52" rx="6"/>
+              <path class="s-dash d3" d="M602 210 C620 180, 628 150, 632 118"/>
+              <text class="s-lbl" x="286" y="112">cobertura</text>
+              <text class="s-lbl" x="92" y="198">casa · CPE</text>
+              <text class="s-lbl" x="470" y="204">red del operador</text>
+            </svg>
+            <button class="hot" type="button" data-k="antenas" aria-pressed="true" aria-label="1. Antenas sectoriales" style="left:38.75%;top:18%">1</button>
+            <button class="hot" type="button" data-k="radio" aria-pressed="false" aria-label="2. Equipo de radio de la estación base" style="left:38.75%;top:43%">2</button>
+            <button class="hot" type="button" data-k="backhaul" aria-pressed="false" aria-label="3. Enlace de backhaul" style="left:57.8%;top:48.5%">3</button>
+            <button class="hot" type="button" data-k="cpe" aria-pressed="false" aria-label="4. Equipo de cliente en el techo" style="left:23.6%;top:58.9%">4</button>
+            <button class="hot" type="button" data-k="los" aria-pressed="false" aria-label="5. Zona con y sin línea de vista" style="left:21.9%;top:41%">5</button>
+            <button class="hot" type="button" data-k="core" aria-pressed="false" aria-label="6. Edificio de la red del operador" style="left:83.6%;top:74.4%">6</button>
+          </div>
+          <div>
+            <div class="hot-list" id="hotList" role="group" aria-label="Partes de la red"></div>
+            <div class="card hot-panel" id="hotPanel" aria-live="polite">
+              <h3>1 · Antenas sectoriales</h3>
+              <p>La estación base irradia en sectores para cubrir varias direcciones desde el mismo mástil. Una sola antena atiende a muchas estaciones suscriptoras a la vez: es la arquitectura punto a multipunto típica de WiMAX <span class="cite">(Eklund et al., 2002; Andrews et al., 2007)</span>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <h3 style="font-family:var(--display);margin:2.4rem 0 1rem">Para qué se usó</h3>
       <div class="grid reveal">
@@ -660,6 +1000,122 @@
       <div class="card" id="mapInfo" aria-live="polite"><h3>Elige un lugar</h3><p>Verás la historia de WiMAX en ese país o ciudad.</p></div>
     </div>
   </section>
+
+  <!-- GALERÍA DE FOTOS -->
+  <section class="sec" id="galeria" style="--hl: var(--hl-mint)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">WiMAX en fotos</span></h2>
+        <p>Antenas, equipos y dispositivos reales de la era WiMAX, con la historia de cada uno. Todas las fotos vienen de Wikimedia Commons: en cada ficha están el autor, la licencia y el enlace al archivo original.</p>
+      </header>
+
+      <div class="gallery-head reveal">
+        <div class="gallery-ctrl">
+          <div class="seg" role="group" aria-label="Vista de la galería">
+            <button type="button" id="galGrid" aria-pressed="true">▦ Cuadrícula</button>
+            <button type="button" id="galCar" aria-pressed="false">⇄ Carrusel</button>
+          </div>
+          <button class="btn alt" type="button" id="galPlay" aria-pressed="false">▶️ Pase automático</button>
+        </div>
+        <p class="count-out" id="galCount" aria-live="polite"></p>
+      </div>
+
+      <div class="gallery reveal" id="gallery">
+        <figure class="photo">
+          <button class="shot" type="button" data-fallback="Foto no disponible sin conexión" aria-label="Ampliar la foto: estación base Samsung de WiMAX">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Wimax_base_LTU1.jpg/960px-Wimax_base_LTU1.jpg" alt="Torre de telecomunicaciones con antenas y paneles de una estación base Samsung de WiMAX" width="960" height="1280" loading="lazy" decoding="async">
+          </button>
+          <figcaption>
+            <h3>La torre y sus paneles</h3>
+            <p>Estación base Samsung de WiMAX fotografiada en Lituania. Samsung fue uno de los grandes proveedores de equipos: le vendió a Clearwire, UQ, Yota y YTL, entre otros <span class="cite">(WiMAX.com, 2010)</span>.</p>
+            <span class="credit">📷 Stalinas · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Wimax_base_LTU1.jpg">Wikimedia Commons</a></span>
+          </figcaption>
+        </figure>
+
+        <figure class="photo">
+          <button class="shot" type="button" data-fallback="Foto no disponible sin conexión" aria-label="Ampliar la foto: antena de acceso fijo inalámbrico en Japón">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Fixed_Wireless_Access_Antenna_Alvarion_Hokkaido_Japan.jpg/960px-Fixed_Wireless_Access_Antenna_Alvarion_Hokkaido_Japan.jpg" alt="Antena de acceso fijo inalámbrico Alvarion montada en un poste, con paisaje nevado detrás" width="960" height="720" loading="lazy" decoding="async">
+          </button>
+          <figcaption>
+            <h3>La antena que apunta a la base</h3>
+            <p>Antena de acceso fijo inalámbrico Alvarion en Hokkaido, Japón. En WiMAX fijo el enlace funciona mejor con línea de vista despejada entre el cliente y la estación base <span class="cite">(Andrews et al., 2007)</span>.</p>
+            <span class="credit">📷 Fastlamb · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Fixed_Wireless_Access_Antenna_Alvarion_Hokkaido_Japan.jpg">Wikimedia Commons</a></span>
+          </figcaption>
+        </figure>
+
+        <figure class="photo">
+          <button class="shot" type="button" data-fallback="Foto no disponible sin conexión" aria-label="Ampliar la foto: equipo de cliente Alvarion">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Alvarion_CPE.jpg" alt="Equipo de cliente (CPE) Alvarion: caja blanca con conectores y led indicadores" width="626" height="600" loading="lazy" decoding="async">
+          </button>
+          <figcaption>
+            <h3>El CPE, equipo del cliente</h3>
+            <p>Un CPE (Customer Premises Equipment) Alvarion: la caja que se instala en el domicilio y se conecta por radio con la estación base. El estándar incluye autenticación del equipo y cifrado del tráfico <span class="cite">(Andrews et al., 2007)</span>.</p>
+            <span class="credit">📷 Vitaliy Neret · CC BY 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Alvarion_CPE.jpg">Wikimedia Commons</a></span>
+          </figcaption>
+        </figure>
+
+        <figure class="photo">
+          <button class="shot" type="button" data-fallback="Foto no disponible sin conexión" aria-label="Ampliar la foto: módem interior WiMAX con router Wi-Fi">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Banglalion_wimax_indoor_modem_and_wifi_router_hotspot.jpg/960px-Banglalion_wimax_indoor_modem_and_wifi_router_hotspot.jpg" alt="Módem interior WiMAX de Banglalion junto a un router Wi-Fi" loading="lazy" decoding="async">
+          </button>
+          <figcaption>
+            <h3>Módem interior y router</h3>
+            <p>Módem interior WiMAX de Banglalion con router Wi-Fi, un montaje habitual en los hogares. Con frecuencias altas la señal entra mal a los edificios y algunos equipos domésticos tenían que colocarse cerca de una ventana <span class="cite">(Stop the Cap!, 2014)</span>.</p>
+            <span class="credit">📷 Zamanological · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Banglalion_wimax_indoor_modem_and_wifi_router_hotspot.jpg">Wikimedia Commons</a></span>
+          </figcaption>
+        </figure>
+        <figure class="photo">
+          <button class="shot" type="button" data-fallback="Foto no disponible sin conexión" aria-label="Ampliar la foto: computadora portátil con tarjeta WiMAX USB en la feria de Taipéi">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/2008_WiMAX_Expo_Taipei_ASUS_Eee_PC_901_with_WUSB25E2V2.jpg/960px-2008_WiMAX_Expo_Taipei_ASUS_Eee_PC_901_with_WUSB25E2V2.jpg" alt="Computadora portátil ASUS Eee PC con una tarjeta WiMAX USB conectada, en la feria WiMAX Expo de Taipéi" width="960" height="720" loading="lazy" decoding="async">
+          </button>
+          <figcaption>
+            <h3>WiMAX como módem USB</h3>
+            <p>En la WiMAX Expo de Taipéi (2008) se mostró una portátil con tarjeta WiMAX USB. Ese año el WiMAX Forum contaba 305 despliegues en 118 países, frente a 260 en abril <span class="cite">(Light Reading, 2008)</span>.</p>
+            <span class="credit">📷 Rico Shen · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:2008_WiMAX_Expo_Taipei_ASUS_Eee_PC_901_with_WUSB25E2V2.jpg">Wikimedia Commons</a></span>
+          </figcaption>
+        </figure>
+
+        <figure class="photo">
+          <button class="shot" type="button" data-fallback="Foto no disponible sin conexión" aria-label="Ampliar la foto: equipos de transmisión WiMAX en un gabinete">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/WiMAX_equipment.jpg/960px-WiMAX_equipment.jpg" alt="Gabinete metálico con equipos de transmisión WiMAX y cables, junto a una fuente de alimentación" width="960" height="747" loading="lazy" decoding="async">
+          </button>
+          <figcaption>
+            <h3>El cuarto de equipos</h3>
+            <p>Equipos de transmisión WiMAX en un gabinete, fotografiados en 2007. En la estación base está la parte visible: la torre. El resto es radio, energía y el enlace de backhaul que lleva el tráfico a la red del operador <span class="cite">(Microwaves &amp; RF, s. f.)</span>.</p>
+            <span class="credit">📷 Groupe Aménagement Numérique des Territoires · CC BY 2.0 · <a href="https://commons.wikimedia.org/wiki/File:WiMAX_equipment.jpg">Wikimedia Commons</a></span>
+          </figcaption>
+        </figure>
+
+        <figure class="photo">
+          <button class="shot" type="button" data-fallback="Foto no disponible sin conexión" aria-label="Ampliar la foto: teléfono HTC Evo 4G">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/HTC_Evo_4G.jpg/960px-HTC_Evo_4G.jpg" alt="Teléfono HTC Evo 4G con su pantalla encendida" loading="lazy" decoding="async">
+          </button>
+          <figcaption>
+            <h3>El teléfono WiMAX</h3>
+            <p>El HTC Evo 4G (2010), uno de los primeros teléfonos con WiMAX en Estados Unidos. Antes, en noviembre de 2008, el HTC Max 4G había sido el primer teléfono WiMAX del mundo, disponible solo en Rusia con la red Yota <span class="cite">(Encyclopedia MDPI, 2022)</span>.</p>
+            <span class="credit">📷 Christian Lo · CC BY 2.0 · <a href="https://commons.wikimedia.org/wiki/File:HTC_Evo_4G.jpg">Wikimedia Commons</a></span>
+          </figcaption>
+        </figure>
+
+        <figure class="photo">
+          <button class="shot" type="button" data-fallback="Foto no disponible sin conexión" aria-label="Ampliar la foto: estación base WiMAX de Enforta">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Enforta_BS.png/960px-Enforta_BS.png" alt="Estación base WiMAX de Enforta instalada en un edificio, con paneles y equipos" loading="lazy" decoding="async">
+          </button>
+          <figcaption>
+            <h3>Una base en Rusia</h3>
+            <p>Estación base WiMAX de Enforta, en Rusia. Ese fue uno de los mercados más activos: allí Yota montó su red, estrenó el primer teléfono WiMAX y Comstar UTS desplegaba 802.16e en la zona de Moscú <span class="cite">(Encyclopedia MDPI, 2022; Light Reading, 2008)</span>.</p>
+            <span class="credit">📷 Vitaliy Neret · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Enforta_BS.png">Wikimedia Commons</a></span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="card reveal" style="margin-top:1.8rem">
+        <h3>Cómo leer esta galería</h3>
+        <p>Ninguna de las fotos es de Bolivia: ni Entel ni AXS publican imágenes con licencia libre de su red en 3,5 GHz. Aun así sirven para reconocer los equipos que había detrás de las velocidades prometidas: torres con paneles, antenas direccionales en techos, módems de interior y tarjetas USB. La parte visible de WiMAX siempre fue la antena; lo demás ocurre dentro <span class="cite">(EBSCO, s. f.; Stop the Cap!, 2014)</span>.</p>
+      </div>
+    </div>
+  </section>
+
 
   <!-- BOLIVIA -->
   <section class="sec" id="bolivia" style="--hl: var(--hl-pink)">
@@ -780,6 +1236,58 @@
         <p class="cite" style="margin:.6rem 0 0">Cifras de Informa citadas por Guardian Nigeria (s. f.). Barras proporcionales.</p>
       </div>
 
+      <!-- COMPARADOR: WiMAX frente a otras tecnologías -->
+      <div class="reveal" id="vs" style="margin-top:2.6rem">
+        <h3 style="font-family:var(--display);margin:0 0 .6rem">WiMAX frente a las otras tecnologías</h3>
+        <p class="prose" style="max-width:68ch">Elige una comparación. Las barras resumen lo que dicen las fuentes citadas en esta página: son una valoración cualitativa, no una medición de laboratorio.</p>
+        <div class="vs card" style="margin-top:1rem">
+          <div class="vs-pick" id="vsPick" role="group" aria-label="Elegir comparación"></div>
+          <div class="vs-card" id="vsCard"></div>
+          <div class="vs-crit">
+            <p class="vs-legend"><span><i style="background:var(--pink)"></i> WiMAX</span><span><i style="background:var(--blue)"></i> <span id="vsRival">Wi-Fi</span></span></p>
+            <div id="vsRows"></div>
+          </div>
+          <p class="qos-note" id="vsNote" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <!-- LÍNEA DE VIDA DE LOS SERVICIOS -->
+      <div class="reveal" id="vida" style="margin-top:2.6rem">
+        <h3 style="font-family:var(--display);margin:0 0 .6rem">Cuánto duró cada servicio</h3>
+        <p class="prose" style="max-width:68ch">Del grupo de trabajo que escribió el estándar a los servicios que siguen encendidos. Cada barra va del primer año documentado en las fuentes al último; el eje abarca de 2001 a 2026 y la longitud es proporcional al tiempo.</p>
+        <div class="card" style="margin-top:1rem">
+          <ul class="gantt">
+            <li>
+              <span class="g-lbl">Grupo IEEE 802.16 y WiMAX Forum <small>2001–2015 · el IEEE disolvió el grupo el 7 de octubre de 2015</small></span>
+              <span class="bar"><i data-w="56" style="--from:0%"></i></span>
+            </li>
+            <li>
+              <span class="g-lbl">WiBro, Corea del Sur <small>2006–2018 · de las zonas de Seúl a todo el país</small></span>
+              <span class="bar"><i data-w="48" style="--from:20%"></i></span>
+            </li>
+            <li>
+              <span class="g-lbl">WiMAX de Sprint y Clearwire, EE. UU. <small>2008–2015 · de Baltimore al apagado del 6 de noviembre</small></span>
+              <span class="bar"><i data-w="28" style="--from:28%"></i></span>
+            </li>
+            <li>
+              <span class="g-lbl">UQ WiMAX, Japón <small>2009–2020 · 11 años de servicio original</small></span>
+              <span class="bar"><i data-w="44" style="--from:32%"></i></span>
+            </li>
+            <li>
+              <span class="g-lbl">Entel y AXS, Bolivia <small>2008 – sin fecha de cierre documentada</small></span>
+              <span class="bar"><i data-w="72" style="--from:28%"></i></span>
+            </li>
+            <li>
+              <span class="g-lbl">UQ WiMAX 2+ (Release 2.1, compatible con TD-LTE) <small>2020 – hoy · sigue el sucesor</small></span>
+              <span class="bar"><i data-w="24" style="--from:76%"></i></span>
+            </li>
+          </ul>
+          <p class="g-axis" aria-hidden="true"><span>2001</span><span>2006</span><span>2011</span><span>2016</span><span>2021</span><span>2026</span></p>
+          <p class="cite" style="margin:.8rem 0 0">Datos: Marks (2017) e IEEE 802.16 WG (s. f.); EE Times (2006) y Wikipedia contributors (s. f.-b); CIO Australia (2014) y Fierce Network (2014); ASCII.jp (2020) y gori.me (2018); Telecombol (2008), Entel (s. f.-a) y AXS Bolivia (s. f.).</p>
+        </div>
+      </div>
+
+
       <h3 style="font-family:var(--display);margin:2.2rem 0 1rem">Mito o realidad</h3>
       <div class="reveal">
         <details class="acc"><summary>«WiMAX era solo para zonas rurales»</summary><div class="body"><p><b>Mito.</b> También fue una red móvil urbana: Sprint lo lanzó en Baltimore y KT lo extendió a todo Seúl <span class="cite">(CIO Australia, 2014; Telecoms.com, 2008a)</span>.</p></div></details>
@@ -791,17 +1299,6 @@
       <div class="prose reveal" style="margin-top:1.6rem">
         <p><b>Su herencia:</b> el espectro. Sprint compró Clearwire para controlar sus frecuencias de 2,5 GHz y usarlas en su red LTE <span class="cite">(Sprint Corporation, 2014)</span>. En Japón, UQ pasó los 10 MHz del WiMAX original a WiMAX 2+ <span class="cite">(gori.me, 2018)</span>. Y la banda de 3,5 GHz que se concesionó para WiMAX hoy se mira para 5G <span class="cite">(La Tercera, 2024)</span>.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- QUIZ -->
-  <section class="sec" id="quiz" style="--hl: var(--hl-yellow)">
-    <div class="wrap">
-      <header class="sec-head reveal">
-        <h2><span class="hd">Ponte a prueba</span></h2>
-        <p>Seis preguntas con lo que leíste en esta página.</p>
-      </header>
-      <div class="card quiz" id="quizBox"></div>
     </div>
   </section>
 
@@ -895,7 +1392,6 @@
             <div><dt>Gestión</dt><dd data-f="gestion"></dd></div>
             <div data-opt="ciudad"><dt>Ciudad</dt><dd data-f="ciudad"></dd></div>
             <div data-opt="correo"><dt>Correo</dt><dd data-f="correo"></dd></div>
-            <div data-opt="telefono"><dt>Teléfono</dt><dd data-f="telefono"></dd></div>
           </dl>
           <p style="margin-top:1.2rem"><b>Mis trabajos:</b> <a href="#datos">Investigación 01, Red WiMAX</a>.</p>
         </div>
@@ -906,10 +1402,47 @@
 
 <footer class="site">
   <div class="wrap">
-    <strong>Ondas sin cable</strong>
-    <span>© <span data-f="gestion"></span> · <span data-f="alumno"></span> · <span data-f="instituto"></span></span>
+    <div class="foot-main">
+      <strong>Ondas sin cable</strong>
+      <p class="foot-tag">Blog de investigación sobre WiMAX (IEEE 802.16) · <span data-f="materia"></span></p>
+    </div>
+    <nav class="foot-nav" aria-label="Enlaces del pie de página">
+      <a href="#datos">Datos</a><a href="#historia">Historia</a><a href="#funcionamiento">Cómo funciona</a><a href="#mapa">Mapa</a><a href="#galeria">Galería</a><a href="#bolivia">Bolivia</a><a href="#quiz">Quiz</a><a href="#glosario">Glosario</a><a href="#referencias">Referencias</a>
+    </nav>
+    <div class="foot-legal">
+      <span>© <span data-f="gestion"></span> · <span data-f="alumno"></span> · <span data-f="instituto"></span></span>
+      <span>Fotos: Wikimedia Commons (CC BY / CC BY-SA), crédito en cada ficha. Fuentes citadas en <a href="#referencias">referencias</a>.</span>
+      <span class="foot-actions">
+      </span>
+    </div>
   </div>
 </footer>
+
+<nav class="rail" id="rail" aria-label="Navegación rápida por secciones"></nav>
+
+<button class="totop" id="toTop" type="button" aria-label="Volver al inicio de la página" hidden>
+  <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15.9"/></svg>
+  <span aria-hidden="true">⬆</span>
+</button>
+
+<div class="palette" id="palette" hidden>
+  <div class="palette-box" role="dialog" aria-modal="true" aria-label="Buscar en la página">
+    <header>
+      <span aria-hidden="true">🔍</span>
+      <input id="palInput" type="search" placeholder="Buscar sección o tema…" aria-label="Buscar en la página" autocomplete="off">
+      <button class="btn alt" id="palClose" type="button">Esc</button>
+    </header>
+    <ul class="pal-list" id="palList"></ul>
+    <p class="pal-foot">
+      <span><span class="kbd">Ctrl</span> + <span class="kbd">K</span> abrir</span>
+      <span><span class="kbd">↑</span> <span class="kbd">↓</span> moverse</span>
+      <span><span class="kbd">Enter</span> ir</span>
+      <span><span class="kbd">?</span> atajos</span>
+    </p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function () {
@@ -929,7 +1462,7 @@
     gestion: "2026",
     ciudad: "El Alto",
     correo: "bryanllz596@gmail.com",
-    telefono: "nukk",
+    telefono: "",
     sobreMi: ""
   };
   $$("[data-f]").forEach(function (el) {
@@ -1016,6 +1549,9 @@
   } else {
     revealEls.forEach(reveal);
   }
+
+  /* Al imprimir, mostrar todo lo que todavía no se había revelado */
+  window.addEventListener("beforeprint", function () { $$(".reveal").forEach(reveal); });
 
   /* Línea de tiempo */
   var EVENTS = [
@@ -1308,6 +1844,616 @@
       });
     }
     render();
+  })();
+
+  /* ===== Avisos flotantes ===== */
+  var toastEl = $("#toast"), toastTimer = null;
+  function toast(msg) {
+    if (!toastEl) { return; }
+    toastEl.textContent = msg;
+    toastEl.classList.add("on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("on"); }, 2800);
+  }
+
+  /* Secciones: alimentan la navegación lateral y el buscador */
+  var SECTIONS = [
+    { id: "inicio", n: "Portada", d: "Presentación del blog" },
+    { id: "investigaciones", n: "Investigaciones", d: "Índice de trabajos" },
+    { id: "datos", n: "Datos rápidos", d: "WiMAX en seis números" },
+    { id: "historia", n: "Historia interactiva", d: "De 1998 a 2020, año por año" },
+    { id: "personajes", n: "Personajes", d: "Quién impulsó WiMAX" },
+    { id: "funcionamiento", n: "Cómo funciona", d: "Arquitectura, capa física y QoS" },
+    { id: "qosviz", n: "Tráfico y QoS", d: "Reparto de subportadoras" },
+    { id: "anatomia", n: "Anatomía de la red", d: "Estación base, CPE y backhaul" },
+    { id: "cobertura", n: "Cobertura y simulador", d: "Distancia, modulación y velocidad" },
+    { id: "mapa", n: "Mapa de despliegues", d: "Ciudades y países con WiMAX" },
+    { id: "galeria", n: "Galería de fotos", d: "Antenas, CPE y teléfonos" },
+    { id: "bolivia", n: "WiMAX en Bolivia", d: "Entel, AXS y la banda de 3,5 GHz" },
+    { id: "empresas", n: "Empresas", d: "Tabla con filtros y búsqueda" },
+    { id: "legado", n: "Por qué perdió frente a LTE", d: "Razones, mitos y realidad" },
+    { id: "vs", n: "Comparador", d: "WiMAX frente a Wi-Fi, LTE y 5G" },
+    { id: "vida", n: "Línea de vida", d: "Cuánto duró cada servicio" },
+    { id: "quiz", n: "Quiz", d: "Seis preguntas para repasar" },
+    { id: "glosario", n: "Glosario", d: "Siglas y términos" },
+    { id: "referencias", n: "Referencias", d: "Fuentes en formato APA" },
+    { id: "sobre-mi", n: "Sobre mí", d: "Datos del autor" }
+  ].filter(function (s) { return !!document.getElementById(s.id); });
+
+  /* Navegación lateral con seguimiento del scroll */
+  (function () {
+    var rail = $("#rail");
+    if (!rail || !SECTIONS.length) { return; }
+    var links = {}, current = null;
+    SECTIONS.forEach(function (s) {
+      var a = document.createElement("a");
+      a.href = "#" + s.id;
+      a.setAttribute("aria-current", "false");
+      a.title = s.n;
+      a.innerHTML = "<span>" + s.n + "</span>";
+      rail.appendChild(a);
+      links[s.id] = a;
+    });
+    function mark(id) {
+      if (current === id) { return; }
+      current = id;
+      Object.keys(links).forEach(function (k) { links[k].setAttribute("aria-current", k === id ? "true" : "false"); });
+    }
+    function spy() {
+      var y = window.scrollY + 150, best = SECTIONS[0].id;
+      SECTIONS.forEach(function (s) {
+        var el = document.getElementById(s.id);
+        if (el && el.offsetTop <= y) { best = s.id; }
+      });
+      mark(best);
+    }
+    window.addEventListener("scroll", spy, { passive: true });
+    window.addEventListener("resize", spy);
+    spy();
+  })();
+
+  /* Botón de volver arriba con anillo de progreso */
+  (function () {
+    var btn = $("#toTop");
+    if (!btn) { return; }
+    var ring = $("circle", btn);
+    function upd() {
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      var p = max > 0 ? Math.min(1, Math.max(0, h.scrollTop / max)) : 0;
+      if (ring) { ring.setAttribute("stroke-dashoffset", String(100 - p * 100)); }
+      btn.hidden = h.scrollTop < 600;
+    }
+    window.addEventListener("scroll", upd, { passive: true });
+    btn.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+    upd();
+  })();
+  /* Buscador rápido de la página (Ctrl + K o /) */
+  (function () {
+    var box = $("#palette"), input = $("#palInput"), list = $("#palList"), closeBtn = $("#palClose");
+    if (!box || !input || !list || !SECTIONS.length) { return; }
+    var sel = 0, view = SECTIONS.slice();
+    function render() {
+      var term = input.value.trim().toLowerCase();
+      view = SECTIONS.filter(function (s) {
+        return !term || (s.n + " " + s.d).toLowerCase().indexOf(term) > -1;
+      });
+      if (!view.length) {
+        list.innerHTML = "<li class='pal-empty'>Sin resultados. Prueba con «mapa», «quiz», «Bolivia» o «fotos».</li>";
+        return;
+      }
+      if (sel >= view.length) { sel = 0; }
+      list.innerHTML = view.map(function (s, i) {
+        return "<li" + (i === sel ? " class='on'" : "") + "><a href='#" + s.id + "'>" + s.n + "<small>" + s.d + "</small></a></li>";
+      }).join("");
+    }
+    function open() {
+      box.hidden = false;
+      document.body.classList.add("lb-open");
+      input.value = "";
+      sel = 0;
+      render();
+      input.focus();
+    }
+    function close() {
+      box.hidden = true;
+      document.body.classList.remove("lb-open");
+    }
+    function go() {
+      var s = view[sel];
+      if (!s) { return; }
+      close();
+      var el = document.getElementById(s.id);
+      if (el) { el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); }
+    }
+    input.addEventListener("input", function () { sel = 0; render(); });
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") { e.preventDefault(); sel = Math.min(view.length - 1, sel + 1); render(); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(0, sel - 1); render(); }
+      else if (e.key === "Enter") { e.preventDefault(); go(); }
+    });
+    if (closeBtn) { closeBtn.addEventListener("click", close); }
+    box.addEventListener("click", function (e) { if (e.target === box) { close(); } });
+    list.addEventListener("click", function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest("a")) { close(); }
+    });
+    var pbtn = $("#paletteBtn");
+    if (pbtn) { pbtn.addEventListener("click", function () { box.hidden ? open() : close(); }); }
+    document.addEventListener("keydown", function (e) {
+      var t = e.target || {};
+      var tag = (t.tagName || "").toLowerCase();
+      var typing = tag === "input" || tag === "textarea" || tag === "select" || t.isContentEditable;
+      if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "K")) {
+        e.preventDefault();
+        box.hidden ? open() : close();
+        return;
+      }
+      if (e.key === "Escape" && !box.hidden) { close(); return; }
+      if (typing || e.ctrlKey || e.metaKey || e.altKey) { return; }
+      if (e.key === "/") { e.preventDefault(); open(); }
+      else if (e.key === "?") { toast("Atajos: Ctrl+K buscar · / buscar · T cambiar tema · 1-4 responder el quiz · ← → en la línea de tiempo"); }
+      else if (e.key === "t" || e.key === "T") { $("#themeBtn").click(); }
+    });
+  })();
+
+  /* ===== Galería de fotos: carga, vista, pase automático y visor ===== */
+  (function () {
+    var gal = $("#gallery");
+    if (!gal) { return; }
+    var figs = $$(".photo", gal);
+    var shots = $$(".shot", gal);
+    var count = $("#galCount"), bGrid = $("#galGrid"), bCar = $("#galCar"), bPlay = $("#galPlay");
+    if (!figs.length) { return; }
+
+    shots.forEach(function (b) {
+      var img = $("img", b);
+      function ok() { b.classList.add("loaded"); b.classList.remove("failed"); }
+      function no() { b.classList.add("failed"); b.classList.remove("loaded"); }
+      if (!img) { no(); return; }
+      img.addEventListener("load", ok);
+      img.addEventListener("error", no);
+      if (img.complete) { img.naturalWidth ? ok() : no(); }
+    });
+
+    if (count) { count.textContent = figs.length + " fotos · toca una para ampliarla"; }
+
+    /* Visor ampliado */
+    var lb = document.createElement("div");
+    lb.className = "lightbox";
+    lb.hidden = true;
+    lb.innerHTML =
+      "<div class='lb-bar'><b class='lb-pos'></b><span>" +
+      "<button class='btn alt' type='button' data-a='prev'>← Anterior</button> " +
+      "<button class='btn alt' type='button' data-a='next'>Siguiente →</button> " +
+      "<button class='btn' type='button' data-a='close'>✕ Cerrar</button></span></div>" +
+      "<figure><img alt=''><figcaption></figcaption></figure>";
+    document.body.appendChild(lb);
+    var lbImg = $("img", lb), lbCap = $("figcaption", lb), lbPos = $(".lb-pos", lb);
+    var idx = 0, last = null;
+
+    function show(i) {
+      idx = (i + figs.length) % figs.length;
+      var f = figs[idx];
+      var src = $("img", f), cap = $("figcaption", f);
+      if (src) { lbImg.src = src.getAttribute("src"); lbImg.alt = src.getAttribute("alt") || ""; }
+      if (cap) { lbCap.innerHTML = cap.innerHTML; }
+      lbPos.textContent = "Foto " + (idx + 1) + " de " + figs.length;
+      lb.hidden = false;
+      document.body.classList.add("lb-open");
+      var c = $("[data-a='close']", lb);
+      if (c) { c.focus(); }
+    }
+    function hide() {
+      lb.hidden = true;
+      lbImg.removeAttribute("src");
+      document.body.classList.remove("lb-open");
+      if (last) { last.focus(); }
+    }
+    shots.forEach(function (b, i) {
+      b.addEventListener("click", function () { last = b; show(i); });
+    });
+    $$("[data-a]", lb).forEach(function (b) {
+      b.addEventListener("click", function () {
+        var a = b.getAttribute("data-a");
+        if (a === "close") { hide(); }
+        else if (a === "next") { show(idx + 1); }
+        else { show(idx - 1); }
+      });
+    });
+    lb.addEventListener("click", function (e) { if (e.target === lb) { hide(); } });
+    document.addEventListener("keydown", function (e) {
+      if (lb.hidden) { return; }
+      if (e.key === "Escape") { hide(); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); show(idx + 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); show(idx - 1); }
+    });
+    /* Vista de cuadrícula o carrusel, con pase automático */
+    var play = null;
+    function setMode(car) {
+      gal.classList.toggle("mode-carousel", car);
+      if (bGrid) { bGrid.setAttribute("aria-pressed", car ? "false" : "true"); }
+      if (bCar) { bCar.setAttribute("aria-pressed", car ? "true" : "false"); }
+    }
+    function stopPlay() {
+      if (play) { clearInterval(play); play = null; }
+      if (bPlay) {
+        bPlay.setAttribute("aria-pressed", "false");
+        bPlay.textContent = "▶️ Pase automático";
+      }
+    }
+    function step() {
+      var w = figs[0].offsetWidth + 18;
+      var max = Math.max(0, gal.scrollWidth - gal.clientWidth - 4);
+      var next = gal.scrollLeft + w;
+      if (next > max) { next = 0; }
+      gal.scrollTo({ left: next, behavior: reduce ? "auto" : "smooth" });
+    }
+    if (bGrid) { bGrid.addEventListener("click", function () { stopPlay(); setMode(false); }); }
+    if (bCar) { bCar.addEventListener("click", function () { stopPlay(); setMode(true); }); }
+    if (bPlay) {
+      bPlay.addEventListener("click", function () {
+        if (play) { stopPlay(); return; }
+        setMode(true);
+        bPlay.setAttribute("aria-pressed", "true");
+        bPlay.textContent = "⏸️ Detener pase";
+        play = setInterval(step, 3400);
+      });
+    }
+    gal.addEventListener("pointerdown", function () { if (play) { stopPlay(); } });
+  })();
+
+  /* ===== Anatomía de la red: puntos interactivos ===== */
+  (function () {
+    var stage = $("#stage"), panel = $("#hotPanel"), list = $("#hotList");
+    if (!stage || !panel) { return; }
+    var HOT = {
+      antenas: { t: "1 · Antenas sectoriales", h: "La estación base irradia en sectores para cubrir varias direcciones desde el mismo mástil. Una sola antena atiende a muchas estaciones suscriptoras a la vez: es la arquitectura punto a multipunto típica de WiMAX <span class='cite'>(Eklund et al., 2002; Andrews et al., 2007)</span>." },
+      radio: { t: "2 · Radio y equipo de la estación base", h: "Aquí vive la capa física: OFDM y, en 802.16e, OFDMA reparten el canal en subportadoras, y la modulación cambia según la calidad del enlace: BPSK, QPSK, 16-QAM o 64-QAM <span class='cite'>(Andrews et al., 2007; Microwaves &amp; RF, s. f.)</span>." },
+      backhaul: { t: "3 · Enlace de backhaul", h: "El backhaul conecta la estación base con la red del operador, por fibra o microondas. WiMAX también se usó para llevar a la red central el tráfico de torres celulares <span class='cite'>(Guardian Nigeria, s. f.; Microwaves &amp; RF, s. f.)</span>." },
+      cpe: { t: "4 · El CPE, en el techo", h: "El equipo del cliente (CPE) es la antena o el módem que se instala en la casa o la empresa. El estándar incluye autenticación del equipo y cifrado del tráfico entre la estación base y el cliente <span class='cite'>(Andrews et al., 2007)</span>." },
+      los: { t: "5 · Línea de vista: LOS y NLOS", h: "En WiMAX fijo el enlace funciona mejor con línea de vista despejada. Con edificios o cerros en el camino (NLOS) la señal se degrada: la primera versión, de 2001, llegaba a exigir línea de vista entre 10 y 66 GHz <span class='cite'>(EBSCO, s. f.; Andrews et al., 2007)</span>." },
+      core: { t: "6 · La red del operador", h: "Desde aquí el tráfico sale a internet y se aplican las clases de servicio: UGS, ertPS, rtPS, nrtPS y BE deciden qué tráfico tiene prioridad <span class='cite'>(Belghith et al., s. f.)</span>." }
+    };
+    var NAMES = { antenas: "Antenas", radio: "Radio y equipo", backhaul: "Backhaul", cpe: "CPE del cliente", los: "LOS y NLOS", core: "Red del operador" };
+    var hotspots = $$(".hot", stage);
+    function sel(k) {
+      if (!HOT[k]) { return; }
+      hotspots.forEach(function (b) {
+        b.setAttribute("aria-pressed", b.getAttribute("data-k") === k ? "true" : "false");
+      });
+      if (list) {
+        $$("button", list).forEach(function (b) {
+          b.setAttribute("aria-pressed", b.getAttribute("data-k") === k ? "true" : "false");
+        });
+      }
+      panel.innerHTML = "<h3>" + HOT[k].t + "</h3><p>" + HOT[k].h + "</p>";
+    }
+    if (list) {
+      Object.keys(HOT).forEach(function (k) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "btn alt";
+        b.setAttribute("data-k", k);
+        b.setAttribute("aria-pressed", "false");
+        b.textContent = NAMES[k] || k;
+        b.addEventListener("click", function () { sel(k); });
+        list.appendChild(b);
+      });
+    }
+    hotspots.forEach(function (b) {
+      b.addEventListener("click", function () { sel(b.getAttribute("data-k")); });
+    });
+    sel("antenas");
+  })();
+
+  /* ===== Bandas de frecuencia: saltar al punto del mapa ===== */
+  (function () {
+    var bands = $$(".band[data-pin]");
+    if (!bands.length || typeof selectPin !== "function") { return; }
+    var mapSec = $("#mapa");
+    bands.forEach(function (b) {
+      b.addEventListener("click", function () {
+        selectPin(b.getAttribute("data-pin"));
+        if (mapSec) { mapSec.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); }
+        toast("Punto seleccionado en el mapa de despliegues.");
+      });
+    });
+  })();
+  /* ===== Comparador: WiMAX frente a Wi-Fi, LTE y 5G ===== */
+  (function () {
+    var pick = $("#vsPick"), card = $("#vsCard"), rows = $("#vsRows"), note = $("#vsNote"), rival = $("#vsRival");
+    if (!pick || !card || !rows) { return; }
+    var CRIT = [
+      ["Alcance", "Cobertura por antena o punto de acceso"],
+      ["Velocidad", "Velocidad teórica alcanzable"],
+      ["Movilidad", "Uso en movimiento, a velocidad de vehículo"],
+      ["Espectro", "Uso de espectro licenciado y protegido"],
+      ["Ecosistema", "Adopción actual de la tecnología"]
+    ];
+    var VS = {
+      wifi: {
+        label: "WiMAX vs Wi-Fi",
+        rival: "Wi-Fi",
+        w: { h: "WiMAX", tag: "IEEE 802.16 · escala metropolitana", p: "Banda ancha inalámbrica: una estación base cubre varios kilómetros y el WiMAX fijo prometía hasta 75 Mbps teóricos.", ul: ["Certifica equipos 802.16", "Espectro licenciado del operador", "305 despliegues en 118 países en 2008"] },
+        r: { h: "Wi-Fi", tag: "IEEE 802.11 · escala local", p: "Certifica equipos 802.11 para redes locales: cubre una casa, una oficina o un punto de acceso público, con velocidades muy altas en distancias cortas.", ul: ["Certifica equipos 802.11", "Espectro libre, sin licencia", "Se quedó con el acceso local a internet"] },
+        crit: [{ w: 4, r: 2 }, { w: 3, r: 5 }, { w: 4, r: 2 }, { w: 4, r: 1 }, { w: 2, r: 5 }],
+        note: "No son lo mismo: Wi-Fi certifica 802.11 y WiMAX certifica 802.16. Wi-Fi se quedó con la red local y WiMAX apuntaba a la escala metropolitana <span class='cite'>(Colaboradores de Wikipedia, s. f.-b)</span>."
+      },
+      lte: {
+        label: "WiMAX vs LTE",
+        rival: "LTE",
+        w: { h: "WiMAX (802.16e)", tag: "Movilidad desde 2005", p: "WiMAX llegó antes a la banda ancha móvil, con WiBro funcionando en Corea del Sur desde 2006, pero su versión móvil tardó en consolidarse.", ul: ["802.16e-2005 añadió movilidad", "WiBro prometía uso a 120 km/h", "Los apagados empezaron en 2015"] },
+        r: { h: "LTE", tag: "El elegido por los operadores", p: "Casi todos los grandes operadores adoptaron LTE y WiMAX quedó a su sombra. Es la tecnología que heredó el mercado móvil y el espectro.", ul: ["Respaldo de los grandes operadores", "Sprint compró Clearwire por sus 2,5 GHz", "Entel pasó a 4G LTE en 2014"] },
+        crit: [{ w: 4, r: 4 }, { w: 3, r: 4 }, { w: 4, r: 5 }, { w: 4, r: 5 }, { w: 2, r: 5 }],
+        note: "El problema no fue tanto la técnica como el tiempo: WiMAX tardó en volverse móvil y competir con las redes fijas no resultó rentable <span class='cite'>(Silicon UK, s. f.; Microwaves &amp; RF, s. f.)</span>. A fines de 2009 África tenía 192.400 abonados WiMAX frente a 6,2 millones de conexiones 3,5G o superiores <span class='cite'>(Guardian Nigeria, s. f.)</span>."
+      },
+      g5: {
+        label: "WiMAX vs 5G",
+        rival: "5G",
+        w: { h: "WiMAX", tag: "Heredó su espectro", p: "Su herencia fue la banda de frecuencia: las concesiones que se dieron para WiMAX hoy se miran para 5G.", ul: ["3,5 GHz concesionado entre 2001 y 2007 en Chile", "2,5 GHz pasó a LTE en EE. UU.", "UQ pasó los 10 MHz de WiMAX a WiMAX 2+"] },
+        r: { h: "5G", tag: "La generación siguiente", p: "El sucesor en el mercado móvil, que se despliega en parte sobre el espectro que antes se usó para WiMAX.", ul: ["Usa espectro recuperado de redes anteriores", "Entel fue el primero con 5G en Bolivia", "Chile lanzó 5G con espectro en esa banda"] },
+        crit: [{ w: 4, r: 5 }, { w: 2, r: 5 }, { w: 4, r: 5 }, { w: 4, r: 5 }, { w: 1, r: 4 }],
+        note: "La banda de 3,5 GHz que se concesionó para WiMAX se discute hoy para 5G: en Chile el regulador respaldó su uso para 5G y Chile lanzó 5G con espectro en esa banda, mientras Entel fue el primer operador en ofrecer 5G en Bolivia <span class='cite'>(La Tercera, 2024; DPL News, s. f.; Colaboradores de Wikipedia, s. f.-a)</span>."
+      }
+    };
+    function side(d, alt) {
+      return "<div class='vs-side" + (alt ? "" : " win") + "'>" +
+        "<h3>" + d.h + "</h3>" +
+        "<p class='cite' style='margin:0 0 .4rem'>" + d.tag + "</p>" +
+        "<p>" + d.p + "</p><ul>" + d.ul.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul></div>";
+    }
+    function render(key) {
+      var d = VS[key];
+      if (!d) { return; }
+      $$("button", pick).forEach(function (b) {
+        b.setAttribute("aria-pressed", b.getAttribute("data-k") === key ? "true" : "false");
+      });
+      if (rival) { rival.textContent = d.rival; }
+      card.innerHTML = side(d.w, false) + side(d.r, true);
+      rows.innerHTML = CRIT.map(function (c, i) {
+        var v = d.crit[i];
+        return "<div class='vs-row'><span title='" + c[1] + "'>" + c[0] + "</span>" +
+          "<span class='vs-track'><i data-w='" + (v.w * 20) + "'></i></span>" +
+          "<span class='vs-track alt'><i data-w='" + (v.r * 20) + "'></i></span></div>";
+      }).join("");
+      $$(".vs-track i", rows).forEach(function (el) {
+        var w = el.getAttribute("data-w");
+        el.style.width = "0";
+        requestAnimationFrame(function () { el.style.width = w + "%"; });
+      });
+      if (note) { note.innerHTML = d.note; }
+    }
+    Object.keys(VS).forEach(function (k) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "btn alt";
+      b.setAttribute("data-k", k);
+      b.setAttribute("aria-pressed", "false");
+      b.textContent = VS[k].label;
+      b.addEventListener("click", function () { render(k); });
+      pick.appendChild(b);
+    });
+    render("wifi");
+  })();
+  /* ===== Visualizador de subportadoras por clase de servicio ===== */
+  (function () {
+    var seg = $("#qosSeg"), grid = $("#scGrid"), info = $("#qosInfo"), legend = $("#scLegend");
+    if (!seg || !grid || !info) { return; }
+    var COLS = 14, ROWS = 8;
+    var CMAP = {
+      ugs: {
+        n: "UGS", color: "var(--mint)", l: "Tasa constante",
+        d: "Reserva fija de ancho de banda, sin huecos: es la clase pensada para voz y enlaces E1, donde no puede faltar capacidad.",
+        pat: function (c, r) { return c % 2 === 0 && r < 6; }
+      },
+      ertps: {
+        n: "ertPS", color: "var(--lilac)", l: "Voz con silencios",
+        d: "Se añadió en 802.16e: reserva un bloque ancho mientras alguien habla y lo estrecha en los silencios, para no desperdiciar el canal.",
+        pat: function (c, r) { return c % 2 === 0 && r < (Math.floor(c / 4) % 2 === 0 ? 7 : 3); }
+      },
+      rtps: {
+        n: "rtPS", color: "var(--pink)", l: "Video y streaming",
+        d: "Garantiza tasa variable en tiempo real: entrega bloques periódicos grandes para video y transmisión continua.",
+        pat: function (c, r) { return c % 6 < 4 && r < 5; }
+      },
+      nrtps: {
+        n: "nrtPS", color: "var(--yellow)", l: "Descargas",
+        d: "Sin requisito de tiempo real: da ráfagas grandes y espaciadas a transferencias como FTP, que pueden esperar un poco.",
+        pat: function (c, r) { return (c % 7 === 0 || c % 7 === 1) && r < 7; }
+      },
+      be: {
+        n: "BE", color: "var(--blue)", l: "Mejor esfuerzo",
+        d: "Sin garantías: la navegación web y el correo usan lo que sobra del canal, repartido de forma oportunista.",
+        pat: function (c, r) { return (c * 3 + r * 5) % 7 === 0 || (c % 4 === 3 && r > 4); }
+      }
+    };
+    var cells = [];
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var cell = document.createElement("i");
+        cell.style.setProperty("--d", ((c + r) * 14) + "ms");
+        grid.appendChild(cell);
+        cells.push({ el: cell, r: r, c: c });
+      }
+    }
+    var keys = Object.keys(CMAP), btns = {};
+    keys.forEach(function (k) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = CMAP[k].n;
+      b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function () { paint(k); });
+      seg.appendChild(b);
+      btns[k] = b;
+    });
+    if (legend) {
+      legend.innerHTML = keys.map(function (k) {
+        return "<span><i style='background:" + CMAP[k].color + "'></i>" + CMAP[k].n + " · " + CMAP[k].l + "</span>";
+      }).join("");
+    }
+    function paint(k) {
+      var d = CMAP[k];
+      if (!d) { return; }
+      keys.forEach(function (x) { btns[x].setAttribute("aria-pressed", x === k ? "true" : "false"); });
+      cells.forEach(function (cell) {
+        var on = !!d.pat(cell.c, cell.r);
+        cell.el.style.setProperty("--c", d.color);
+        cell.el.classList.toggle("on", on);
+        cell.el.classList.toggle("pulse", on);
+      });
+      info.innerHTML = "<b>" + d.n + " (" + d.l + "):</b> " + d.d + " <span class='cite'>(Belghith et al., s. f.)</span>";
+    }
+    paint("ugs");
+  })();
+  /* ===== Cinta de datos: pausa y reanudación ===== */
+  (function () {
+    var btn = $("#tickerPause");
+    if (!btn || !btn.parentNode) { return; }
+    var ticker = btn.parentNode;
+    btn.addEventListener("click", function () {
+      var paused = btn.getAttribute("aria-pressed") === "true";
+      btn.setAttribute("aria-pressed", paused ? "false" : "true");
+      btn.setAttribute("aria-label", paused ? "Pausar la cinta de datos" : "Reanudar la cinta de datos");
+      btn.textContent = paused ? "❙❙" : "▶";
+      ticker.setAttribute("data-paused", paused ? "0" : "1");
+    });
+  })();
+
+  /* Años transcurridos desde la creación del WiMAX Forum */
+  (function () {
+    var el = $("#ageChip");
+    if (!el) { return; }
+    var y = new Date().getFullYear() - 2001;
+    if (y > 0) { el.textContent = String(y); }
+  })();
+
+  /* Botón de imprimir o guardar en PDF */
+  (function () {
+    var b = $("#printBtn");
+    if (!b) { return; }
+    b.addEventListener("click", function () {
+      toast("En el diálogo elige «Guardar como PDF» si quieres el archivo.");
+      setTimeout(function () { window.print(); }, 500);
+    });
+  })();
+
+  /* Referencias: copiar una o todas */
+  (function () {
+    var ol = $("ol.refs");
+    if (!ol) { return; }
+    var lis = $$("li", ol);
+    if (!lis.length) { return; }
+    var texts = lis.map(function (li) { return li.textContent.replace(/\s+/g, " ").trim(); });
+    function fallbackCopy(txt) {
+      var t = document.createElement("textarea");
+      t.value = txt;
+      t.setAttribute("readonly", "");
+      t.style.position = "fixed";
+      t.style.left = "-999px";
+      document.body.appendChild(t);
+      t.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+      if (t.parentNode) { t.parentNode.removeChild(t); }
+      toast(ok ? "Referencia copiada al portapapeles." : "Tu navegador no permitió copiar.");
+    }
+    function copy(txt, msg) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(
+          function () { toast(msg); },
+          function () { fallbackCopy(txt); }
+        );
+      } else {
+        fallbackCopy(txt);
+      }
+    }
+    lis.forEach(function (li, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "copyref";
+      b.textContent = "copiar";
+      b.setAttribute("aria-label", "Copiar la referencia " + (i + 1));
+      b.addEventListener("click", function () { copy(texts[i], "Referencia " + (i + 1) + " copiada."); });
+      li.appendChild(b);
+    });
+    var head = $("#referencias .sec-head");
+    if (head) {
+      var all = document.createElement("button");
+      all.type = "button";
+      all.className = "copyref";
+      all.textContent = "copiar todas (" + lis.length + ")";
+      all.addEventListener("click", function () {
+        copy(texts.join("\n\n"), "Las " + lis.length + " referencias fueron copiadas.");
+      });
+      head.appendChild(all);
+    }
+  })();
+  /* Quiz: respuestas con el teclado, récord guardado y confeti */
+  (function () {
+    var box = $("#quizBox");
+    if (!box) { return; }
+    var best = null;
+    try {
+      var raw = localStorage.getItem("ondas-quiz");
+      best = raw === null ? null : parseInt(raw, 10);
+    } catch (e) { best = null; }
+    if (isNaN(best)) { best = null; }
+
+    document.addEventListener("keydown", function (e) {
+      var opts = $$(".opt", box);
+      if (!opts.length || e.ctrlKey || e.metaKey || e.altKey) { return; }
+      var n = parseInt(e.key, 10);
+      if (n >= 1 && n <= opts.length && !opts[n - 1].disabled) {
+        e.preventDefault();
+        opts[n - 1].click();
+      }
+    });
+
+    function confetti() {
+      if (reduce) { return; }
+      var wrap = document.createElement("div");
+      wrap.className = "confetti";
+      var colors = ["var(--pink)", "var(--yellow)", "var(--mint)", "var(--lilac)", "var(--blue)"];
+      for (var i = 0; i < 70; i++) {
+        var p = document.createElement("i");
+        p.style.left = (Math.random() * 100).toFixed(1) + "%";
+        p.style.background = colors[i % colors.length];
+        p.style.animationDuration = (1.6 + Math.random() * 1.8).toFixed(2) + "s";
+        p.style.animationDelay = (Math.random() * 0.5).toFixed(2) + "s";
+        wrap.appendChild(p);
+      }
+      document.body.appendChild(wrap);
+      setTimeout(function () { if (wrap.parentNode) { wrap.parentNode.removeChild(wrap); } }, 4300);
+    }
+
+    if (!("MutationObserver" in window)) { return; }
+    var obs = new MutationObserver(function () {
+      var sc = $(".score", box);
+      if (!sc || $(".best", box)) { return; }
+      var m = /(\d+)\s*de\s*(\d+)/.exec(sc.textContent || "");
+      if (!m) { return; }
+      var got = parseInt(m[1], 10), tot = parseInt(m[2], 10);
+      var msg;
+      if (best === null || got > best) {
+        best = got;
+        try { localStorage.setItem("ondas-quiz", String(got)); } catch (e) {}
+        msg = "Nuevo récord: " + got + " de " + tot + ".";
+      } else {
+        msg = "Tu mejor resultado hasta hoy: " + best + " de " + tot + ".";
+      }
+      var p = document.createElement("p");
+      p.className = "best";
+      p.textContent = msg + " También puedes responder con el teclado: pulsa 1, 2, 3 o 4.";
+      box.appendChild(p);
+      if (got === tot) {
+        confetti();
+        toast("¡Perfecto! " + got + " de " + tot + " respuestas correctas.");
+      }
+    });
+    obs.observe(box, { childList: true, subtree: true });
   })();
 })();
 </script>

@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ondas sin cable · Blog sobre WiMAX · Redes de Computadoras I</title>
+<script>document.documentElement.className += " js";</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eef2ff;
+    --surface: #ffffff;
+    --ink: #0b1030;
+    --muted: #464e7d;
+    --line: #0b1030;
+    --shadow-c: #0b1030;
+    --dot: rgba(11,16,48,.11);
+    --blue: #3050ff;
+    --pink: #ff4f93;
+    --yellow: #ffd84a;
+    --mint: #3ddc97;
+    --lilac: #b9a6ff;
+    --link: #2338d6;
+    --hl-blue: #b3c0ff;
+    --hl-pink: #ffa9cb;
+    --hl-yellow: #ffe680;
+    --hl-mint: #a4f0cd;
+    --hl-lilac: #d8ccff;
+    --display: "Unbounded", "Trebuchet MS", "Segoe UI", sans-serif;
+    --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0a0e2a; --surface: #141a4a; --ink: #f1f4ff; --muted: #b3bcec;
+      --line: #d9e0ff; --shadow-c: #ff4f93; --dot: rgba(241,244,255,.09); --link: #a3b3ff;
+      --hl-blue: #3444c7; --hl-pink: #b3286a; --hl-yellow: #8a6d00; --hl-mint: #1c7a55; --hl-lilac: #5b47b8;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0a0e2a; --surface: #141a4a; --ink: #f1f4ff; --muted: #b3bcec;
+    --line: #d9e0ff; --shadow-c: #ff4f93; --dot: rgba(241,244,255,.09); --link: #a3b3ff;
+    --hl-blue: #3444c7; --hl-pink: #b3286a; --hl-yellow: #8a6d00; --hl-mint: #1c7a55; --hl-lilac: #5b47b8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 5.5rem); }
+  body {
+    margin: 0;
+    font-family: var(--body);
+    font-size: 1.06rem;
+    line-height: 1.7;
+    color: var(--ink);
+    background-color: var(--bg);
+    background-image: radial-gradient(var(--dot) 1.3px, transparent 1.3px);
+    background-size: 22px 22px;
+  }
+  a { color: var(--link); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible {
+    outline: 4px solid var(--blue); outline-offset: 3px; border-radius: 6px;
+  }
+  .wrap { width: min(100% - 2rem, 70rem); margin-inline: auto; }
+  .skip { position: absolute; left: -999px; top: 0; background: var(--yellow); color: #0b1030; padding: .6rem 1rem; z-index: 100; font-weight: 700; }
+  .skip:focus { left: 1rem; top: 1rem; }
+  .cite { color: var(--muted); font-size: .86em; }
+
+  /* Barra de progreso */
+  .progress { position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; height: 6px; z-index: 60; background: transparent; pointer-events: none; }
+  .progress i { display: block; height: 100%; background: var(--pink); transform-origin: 0 50%; transform: scaleX(0); border-right: 3px solid var(--line); }
+
+  /* Cinta de datos */
+  .ticker { overflow: hidden; background: var(--yellow); color: #0b1030; border-bottom: 3px solid var(--line); }
+  .ticker-track { display: flex; width: max-content; animation: marquee 44s linear infinite; }
+  .ticker-track:hover { animation-play-state: paused; }
+  .ticker-set { display: flex; }
+  .ticker-set span { padding: .55rem 1.5rem; font-family: var(--display); font-weight: 700; font-size: .74rem; white-space: nowrap; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* Navegación */
+  .pillnav-wrap { position: sticky; top: calc(env(safe-area-inset-top, 0px) + .6rem); z-index: 50; padding-block: .6rem; }
+  .pillnav { display: flex; align-items: center; gap: .3rem; background: var(--surface); border: 3px solid var(--line); border-radius: 999px; box-shadow: 4px 4px 0 var(--shadow-c); padding: .35rem .5rem .35rem 1rem; }
+  .pillnav .logo { font-family: var(--display); font-weight: 900; font-size: .95rem; text-decoration: none; color: var(--ink); white-space: nowrap; margin-right: .5rem; }
+  .pillnav .links { display: flex; gap: .15rem; overflow-x: auto; scrollbar-width: none; flex: 1; }
+  .pillnav .links::-webkit-scrollbar { display: none; }
+  .pillnav .links a { text-decoration: none; color: var(--ink); font-weight: 700; font-size: .9rem; padding: .35rem .75rem; border-radius: 999px; white-space: nowrap; }
+  .pillnav .links a:hover { background: var(--yellow); color: #0b1030; }
+  .theme-btn { flex: none; width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 3px solid var(--line); background: var(--pink); color: #0b1030; font-size: 1.05rem; cursor: pointer; }
+  .theme-btn:hover { transform: rotate(18deg); }
+
+  /* Portada */
+  .hero { padding-block: clamp(2rem, 6vw, 4.5rem) 3rem; }
+  .hero .wrap { display: grid; gap: 2rem; align-items: center; }
+  @media (min-width: 54rem) { .hero .wrap { grid-template-columns: 1.15fr .85fr; } }
+  .hero h1 { font-family: var(--display); font-weight: 900; font-size: clamp(3rem, 11.5vw, 7rem); line-height: .92; letter-spacing: -.045em; margin: 0 0 1.2rem; text-shadow: 5px 5px 0 var(--pink); overflow-wrap: anywhere; }
+  .hero .lede { font-size: clamp(1.15rem, 2.4vw, 1.4rem); line-height: 1.5; max-width: 32ch; margin: 0 0 1.4rem; font-weight: 500; }
+  .typed { border-right: 4px solid var(--pink); padding-right: 4px; animation: caret .8s steps(1) infinite; }
+  @keyframes caret { 50% { border-color: transparent; } }
+  .chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+  .chip { background: var(--surface); border: 3px solid var(--line); border-radius: 999px; padding: .25rem .9rem; font-weight: 700; font-size: .9rem; box-shadow: 3px 3px 0 var(--shadow-c); }
+  .chip:nth-child(1) { background: var(--mint); color: #0b1030; }
+  .chip:nth-child(2) { background: var(--lilac); color: #0b1030; }
+
+  .hero-art { position: relative; justify-self: center; width: min(100%, 27rem); }
+  .tower-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .wave { fill: none; stroke-width: 6; transform-box: fill-box; transform-origin: center; animation: ping 4s ease-out infinite; }
+  .w1 { stroke: var(--pink); }
+  .w2 { stroke: var(--blue); animation-delay: 1.3s; }
+  .w3 { stroke: var(--yellow); animation-delay: 2.6s; }
+  @keyframes ping { from { transform: scale(.12); opacity: .95; } to { transform: scale(1); opacity: 0; } }
+  .mast { fill: none; stroke: var(--ink); stroke-width: 9; stroke-linejoin: round; stroke-linecap: round; }
+  .ground { stroke: var(--ink); stroke-width: 9; stroke-linecap: round; }
+  .bulb { fill: var(--yellow); stroke: var(--ink); stroke-width: 6; }
+  .sticker { position: absolute; font-family: var(--display); font-weight: 900; font-size: .78rem; border: 3px solid var(--line); border-radius: 12px; padding: .35rem .7rem; box-shadow: 3px 3px 0 var(--shadow-c); color: #0b1030; transition: transform .2s; }
+  .sticker:hover { transform: rotate(0) scale(1.08); }
+  .s1 { top: 4%; left: 0; background: var(--mint); transform: rotate(-8deg); }
+  .s2 { top: 12%; right: -2%; background: var(--yellow); transform: rotate(7deg); }
+  .s3 { bottom: 8%; left: 6%; background: var(--lilac); transform: rotate(5deg); }
+
+  /* Secciones */
+  section.sec { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+  .sec-head { margin-bottom: 1.8rem; }
+  .sec-head h2 { font-family: var(--display); font-weight: 800; font-size: clamp(1.7rem, 5vw, 3rem); line-height: 1.25; letter-spacing: -.03em; margin: 0 0 .8rem; }
+  .hd { background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 94%, transparent 94%); padding: 0 .12em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .sec-head p { margin: 0; max-width: 62ch; color: var(--muted); font-size: 1.1rem; }
+  .prose p { max-width: 68ch; margin: 0 0 1rem; }
+
+  .card { background: var(--surface); border: 3px solid var(--line); border-radius: 20px; box-shadow: 6px 6px 0 var(--shadow-c); padding: 1.25rem 1.4rem; transition: transform .18s, box-shadow .18s; }
+  .card:hover { transform: translate(-2px, -2px); box-shadow: 9px 9px 0 var(--shadow-c); }
+  .card h3 { font-family: var(--display); font-size: 1.05rem; line-height: 1.3; margin: 0 0 .5rem; letter-spacing: -.02em; }
+  .card p { margin: 0 0 .6rem; }
+  .card p:last-child { margin-bottom: 0; }
+  .grid { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+
+  /* Datos rápidos */
+  .bento { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); }
+  .tile { border: 3px solid var(--line); border-radius: 20px; padding: 1.1rem 1.1rem 1rem; box-shadow: 5px 5px 0 var(--shadow-c); color: #0b1030; }
+  .tile b { display: block; font-family: var(--display); font-weight: 900; font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1; letter-spacing: -.04em; margin-bottom: .4rem; }
+  .tile span { font-weight: 500; font-size: .95rem; line-height: 1.35; display: block; }
+  .t-blue { background: var(--blue); color: #fff; }
+  .t-pink { background: var(--pink); }
+  .t-yellow { background: var(--yellow); }
+  .t-mint { background: var(--mint); }
+  .t-lilac { background: var(--lilac); }
+  .t-white { background: var(--surface); color: var(--ink); }
+
+  .bars { margin-top: 1.6rem; }
+  .bars h3 { font-family: var(--display); font-size: 1.05rem; margin: 0 0 .8rem; }
+  .bar-row { display: grid; grid-template-columns: 9.5rem 1fr 3.2rem; gap: .8rem; align-items: center; margin-bottom: .6rem; font-weight: 700; font-size: .95rem; }
+  .bar-row .bar { height: 1.7rem; border: 3px solid var(--line); border-radius: 999px; background: var(--surface); overflow: hidden; }
+  .bar-row .bar i { display: block; height: 100%; background: var(--pink); border-right: 3px solid var(--line); width: 0; transition: width 1.1s cubic-bezier(.2,.8,.2,1); }
+  .bar-row:nth-child(3) .bar i { background: var(--blue); }
+  .bar-row:nth-child(4) .bar i { background: var(--mint); }
+  @media (max-width: 34rem) { .bar-row { grid-template-columns: 6.5rem 1fr 2.8rem; gap: .5rem; font-size: .85rem; } }
+
+  /* Flujo de red */
+  .flowbox { display: flex; align-items: stretch; gap: 0; margin: 1.6rem 0; }
+  .node { flex: 0 0 auto; width: 9.5rem; background: var(--surface); border: 3px solid var(--line); border-radius: 18px; box-shadow: 4px 4px 0 var(--shadow-c); padding: .8rem .7rem; text-align: center; font-weight: 700; font-size: .92rem; line-height: 1.3; display: flex; flex-direction: column; justify-content: center; gap: .3rem; }
+  .node em { font-style: normal; font-size: 1.7rem; line-height: 1; }
+  .node small { font-weight: 500; color: var(--muted); font-size: .78rem; }
+  .link { flex: 1; min-width: 3rem; position: relative; display: flex; align-items: center; justify-content: center; }
+  .link::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px; background: repeating-linear-gradient(90deg, var(--pink) 0 12px, transparent 12px 24px); background-size: 24px 6px; animation: slideX 1s linear infinite; }
+  .link.k2::before { background-image: repeating-linear-gradient(90deg, var(--blue) 0 12px, transparent 12px 24px); }
+  .link.k3::before { background-image: repeating-linear-gradient(90deg, var(--mint) 0 12px, transparent 12px 24px); }
+  .link span { position: relative; background: var(--bg); font-size: .72rem; font-weight: 700; padding: .05rem .4rem; border-radius: 6px; margin-top: 2.6rem; color: var(--muted); text-align: center; }
+  @keyframes slideX { to { background-position: 24px 0; } }
+  @media (max-width: 46rem) {
+    .flowbox { flex-direction: column; align-items: center; }
+    .node { width: min(100%, 16rem); }
+    .link { min-height: 3.6rem; width: 6px; flex: none; }
+    .link::before { left: 50%; right: auto; top: 0; bottom: 0; width: 6px; height: auto; margin: 0 0 0 -3px; background-image: repeating-linear-gradient(180deg, var(--pink) 0 12px, transparent 12px 24px); background-size: 6px 24px; animation-name: slideY; }
+    .link.k2::before { background-image: repeating-linear-gradient(180deg, var(--blue) 0 12px, transparent 12px 24px); }
+    .link.k3::before { background-image: repeating-linear-gradient(180deg, var(--mint) 0 12px, transparent 12px 24px); }
+    .link span { margin: 0 0 0 9.5rem; position: absolute; width: max-content; }
+  }
+  @keyframes slideY { to { background-position: 0 24px; } }
+
+  /* Línea de tiempo interactiva */
+  .tl-strip { position: relative; display: flex; gap: .55rem; overflow-x: auto; padding: .3rem .2rem 1rem; scroll-snap-type: x proximity; }
+  .tl-year { flex: none; scroll-snap-align: center; border: 3px solid var(--line); background: var(--surface); color: var(--ink); font-family: var(--display); font-weight: 700; font-size: .82rem; padding: .5rem .9rem; border-radius: 999px; cursor: pointer; box-shadow: 3px 3px 0 var(--shadow-c); white-space: nowrap; }
+  .tl-year:hover { background: var(--hl-yellow); }
+  .tl-year[aria-selected="true"] { background: var(--yellow); color: #0b1030; transform: translateY(-3px); box-shadow: 5px 6px 0 var(--shadow-c); }
+  .tl-panel { min-height: 14rem; }
+  .tl-panel.swap { animation: swap .45s cubic-bezier(.2,.8,.2,1); }
+  @keyframes swap { from { opacity: 0; transform: translateX(28px) rotate(1deg); } to { opacity: 1; transform: none; } }
+  .tl-panel .big { font-family: var(--display); font-weight: 900; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1; letter-spacing: -.04em; margin: 0 0 .3rem; text-shadow: 3px 3px 0 var(--hl-pink); }
+  .tl-panel h3 { font-size: 1.25rem; margin-bottom: .6rem; }
+  .tl-panel p { max-width: 66ch; font-size: 1.05rem; }
+  .tl-ctrl { display: flex; align-items: center; gap: .8rem; margin-top: 1rem; flex-wrap: wrap; }
+  .btn { font-family: var(--display); font-weight: 700; font-size: .8rem; border: 3px solid var(--line); background: var(--yellow); color: #0b1030; padding: .55rem 1rem; border-radius: 999px; cursor: pointer; box-shadow: 3px 3px 0 var(--shadow-c); }
+  .btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--shadow-c); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--shadow-c); }
+  .btn.alt { background: var(--surface); color: var(--ink); }
+  .btn[disabled] { opacity: .45; cursor: not-allowed; }
+  .tl-count { font-weight: 700; color: var(--muted); }
+  .tl-meter { flex: 1; min-width: 6rem; height: 12px; border: 3px solid var(--line); border-radius: 999px; background: var(--surface); overflow: hidden; }
+  .tl-meter i { display: block; height: 100%; width: 0; background: var(--mint); transition: width .4s; }
+
+  /* Tarjetas que voltean */
+  .flip-grid { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  .flip { perspective: 1100px; }
+  .flip-inner { display: grid; transform-style: preserve-3d; transition: transform .65s cubic-bezier(.3,.7,.2,1); }
+  .flip.is-flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-face { grid-area: 1 / 1; -webkit-backface-visibility: hidden; backface-visibility: hidden; border: 3px solid var(--line); border-radius: 20px; box-shadow: 6px 6px 0 var(--shadow-c); padding: 1.2rem; display: flex; flex-direction: column; gap: .5rem; color: #0b1030; }
+  .flip-face .emo { font-size: 2.2rem; line-height: 1; }
+  .flip-face h3 { font-family: var(--display); font-size: 1.1rem; line-height: 1.25; margin: 0; letter-spacing: -.02em; }
+  .flip-face .role { font-weight: 500; font-size: .95rem; margin: 0; }
+  .flip-face .btn { margin-top: auto; align-self: flex-start; }
+  .flip-back { transform: rotateY(180deg); background: var(--surface); color: var(--ink); font-size: .96rem; }
+  .flip-back p { margin: 0; }
+  .f-pink { background: var(--pink); } .f-blue { background: var(--blue); color: #fff; } .f-yellow { background: var(--yellow); }
+  .f-mint { background: var(--mint); } .f-lilac { background: var(--lilac); }
+  .f-blue .btn { color: #0b1030; }
+
+  /* Acordeones */
+  details.acc { background: var(--surface); border: 3px solid var(--line); border-radius: 16px; box-shadow: 4px 4px 0 var(--shadow-c); margin-bottom: .9rem; overflow: hidden; }
+  details.acc summary { cursor: pointer; padding: .9rem 1.1rem; font-family: var(--display); font-weight: 700; font-size: .92rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+  details.acc summary::-webkit-details-marker { display: none; }
+  details.acc summary::after { content: "+"; font-size: 1.5rem; line-height: 1; flex: none; transition: transform .25s; }
+  details.acc[open] summary { background: var(--hl-yellow); }
+  details.acc[open] summary::after { transform: rotate(45deg); }
+  details.acc .body { padding: .9rem 1.1rem 1.1rem; border-top: 3px solid var(--line); }
+  details.acc .body p { margin: 0 0 .7rem; max-width: 68ch; }
+  details.acc .body p:last-child { margin-bottom: 0; }
+
+  .qos { display: flex; flex-wrap: wrap; gap: .6rem; margin: .5rem 0; }
+  .qos span { border: 3px solid var(--line); border-radius: 12px; padding: .3rem .7rem; font-size: .88rem; font-weight: 700; color: #0b1030; }
+  .qos span:nth-child(1) { background: var(--pink); } .qos span:nth-child(2) { background: var(--lilac); }
+  .qos span:nth-child(3) { background: var(--yellow); } .qos span:nth-child(4) { background: var(--mint); }
+  .qos span:nth-child(5) { background: #fff; }
+  .bands { display: flex; flex-wrap: wrap; gap: .6rem; margin: .6rem 0 0; }
+  .bands span { border: 3px solid var(--line); background: var(--surface); border-radius: 999px; padding: .25rem .8rem; font-size: .88rem; font-weight: 700; }
+  .bands b { color: var(--link); }
+
+  /* Simulador */
+  .sim { display: grid; gap: 1.4rem; grid-template-columns: 1fr; }
+  @media (min-width: 52rem) { .sim { grid-template-columns: .9fr 1.1fr; } }
+  .seg { display: inline-flex; border: 3px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface); margin-bottom: 1rem; }
+  .seg button { font-family: var(--display); font-weight: 700; font-size: .8rem; border: 0; padding: .6rem 1.1rem; background: transparent; color: var(--ink); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--blue); color: #fff; }
+  .range-label { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: .3rem; }
+  input[type="range"] { width: 100%; height: 2.2rem; accent-color: var(--pink); cursor: pointer; }
+  .check { display: flex; gap: .6rem; align-items: flex-start; margin-top: .9rem; font-weight: 500; cursor: pointer; }
+  .check input { width: 1.4rem; height: 1.4rem; accent-color: var(--blue); flex: none; margin-top: .15rem; }
+  .track { position: relative; display: flex; height: 3.4rem; border: 3px solid var(--line); border-radius: 14px; overflow: hidden; margin: 1.8rem 0 .6rem; }
+  .track .z { height: 100%; transition: width .3s; }
+  .z1 { background: var(--mint); } .z2 { background: #b7f06a; } .z3 { background: var(--yellow); } .z4 { background: #ff9d5c; } .z5 { background: repeating-linear-gradient(45deg, #ff6b6b 0 8px, #ff8f8f 8px 16px); flex: 1; }
+  .marker { position: absolute; top: -1.45rem; transform: translateX(-50%); font-size: 1.7rem; line-height: 1; transition: left .15s; filter: drop-shadow(2px 2px 0 var(--shadow-c)); }
+  .tower-mark { position: absolute; left: .4rem; top: 50%; transform: translateY(-50%); font-size: 1.4rem; }
+  .readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: .8rem; margin-top: 1rem; }
+  .readout div { border: 3px solid var(--line); border-radius: 14px; padding: .6rem .8rem; background: var(--surface); }
+  .readout small { display: block; color: var(--muted); font-size: .78rem; font-weight: 700; }
+  .readout b { font-family: var(--display); font-size: 1.05rem; line-height: 1.3; }
+  .signal { display: inline-flex; gap: 4px; align-items: flex-end; height: 1.6rem; }
+  .signal i { width: 8px; border: 2px solid var(--line); border-radius: 2px; background: transparent; }
+  .signal i:nth-child(1) { height: 25%; } .signal i:nth-child(2) { height: 50%; } .signal i:nth-child(3) { height: 75%; } .signal i:nth-child(4) { height: 100%; }
+  .signal i.on { background: var(--mint); }
+  .note { font-size: .88rem; color: var(--muted); margin-top: .8rem; }
+
+  /* Mapa */
+  .mapbox { position: relative; aspect-ratio: 2 / 1; border: 3px solid var(--line); border-radius: 20px; box-shadow: 6px 6px 0 var(--shadow-c); overflow: hidden; background: var(--surface); }
+  .mapbox svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .grat { stroke: var(--line); stroke-opacity: .22; stroke-width: 1; fill: none; }
+  .grat.eq { stroke-opacity: .55; stroke-width: 2; stroke-dasharray: 6 6; }
+  .pin { position: absolute; width: 1.5rem; height: 1.5rem; margin: -.75rem 0 0 -.75rem; border-radius: 50%; border: 3px solid var(--line); cursor: pointer; padding: 0; box-shadow: 2px 2px 0 var(--shadow-c); }
+  .pin::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; border: 3px solid currentColor; opacity: 0; }
+  .pin[aria-pressed="true"] { transform: scale(1.35); z-index: 3; }
+  .pin[aria-pressed="true"]::after { animation: pinPing 1.6s ease-out infinite; }
+  @keyframes pinPing { from { transform: scale(.6); opacity: .9; } to { transform: scale(1.7); opacity: 0; } }
+  .pin.c-pink { background: var(--pink); color: var(--pink); } .pin.c-blue { background: var(--blue); color: var(--blue); }
+  .pin.c-yellow { background: var(--yellow); color: var(--yellow); } .pin.c-mint { background: var(--mint); color: var(--mint); }
+  .pin.c-lilac { background: var(--lilac); color: var(--lilac); }
+  .map-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.2rem 0; }
+  .map-chips button, .fchips button { font-family: var(--body); font-weight: 700; font-size: .88rem; border: 3px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: .3rem .85rem; cursor: pointer; }
+  .map-chips button:hover, .fchips button:hover { background: var(--hl-yellow); }
+  .map-chips button[aria-pressed="true"], .fchips button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  #mapInfo { min-height: 8rem; }
+  #mapInfo.swap { animation: swap .4s cubic-bezier(.2,.8,.2,1); }
+
+  /* Pestañas */
+  .tablist { display: flex; flex-wrap: wrap; gap: .55rem; margin-bottom: 1.1rem; }
+  .tab { font-family: var(--display); font-weight: 700; font-size: .78rem; border: 3px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: .55rem 1rem; cursor: pointer; box-shadow: 3px 3px 0 var(--shadow-c); }
+  .tab[aria-selected="true"] { background: var(--pink); color: #0b1030; transform: translateY(-2px); }
+  .tabpanel { animation: swap .4s cubic-bezier(.2,.8,.2,1); }
+  .tabpanel p { max-width: 68ch; margin: 0 0 .9rem; }
+
+  /* Tabla */
+  .table-scroll { overflow-x: auto; border: 3px solid var(--line); border-radius: 18px; box-shadow: 6px 6px 0 var(--shadow-c); background: var(--surface); margin: 1rem 0 1.4rem; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; min-width: 40rem; font-size: .95rem; line-height: 1.45; }
+  th, td { text-align: left; padding: .7rem .9rem; vertical-align: top; border-bottom: 2px solid var(--line); }
+  thead th { background: var(--yellow); color: #0b1030; font-family: var(--display); font-size: .78rem; border-bottom: 3px solid var(--line); position: sticky; top: 0; }
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody tr:hover { background: var(--hl-yellow); }
+  tbody th { white-space: nowrap; }
+  .tag { display: inline-block; font-size: .75rem; font-weight: 700; border: 2px solid var(--line); border-radius: 999px; padding: 0 .55rem; color: #0b1030; }
+  .tg-op { background: var(--mint); } .tg-eq { background: var(--lilac); }
+  .fbar { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; }
+  .fchips { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .search { border: 3px solid var(--line); border-radius: 999px; padding: .4rem 1rem; font: inherit; font-weight: 500; background: var(--surface); color: var(--ink); min-width: 12rem; }
+  .count-out { font-weight: 700; color: var(--muted); font-size: .9rem; }
+
+  /* Mitos, razones */
+  .why { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin-bottom: 1.6rem; }
+  .why .card:nth-child(1) { background: var(--hl-pink); }
+  .why .card:nth-child(2) { background: var(--hl-blue); }
+  .why .card:nth-child(3) { background: var(--hl-mint); }
+  .why .card:nth-child(4) { background: var(--hl-yellow); }
+  .why .card { color: var(--ink); }
+
+  /* Quiz */
+  .quiz { max-width: 44rem; }
+  .quiz h3 { font-size: 1.2rem; line-height: 1.35; }
+  .quiz .opts { display: grid; gap: .7rem; margin: 1rem 0; }
+  .quiz .opt { text-align: left; font: inherit; font-weight: 700; border: 3px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 14px; padding: .7rem 1rem; cursor: pointer; box-shadow: 3px 3px 0 var(--shadow-c); }
+  .quiz .opt:hover:not([disabled]) { background: var(--hl-yellow); }
+  .quiz .opt.ok { background: var(--mint); color: #0b1030; }
+  .quiz .opt.bad { background: var(--pink); color: #0b1030; animation: shake .4s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .quiz .fb { min-height: 3rem; font-weight: 500; }
+  .quiz .score { font-family: var(--display); font-weight: 900; font-size: clamp(2rem, 6vw, 3rem); margin: 0 0 .5rem; }
+  .qmeter { height: 12px; border: 3px solid var(--line); border-radius: 999px; overflow: hidden; margin-bottom: 1rem; background: var(--surface); }
+  .qmeter i { display: block; height: 100%; width: 0; background: var(--blue); transition: width .35s; }
+
+  /* Referencias */
+  ol.refs { list-style: none; padding: 0; margin: 1rem 0 0; max-width: 78ch; }
+  ol.refs li { padding-left: 2rem; text-indent: -2rem; margin-bottom: .85rem; overflow-wrap: anywhere; font-size: .98rem; }
+
+  footer.site { border-top: 3px solid var(--line); background: var(--yellow); color: #0b1030; padding: 2rem 0 2.5rem; margin-top: 2rem; }
+  footer.site .wrap { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; align-items: baseline; }
+  footer.site strong { font-family: var(--display); font-size: 1.1rem; }
+
+  /* Investigaciones y perfil */
+  .work { display: block; text-decoration: none; color: var(--ink); }
+  .work h3 { font-size: 1.25rem; }
+  .wtag { display: inline-block; font-family: var(--display); font-weight: 700; font-size: .7rem; letter-spacing: .06em; background: var(--pink); color: #0b1030; border: 2px solid var(--line); border-radius: 999px; padding: .1rem .7rem; margin-bottom: .6rem; }
+  .work .btn { display: inline-block; margin-top: .5rem; }
+  .work.soon { opacity: .75; border-style: dashed; box-shadow: none; }
+  .work.soon .wtag { background: var(--surface); color: var(--ink); }
+  .work.soon:hover { transform: none; box-shadow: none; }
+  .index { margin-top: 1.8rem; }
+  .index strong { display: block; margin-bottom: .6rem; font-family: var(--display); font-size: .85rem; }
+  .index div { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .index a { border: 3px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: .25rem .85rem; font-weight: 700; font-size: .88rem; text-decoration: none; box-shadow: 2px 2px 0 var(--shadow-c); }
+  .index a:hover { background: var(--yellow); color: #0b1030; }
+  .profile { display: grid; gap: 1.8rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 46rem) { .profile { grid-template-columns: 14rem 1fr; } }
+  .avatar { width: 100%; max-width: 14rem; aspect-ratio: 1; border: 3px solid var(--line); border-radius: 28px; background: var(--pink); color: #0b1030; display: grid; place-items: center; font-family: var(--display); font-weight: 900; font-size: clamp(3rem, 10vw, 4.5rem); box-shadow: 6px 6px 0 var(--shadow-c); transform: rotate(-3deg); }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .9rem; margin: 1.2rem 0 0; }
+  .facts > div { border: 3px solid var(--line); border-radius: 14px; padding: .55rem .9rem; background: var(--bg); }
+  .facts dt { font-size: .75rem; font-weight: 700; color: var(--muted); }
+  .facts dd { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+
+  /* Aparición al hacer scroll */
+  .js .reveal { opacity: 0; transform: translateY(22px); }
+  .js .reveal.in { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .ticker-track, .wave, .link::before, .typed, .pin[aria-pressed="true"]::after { animation: none !important; }
+    .ticker-set + .ticker-set { display: none; }
+    .ticker-track { width: auto; flex-wrap: wrap; }
+    .js .reveal { opacity: 1; transform: none; }
+    .flip-inner, .card, .btn, .bar-row .bar i, .tabpanel, .tl-panel.swap, #mapInfo.swap { transition: none; animation: none; }
+    .wave { opacity: .5; transform: scale(.7); }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <div class="ticker-set">
+      <span>✦ IEEE 802.16</span><span>✦ WiMAX Forum, 2001</span><span>✦ Hasta 75 Mbps en teoría</span><span>✦ WiBro: Seúl, 2006</span><span>✦ Baltimore, 2008</span><span>✦ Entel en Bolivia, 3,5 GHz</span><span>✦ Sprint apaga WiMAX en 2015</span><span>✦ UQ lo apaga en 2020</span>
+    </div>
+    <div class="ticker-set">
+      <span>✦ IEEE 802.16</span><span>✦ WiMAX Forum, 2001</span><span>✦ Hasta 75 Mbps en teoría</span><span>✦ WiBro: Seúl, 2006</span><span>✦ Baltimore, 2008</span><span>✦ Entel en Bolivia, 3,5 GHz</span><span>✦ Sprint apaga WiMAX en 2015</span><span>✦ UQ lo apaga en 2020</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap pillnav-wrap">
+  <nav class="pillnav" aria-label="Navegación principal">
+    <a class="logo" href="#inicio">Ondas sin cable</a>
+    <div class="links">
+      <a href="#inicio">🏠 Inicio</a>
+      <a href="#investigaciones">📚 Investigaciones</a>
+      <a href="#sobre-mi">👤 Sobre mí</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Cambiar a tema oscuro" aria-pressed="false">🌙</button>
+  </nav>
+</div>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <h1>Ondas sin cable</h1>
+      <p class="lede">WiMAX, la banda ancha inalámbrica que <span class="typed" id="typed">quiso ser el próximo Wi-Fi</span></p>
+      <div class="chips">
+        <span class="chip">🎓 <span data-f="alumno"></span></span>
+        <span class="chip">🏫 <span data-f="instituto"></span></span>
+        <span class="chip">📚 <span data-f="materia"></span></span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg class="tower-svg" viewBox="0 0 420 420" role="img" aria-label="Antena que emite ondas circulares en todas direcciones">
+        <circle class="wave w1" cx="210" cy="190" r="185"/>
+        <circle class="wave w2" cx="210" cy="190" r="185"/>
+        <circle class="wave w3" cx="210" cy="190" r="185"/>
+        <path class="ground" d="M50 376 H370"/>
+        <path class="mast" d="M172 376 L210 204 L248 376 M186 320 H234 M197 268 H223 M186 320 L223 268 M234 320 L197 268"/>
+        <circle class="bulb" cx="210" cy="190" r="15"/>
+      </svg>
+      <span class="sticker s1">IEEE 802.16</span>
+      <span class="sticker s2">3,5 GHz</span>
+      <span class="sticker s3">desde 2001</span>
+    </div>
+  </div>
+</header>
+
+<noscript><div class="wrap"><div class="card">Activa JavaScript para ver la línea de tiempo, el simulador, el mapa y el quiz.</div></div></noscript>
+
+<main id="contenido">
+
+  <!-- INVESTIGACIONES -->
+  <section class="sec" id="investigaciones" style="--hl: var(--hl-blue)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Investigaciones</span></h2>
+        <p>Trabajos de <b data-f="materia"></b>. Elige uno para empezar a leer.</p>
+      </header>
+      <div class="grid reveal">
+        <a class="card work" href="#datos">
+          <span class="wtag">INVESTIGACIÓN 01</span>
+          <h3>📡 Red WiMAX</h3>
+          <p>Historia, personajes, cobertura, lugares, WiMAX en Bolivia, empresas del mundo y referencias.</p>
+          <span class="btn">Empezar a leer</span>
+        </a>
+        <div class="card work soon"><span class="wtag">PRÓXIMAMENTE</span><h3>Investigación 02</h3><p>Aquí irá tu siguiente trabajo.</p></div>
+        <div class="card work soon"><span class="wtag">PRÓXIMAMENTE</span><h3>Investigación 03</h3><p>Aquí irá tu siguiente trabajo.</p></div>
+      </div>
+      <nav class="index reveal" aria-label="Contenido de la investigación 01">
+        <strong>Dentro de la investigación 01</strong>
+        <div>
+          <a href="#datos">Datos</a><a href="#historia">Historia</a><a href="#personajes">Personajes</a><a href="#funcionamiento">Cómo funciona</a><a href="#cobertura">Cobertura</a><a href="#mapa">Mapa</a><a href="#bolivia">Bolivia</a><a href="#empresas">Empresas</a><a href="#legado">Legado</a><a href="#quiz">Quiz</a><a href="#glosario">Glosario</a><a href="#referencias">Referencias</a>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <!-- DATOS RÁPIDOS -->
+  <section class="sec" id="datos" style="--hl: var(--hl-yellow)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">WiMAX en seis números</span></h2>
+        <p>WiMAX (<em>Worldwide Interoperability for Microwave Access</em>) es una familia de estándares de banda ancha inalámbrica basada en IEEE 802.16, que define las capas física y de acceso al medio <span class="cite">(Encyclopedia MDPI, 2022)</span>.</p>
+      </header>
+      <div class="bento reveal">
+        <div class="tile t-blue"><b><span class="count" data-to="2001">0</span></b><span>nace el WiMAX Forum, en junio <span class="cite" style="color:inherit;opacity:.85">(Encyclopedia MDPI, 2022)</span></span></div>
+        <div class="tile t-pink"><b><span class="count" data-to="75">0</span> Mbps</b><span>velocidad teórica de 802.16-2004 <span class="cite" style="color:inherit;opacity:.85">(EBSCO, s. f.)</span></span></div>
+        <div class="tile t-yellow"><b>~<span class="count" data-to="50">0</span> km</b><span>alcance teórico del WiMAX fijo con línea de vista <span class="cite" style="color:inherit;opacity:.85">(Andrews et al., 2007)</span></span></div>
+        <div class="tile t-mint"><b><span class="count" data-to="559">0</span></b><span>despliegues en 2010, en 147 países <span class="cite" style="color:inherit;opacity:.85">(WiMAX.com, 2010)</span></span></div>
+        <div class="tile t-lilac"><b><span class="count" data-to="120">0</span> km/h</b><span>movilidad prometida por WiBro en 2006 <span class="cite" style="color:inherit;opacity:.85">(EE Times, 2006)</span></span></div>
+        <div class="tile t-white"><b><span class="count" data-to="9">0</span></b><span>capitales bolivianas con antenas de Entel en 2008 <span class="cite">(Telecombol, 2008)</span></span></div>
+      </div>
+
+      <div class="card bars reveal" style="margin-top:1.6rem">
+        <h3>El boom: despliegues de WiMAX en el mundo</h3>
+        <div class="bar-row"><span>Abril 2008</span><div class="bar"><i data-w="46"></i></div><span>260</span></div>
+        <div class="bar-row"><span>Junio 2008</span><div class="bar"><i data-w="55"></i></div><span>305</span></div>
+        <div class="bar-row"><span>2010</span><div class="bar"><i data-w="100"></i></div><span>559</span></div>
+        <p class="cite" style="margin:.6rem 0 0">Las dos primeras cifras son del WiMAX Forum vía Light Reading (2008); la de 2010, de WiMAX.com (2010). La longitud de las barras es proporcional.</p>
+      </div>
+
+      <div class="prose reveal" style="margin-top:2rem">
+        <p>El estándar nació como alternativa inalámbrica a DSL y cable, sobre todo para zonas rurales o desatendidas <span class="cite">(EBSCO, s. f.)</span>. Igual que Wi-Fi certifica productos 802.11, WiMAX certifica productos 802.16 <span class="cite">(Colaboradores de Wikipedia, s. f.-b)</span>.</p>
+      </div>
+
+      <div class="flowbox reveal" role="group" aria-label="Esquema de una red WiMAX">
+        <div class="node"><em>🏠</em>Casa o empresa<small>equipo del cliente (CPE)</small></div>
+        <div class="link"><span>ondas de radio</span></div>
+        <div class="node"><em>📡</em>Estación base<small>antena del operador</small></div>
+        <div class="link k2"><span>backhaul</span></div>
+        <div class="node"><em>🖧</em>Red del operador<small>fibra o microondas</small></div>
+        <div class="link k3"><span>salida</span></div>
+        <div class="node"><em>🌐</em>Internet</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section class="sec" id="historia" style="--hl: var(--hl-pink)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Historia interactiva</span></h2>
+        <p>Toca un año, o usa las flechas del teclado, para recorrer más de dos décadas de WiMAX.</p>
+      </header>
+      <div class="tl-strip" id="tlStrip" role="tablist" aria-label="Años de la historia de WiMAX"></div>
+      <div class="card tl-panel" id="tlPanel" role="tabpanel" tabindex="0"></div>
+      <div class="tl-ctrl">
+        <button class="btn alt" id="tlPrev" type="button">Anterior</button>
+        <button class="btn" id="tlNext" type="button">Siguiente</button>
+        <span class="tl-count" id="tlCount"></span>
+        <div class="tl-meter" aria-hidden="true"><i id="tlMeter"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONAJES -->
+  <section class="sec" id="personajes" style="--hl: var(--hl-blue)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Personajes</span></h2>
+        <p>Ingenieros, ejecutivos y directivos de cuatro continentes. Voltea cada tarjeta para leer su historia.</p>
+      </header>
+      <div class="flip-grid" id="flipGrid"></div>
+      <p class="prose" style="margin-top:1.4rem"><span class="cite">Instituciones clave: el IEEE (escribió el estándar), el WiMAX Forum (certificó equipos) y la UIT (decidió qué cuenta como 3G y 4G).</span></p>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="sec" id="funcionamiento" style="--hl: var(--hl-mint)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Cómo funciona por dentro</span></h2>
+        <p>Abre cada panel para ver una pieza técnica de WiMAX.</p>
+      </header>
+      <div class="reveal">
+        <details class="acc" open>
+          <summary>Arquitectura punto a multipunto</summary>
+          <div class="body">
+            <p>Una estación base conectada a la red del operador atiende a muchas estaciones suscriptoras (CPE) a la vez. Es el esquema habitual de WiMAX <span class="cite">(Eklund et al., 2002; Andrews et al., 2007)</span>.</p>
+          </div>
+        </details>
+        <details class="acc">
+          <summary>Capa física: OFDM, OFDMA y duplexación</summary>
+          <div class="body">
+            <p>WiMAX reparte el canal en muchas subportadoras (OFDM y, en 802.16e, OFDMA). La mayoría de servicios usó división por tiempo (TDD), que no necesita dos bloques de espectro como el FDD de muchas redes LTE <span class="cite">(Microwaves &amp; RF, s. f.)</span>. WiBro, por ejemplo, combinó TDD y OFDMA con canales de 8,75 o 10 MHz <span class="cite">(Wikipedia contributors, s. f.-b)</span>.</p>
+          </div>
+        </details>
+        <details class="acc">
+          <summary>Modulación adaptativa</summary>
+          <div class="body">
+            <p>El sistema cambia de esquema según la calidad del enlace: BPSK, QPSK, 16-QAM o 64-QAM. Cerca de la antena usa el más rápido y lejos pasa a uno más robusto y lento <span class="cite">(Andrews et al., 2007)</span>. Puedes verlo en el simulador de la sección siguiente.</p>
+          </div>
+        </details>
+        <details class="acc">
+          <summary>Calidad de servicio: cinco clases de tráfico</summary>
+          <div class="body">
+            <p>802.16-2004 definió cuatro clases y 802.16e añadió una quinta <span class="cite">(Belghith et al., s. f.)</span>:</p>
+            <div class="qos">
+              <span>UGS: tasa constante (voz, E1)</span><span>ertPS: voz con silencios (802.16e)</span><span>rtPS: video y streaming</span><span>nrtPS: transferencias como FTP</span><span>BE: navegación web</span>
+            </div>
+          </div>
+        </details>
+        <details class="acc">
+          <summary>Seguridad</summary>
+          <div class="body">
+            <p>El estándar incluye autenticación de los equipos y cifrado del tráfico entre la estación base y el cliente <span class="cite">(Andrews et al., 2007)</span>.</p>
+          </div>
+        </details>
+        <details class="acc">
+          <summary>Bandas de frecuencia según el país</summary>
+          <div class="body">
+            <p>No hubo una banda única para WiMAX: cada regulador y operador eligió la suya.</p>
+            <div class="bands">
+              <span><b>2,3 GHz</b> Corea del Sur <span class="cite">(Wikipedia contributors, s. f.-b)</span></span>
+              <span><b>2,3 GHz</b> Nigeria <span class="cite">(Guardian Nigeria, s. f.)</span></span>
+              <span><b>2,5 GHz</b> Estados Unidos <span class="cite">(CIO Australia, 2014)</span></span>
+              <span><b>3,3 GHz</b> India, BSNL <span class="cite">(Telecoms.com, 2008b)</span></span>
+              <span><b>3,5 GHz</b> Pakistán <span class="cite">(Telecoms.com, 2008b)</span></span>
+              <span><b>3,5 GHz</b> Bolivia <span class="cite">(Entel, s. f.-a)</span></span>
+              <span><b>3,5 GHz</b> Chile <span class="cite">(La Tercera, 2024)</span></span>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <h3 style="font-family:var(--display);margin:2.4rem 0 1rem">Para qué se usó</h3>
+      <div class="grid reveal">
+        <div class="card"><h3>🏠 Banda ancha fija</h3><p>Internet inalámbrico para hogares y empresas. Entel lo ofreció en Bolivia a 3,5 GHz <span class="cite">(Entel, s. f.-a)</span>.</p></div>
+        <div class="card"><h3>📱 Banda ancha móvil</h3><p>Sprint y Clearwire, KT en Seúl y UQ en Japón usaron WiMAX móvil para módems, routers y teléfonos.</p></div>
+        <div class="card"><h3>🗼 Backhaul celular</h3><p>También sirvió para llevar el tráfico de torres celulares hacia la red central <span class="cite">(Guardian Nigeria, s. f.; Microwaves &amp; RF, s. f.)</span>.</p></div>
+        <div class="card"><h3>🏫 Zonas rurales y escuelas</h3><p>En Bangladesh, la red de Always On Network llevó internet gratis a escuelas primarias y colegios <span class="cite">(Light Reading, 2008)</span>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COBERTURA -->
+  <section class="sec" id="cobertura" style="--hl: var(--hl-yellow)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Cobertura: simulador</span></h2>
+        <p>Mueve el control de distancia y mira cómo cambian la modulación y la velocidad. Es un modelo didáctico simplificado, no una medición real.</p>
+      </header>
+      <div class="sim">
+        <div class="card">
+          <div class="seg" role="group" aria-label="Tipo de WiMAX">
+            <button type="button" id="modeFijo" aria-pressed="true">WiMAX fijo</button>
+            <button type="button" id="modeMovil" aria-pressed="false">WiMAX móvil</button>
+          </div>
+          <div class="range-label"><label for="simRange">Distancia a la antena</label><output id="simKm">10 km</output></div>
+          <input type="range" id="simRange" min="0" max="60" step="1" value="10">
+          <label class="check"><input type="checkbox" id="simObst"><span>Hay edificios o cerros en el camino (sin línea de vista)</span></label>
+          <p class="note">Referencias: fijo, hasta unos 50 km en condiciones ideales y 75 Mbps teóricos; móvil, unos 3,5 km y 30 a 40 Mbps <span class="cite">(EBSCO, s. f.; Andrews et al., 2007)</span>. Los tramos y porcentajes del simulador son ilustrativos.</p>
+        </div>
+        <div class="card">
+          <div class="track" id="track" aria-hidden="true">
+            <span class="tower-mark">📡</span>
+            <div class="z z1" id="z1"></div><div class="z z2" id="z2"></div><div class="z z3" id="z3"></div><div class="z z4" id="z4"></div><div class="z z5" id="z5"></div>
+            <span class="marker" id="marker">🏠</span>
+          </div>
+          <div class="readout" aria-live="polite">
+            <div><small>Modulación</small><b id="outMod">64-QAM</b></div>
+            <div><small>Velocidad estimada</small><b id="outSpeed">75 Mbps</b></div>
+            <div><small>Señal</small><span class="signal" id="outSig" aria-hidden="true"><i></i><i></i><i></i><i></i></span> <b id="outSigTxt" class="sr-only" style="position:absolute;left:-999px">Excelente</b></div>
+            <div><small>Estado</small><b id="outState">Excelente</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-scroll reveal">
+        <table>
+          <caption style="text-align:left;padding:.7rem .9rem;font-weight:700">Cobertura y velocidad de referencia</caption>
+          <thead><tr><th>Versión</th><th>Banda</th><th>Velocidad</th><th>Alcance</th><th>Fuente</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">WiMAX fijo (802.16-2004)</th><td>2 a 11 GHz</td><td>Hasta 75 Mbps teóricos</td><td>Hasta ~50 km con línea de vista</td><td class="cite">EBSCO (s. f.); Andrews et al. (2007)</td></tr>
+            <tr><th scope="row">WiMAX móvil (802.16e)</th><td>2,3 a 3,5 GHz en la práctica</td><td>30 a 40 Mbps</td><td>~3,5 km por antena</td><td class="cite">EBSCO (s. f.)</td></tr>
+            <tr><th scope="row">WiBro (Corea del Sur)</th><td>2,3 a 2,4 GHz</td><td>30 a 50 Mbps por portadora, en el agregado</td><td>Radio de 1 a 5 km; hasta 120 km/h</td><td class="cite">Wikipedia contributors (s. f.-b)</td></tr>
+            <tr><th scope="row">UQ WiMAX (Japón)</th><td>2,5 GHz</td><td>Hasta 40 Mbps de bajada</td><td>Cobertura urbana nacional</td><td class="cite">ASCII.jp (2020)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid reveal">
+        <div class="card"><h3>Lo que pasó en la práctica</h3><p>En Estados Unidos, la red de Sprint y Clearwire nunca tuvo cobertura nacional suficiente. Al usar frecuencias altas, había problemas de recepción incluso dentro de las áreas cubiertas, sobre todo en interiores <span class="cite">(Stop the Cap!, 2014)</span>.</p></div>
+        <div class="card"><h3>Más usuarios, menos velocidad</h3><p>Al sumar clientes, las velocidades bajaban. Algunos equipos domésticos de Clearwire tenían que colocarse cerca de una ventana <span class="cite">(Stop the Cap!, 2014)</span>.</p></div>
+        <div class="card"><h3>La velocidad prometida y la real</h3><p>Sprint anunció en Baltimore 2008 velocidades de 2 a 4 Mbps <span class="cite">(CIO Australia, 2014)</span>, lejos de los 30 a 40 Mbps teóricos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPA -->
+  <section class="sec" id="mapa" style="--hl: var(--hl-lilac)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Mapa de despliegues</span></h2>
+        <p>Toca un punto del mapa o un botón para ver qué pasó allí con WiMAX. El mapa es esquemático: sitúa cada lugar por latitud y longitud, sin dibujar los países.</p>
+      </header>
+      <div class="mapbox reveal" id="mapBox">
+        <svg viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true" id="mapSvg"></svg>
+        <div id="mapPins"></div>
+      </div>
+      <div class="map-chips" id="mapChips" role="group" aria-label="Lugares"></div>
+      <div class="card" id="mapInfo" aria-live="polite"><h3>Elige un lugar</h3><p>Verás la historia de WiMAX en ese país o ciudad.</p></div>
+    </div>
+  </section>
+
+  <!-- BOLIVIA -->
+  <section class="sec" id="bolivia" style="--hl: var(--hl-pink)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">WiMAX en Bolivia</span></h2>
+        <p>De las antenas de Entel en 2008 a los servicios en 3,5 GHz y el salto a 4G y 5G.</p>
+      </header>
+      <div class="bento reveal" style="margin-bottom:1.6rem">
+        <div class="tile t-yellow"><b><span class="count" data-to="2008">0</span></b><span>contrato de Entel y Alcatel-Lucent</span></div>
+        <div class="tile t-mint"><b><span class="count" data-to="9">0</span></b><span>capitales con antenas instaladas</span></div>
+        <div class="tile t-blue"><b>3,5 GHz</b><span>banda del servicio de Entel</span></div>
+        <div class="tile t-pink"><b><span class="count" data-to="2014">0</span></b><span>Entel estrena 4G LTE</span></div>
+      </div>
+      <div class="tabs reveal" id="bolTabs">
+        <div class="tablist" role="tablist" aria-label="Historia de WiMAX en Bolivia">
+          <button class="tab" role="tab" id="bt1" aria-controls="bp1" aria-selected="true" type="button">El contrato de 2008</button>
+          <button class="tab" role="tab" id="bt2" aria-controls="bp2" aria-selected="false" tabindex="-1" type="button">Servicios de Entel</button>
+          <button class="tab" role="tab" id="bt3" aria-controls="bp3" aria-selected="false" tabindex="-1" type="button">AXS y otros</button>
+          <button class="tab" role="tab" id="bt4" aria-controls="bp4" aria-selected="false" tabindex="-1" type="button">Después de WiMAX</button>
+        </div>
+        <div class="card tabpanel" role="tabpanel" id="bp1" aria-labelledby="bt1">
+          <p>En abril de 2008, Alcatel-Lucent informó que había firmado con Entel un contrato para desplegar la primera red comercial de WiMAX en Bolivia. Serviría para voz sobre IP, banda ancha, video y transmisión de datos, y el lanzamiento comercial estaba previsto para fines del segundo trimestre. Según el gerente de Tecnologías de Entel, ya se habían instalado antenas en las ciudades capitales de los nueve departamentos <span class="cite">(Telecombol, 2008)</span>.</p>
+          <p>El 1 de mayo de 2008, el Estado boliviano nacionalizó Entel mediante el Decreto Supremo 29544 <span class="cite">(Wikipedia contributors, s. f.-a)</span>.</p>
+        </div>
+        <div class="card tabpanel" role="tabpanel" id="bp2" aria-labelledby="bt2" hidden>
+          <p>En sus términos y condiciones, Entel describe un servicio de internet WiMAX inalámbrico, asimétrico y de alta velocidad en la banda de 3,5 GHz, que conecta la computadora o red local del cliente mediante un enlace de radiofrecuencia <span class="cite">(Entel, s. f.-a)</span>.</p>
+          <p>También ofreció «Wimax Premium», basado en WiMAX móvil (IEEE 802.16e) en 3,5 GHz, con equipo de cliente portátil, disponible solo en la ciudad de La Paz <span class="cite">(Entel, s. f.-b)</span>.</p>
+        </div>
+        <div class="card tabpanel" role="tabpanel" id="bp3" aria-labelledby="bt3" hidden>
+          <p><b>AXS Bolivia</b> incluye WiMAX entre sus servicios de banda ancha, junto con ADSL y GPON (fibra) <span class="cite">(AXS Bolivia, s. f.)</span>.</p>
+          <p>Entel y AXS figuran entre las principales operadoras de fibra óptica del país y proveen conexión internacional a otras operadoras, incluidas varias cooperativas telefónicas <span class="cite">(Energía Bolivia, s. f.)</span>.</p>
+        </div>
+        <div class="card tabpanel" role="tabpanel" id="bp4" aria-labelledby="bt4" hidden>
+          <p>Entel incorporó 4G LTE desde el segundo trimestre de 2014, primero en La Paz, Cochabamba y Santa Cruz y solo para conexiones con módem <span class="cite">(Energía Bolivia, s. f.)</span>. Más tarde fue el primer operador en ofrecer 5G en Bolivia <span class="cite">(Colaboradores de Wikipedia, s. f.-a)</span>.</p>
+          <p>La banda de 3,5 GHz que se usó para WiMAX hoy también interesa para 5G en la región <span class="cite">(La Tercera, 2024)</span>.</p>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--display);margin:2.4rem 0 1rem">Bolivia en el contexto de la región</h3>
+      <div class="grid reveal">
+        <div class="card"><h3>Argentina, 2007</h3><p>Buenos Aires acogió la conferencia Wimax 2007 sobre la tecnología en América Latina, con Telmex, Motorola, Nortel, Sprint Nextel y Entel Chile, entre otras <span class="cite">(TELETIME, 2007)</span>.</p></div>
+        <div class="card"><h3>Brasil</h3><p>Brasil Telecom desplegaba WiMAX 802.16e en São Paulo, Curitiba y Porto Alegre <span class="cite">(Light Reading, 2008)</span>.</p></div>
+        <div class="card"><h3>Nicaragua y Perú</h3><p>Yota lanzó en julio de 2010 la primera red WiMAX móvil de Nicaragua y preparaba su despliegue en Perú <span class="cite">(Telesemana, 2010)</span>.</p></div>
+        <div class="card"><h3>Chile</h3><p>Las bandas de 3,5 GHz se concesionaron entre 2001 y 2007 para WiMAX; hoy se discute su uso para 5G <span class="cite">(La Tercera, 2024)</span>. Chile lanzó 5G con espectro en esa banda <span class="cite">(DPL News, s. f.)</span>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMPRESAS -->
+  <section class="sec" id="empresas" style="--hl: var(--hl-mint)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Empresas que aplicaron WiMAX</span></h2>
+        <p>Filtra por tipo, por Bolivia o busca por nombre o país.</p>
+      </header>
+      <div class="fbar">
+        <div class="fchips" id="empChips" role="group" aria-label="Filtrar empresas">
+          <button type="button" data-f="todas" aria-pressed="true">Todas</button>
+          <button type="button" data-f="operador" aria-pressed="false">Operadores</button>
+          <button type="button" data-f="equipos" aria-pressed="false">Equipos y software</button>
+          <button type="button" data-f="bolivia" aria-pressed="false">Bolivia</button>
+        </div>
+        <label class="sr-only" for="empSearch" style="position:absolute;left:-999px">Buscar empresa</label>
+        <input class="search" id="empSearch" type="search" placeholder="Buscar empresa o país">
+        <span class="count-out" id="empCount" aria-live="polite"></span>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Empresa</th><th>País</th><th>Tipo</th><th>Qué hizo con WiMAX</th></tr></thead>
+          <tbody id="empBody">
+            <tr data-tipo="operador"><th scope="row">Clearwire</th><td>Estados Unidos</td><td><span class="tag tg-op">Operador</span></td><td>Construyó y operó la red WiMAX que Sprint revendía; Sprint la adquirió en 2013 <span class="cite">(CIO Australia, 2014; Sprint Nextel, 2013)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">Sprint</th><td>Estados Unidos</td><td><span class="tag tg-op">Operador</span></td><td>Lanzó WiMAX en Baltimore en 2008 y lo apagó alrededor del 6 de noviembre de 2015 <span class="cite">(Fierce Network, 2014)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">Yota</th><td>Rusia y Nicaragua</td><td><span class="tag tg-op">Operador</span></td><td>Su red estrenó el primer teléfono WiMAX y llegó a Nicaragua en 2010 <span class="cite">(Encyclopedia MDPI, 2022; Telesemana, 2010)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">Comstar UTS</th><td>Rusia</td><td><span class="tag tg-op">Operador</span></td><td>Desplegaba una red móvil 802.16e en la zona de Moscú en 2008 <span class="cite">(Light Reading, 2008)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">UQ Communications</th><td>Japón</td><td><span class="tag tg-op">Operador</span></td><td>Ofreció WiMAX móvil entre 2009 y marzo de 2020 y siguió con WiMAX 2+ <span class="cite">(ASCII.jp, 2020)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">YTL Communications</th><td>Malasia</td><td><span class="tag tg-op">Operador</span></td><td>Cliente de Samsung en WiMAX <span class="cite">(WiMAX.com, 2010)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">KT y SK Telecom</th><td>Corea del Sur</td><td><span class="tag tg-op">Operador</span></td><td>Lanzaron WiBro el 30 de junio de 2006. KT superó los 200.000 abonados en agosto de 2008 <span class="cite">(EE Times, 2006; Telecoms.com, 2008a)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">BSNL</th><td>India</td><td><span class="tag tg-op">Operador</span></td><td>Servicios 802.16-2004 a 3,3 GHz en diez ciudades; planeaba invertir hasta US$ 750 millones en 802.16e <span class="cite">(Telecoms.com, 2008b; Light Reading, 2008)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">Tata</th><td>India</td><td><span class="tag tg-op">Operador</span></td><td>Buscaba al menos 1.000 estaciones base para servicios empresariales en 110 ciudades <span class="cite">(Telecoms.com, 2008b)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">Reliance Communications</th><td>India</td><td><span class="tag tg-op">Operador</span></td><td>WiMAX fijo a 3,3 GHz y licencias en varios países africanos <span class="cite">(Telecoms.com, 2008b; Guardian Nigeria, s. f.)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">Wateen Telecom</th><td>Pakistán</td><td><span class="tag tg-op">Operador</span></td><td>WiMAX móvil en 22 ciudades a 3,5 GHz con equipos de Motorola <span class="cite">(Telecoms.com, 2008b)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">Brasil Telecom</th><td>Brasil</td><td><span class="tag tg-op">Operador</span></td><td>Red 802.16e en São Paulo, Curitiba y Porto Alegre <span class="cite">(Light Reading, 2008)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">Safaricom, MTN y Orange</th><td>África</td><td><span class="tag tg-op">Operador</span></td><td>Grandes operadores africanos que usaron WiMAX <span class="cite">(Guardian Nigeria, s. f.)</span>.</td></tr>
+            <tr data-tipo="operador"><th scope="row">Always On Network</th><td>Bangladesh</td><td><span class="tag tg-op">Operador</span></td><td>Internet gratis para escuelas y banda ancha para zonas desatendidas <span class="cite">(Light Reading, 2008)</span>.</td></tr>
+            <tr data-tipo="operador" data-bolivia="1"><th scope="row">Entel</th><td>Bolivia</td><td><span class="tag tg-op">Operador</span></td><td>Contrato de 2008 para la primera red comercial de WiMAX del país, a 3,5 GHz <span class="cite">(Telecombol, 2008; Entel, s. f.-a)</span>.</td></tr>
+            <tr data-tipo="operador" data-bolivia="1"><th scope="row">AXS Bolivia</th><td>Bolivia</td><td><span class="tag tg-op">Operador</span></td><td>Ofrece WiMAX entre sus servicios de banda ancha <span class="cite">(AXS Bolivia, s. f.)</span>.</td></tr>
+            <tr data-tipo="equipos"><th scope="row">Samsung</th><td>Corea del Sur</td><td><span class="tag tg-eq">Equipos</span></td><td>Proveyó equipos a Clearwire, UQ, Yota y YTL, y a la prueba de WiBro con Sprint en 2005 <span class="cite">(WiMAX.com, 2010; Wikipedia contributors, s. f.-b)</span>.</td></tr>
+            <tr data-tipo="equipos"><th scope="row">Motorola</th><td>Estados Unidos</td><td><span class="tag tg-eq">Equipos</span></td><td>Proveedor de la red de Wateen en Pakistán <span class="cite">(Telecoms.com, 2008b)</span>.</td></tr>
+            <tr data-tipo="equipos" data-bolivia="1"><th scope="row">Alcatel-Lucent</th><td>Francia y Estados Unidos</td><td><span class="tag tg-eq">Equipos</span></td><td>Proveedor de la red WiMAX de Entel <span class="cite">(Telecombol, 2008)</span>.</td></tr>
+            <tr data-tipo="equipos"><th scope="row">Intel</th><td>Estados Unidos</td><td><span class="tag tg-eq">Equipos</span></td><td>En 2004 acordó con Samsung asegurar la compatibilidad entre WiBro y WiMAX móvil <span class="cite">(Wikipedia contributors, s. f.-b)</span>.</td></tr>
+            <tr data-tipo="equipos"><th scope="row">HTC</th><td>Taiwán</td><td><span class="tag tg-eq">Equipos</span></td><td>Fabricó los teléfonos Max 4G (2008) y EVO 4G (2010) <span class="cite">(Encyclopedia MDPI, 2022)</span>.</td></tr>
+            <tr data-tipo="equipos"><th scope="row">Bridgewater Systems</th><td>Canadá</td><td><span class="tag tg-eq">Software</span></td><td>Su Service Controller apoyó la red WiMAX de Yota <span class="cite">(Telesemana, 2010)</span>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEGADO -->
+  <section class="sec" id="legado" style="--hl: var(--hl-blue)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Por qué perdió frente a LTE</span></h2>
+        <p>WiMAX llegó primero, pero no ganó. Estas son las razones que señalan las fuentes.</p>
+      </header>
+      <div class="why reveal">
+        <div class="card"><h3>La versión móvil llegó tarde</h3><p>El ejecutivo de UK Broadband explicó que el problema fue el tiempo que tardó WiMAX en volverse móvil, y que nunca fue rentable competir con las redes fijas <span class="cite">(Silicon UK, s. f.)</span>.</p></div>
+        <div class="card"><h3>Espectro y capacidad</h3><p>La red estadounidense no tuvo cobertura suficiente y se saturaba al sumar clientes <span class="cite">(Stop the Cap!, 2014)</span>.</p></div>
+        <div class="card"><h3>Los operadores eligieron LTE</h3><p>Casi todos los grandes operadores adoptaron LTE, y WiMAX quedó a su sombra <span class="cite">(Microwaves &amp; RF, s. f.)</span>.</p></div>
+        <div class="card"><h3>El ecosistema pesó</h3><p>A fines de 2009 había 192.400 abonados WiMAX en África frente a 6,2 millones de conexiones 3,5G o superiores <span class="cite">(Guardian Nigeria, s. f.)</span>.</p></div>
+      </div>
+
+      <div class="card bars reveal">
+        <h3>África, fin de 2009: abonados WiMAX frente a 3,5G o más</h3>
+        <div class="bar-row"><span>WiMAX</span><div class="bar"><i data-w="3.1"></i></div><span>0,19 M</span></div>
+        <div class="bar-row"><span>3,5G o más</span><div class="bar"><i data-w="100"></i></div><span>6,2 M</span></div>
+        <p class="cite" style="margin:.6rem 0 0">Cifras de Informa citadas por Guardian Nigeria (s. f.). Barras proporcionales.</p>
+      </div>
+
+      <h3 style="font-family:var(--display);margin:2.2rem 0 1rem">Mito o realidad</h3>
+      <div class="reveal">
+        <details class="acc"><summary>«WiMAX era solo para zonas rurales»</summary><div class="body"><p><b>Mito.</b> También fue una red móvil urbana: Sprint lo lanzó en Baltimore y KT lo extendió a todo Seúl <span class="cite">(CIO Australia, 2014; Telecoms.com, 2008a)</span>.</p></div></details>
+        <details class="acc"><summary>«WiMAX y Wi-Fi son lo mismo»</summary><div class="body"><p><b>Mito.</b> Wi-Fi certifica 802.11, pensado para redes locales; WiMAX certifica 802.16, pensado para escala metropolitana <span class="cite">(Colaboradores de Wikipedia, s. f.-b)</span>.</p></div></details>
+        <details class="acc"><summary>«WiMAX se apagó de golpe»</summary><div class="body"><p><b>Mito.</b> Los apagados fueron escalonados: Sprint en 2015, WiBro a fines de 2018 y el WiMAX original de UQ en marzo de 2020 <span class="cite">(Fierce Network, 2014; Wikipedia contributors, s. f.-b; ASCII.jp, 2020)</span>.</p></div></details>
+        <details class="acc"><summary>«WiMAX 2+ es el mismo WiMAX de siempre»</summary><div class="body"><p><b>No exactamente.</b> En Japón, WiMAX 2+ se basa en WiMAX Release 2.1, compatible con TD-LTE, y reutilizó el espectro del servicio original <span class="cite">(Gigazine, 2012; ASCII.jp, 2020)</span>.</p></div></details>
+      </div>
+
+      <div class="prose reveal" style="margin-top:1.6rem">
+        <p><b>Su herencia:</b> el espectro. Sprint compró Clearwire para controlar sus frecuencias de 2,5 GHz y usarlas en su red LTE <span class="cite">(Sprint Corporation, 2014)</span>. En Japón, UQ pasó los 10 MHz del WiMAX original a WiMAX 2+ <span class="cite">(gori.me, 2018)</span>. Y la banda de 3,5 GHz que se concesionó para WiMAX hoy se mira para 5G <span class="cite">(La Tercera, 2024)</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="sec" id="quiz" style="--hl: var(--hl-yellow)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Ponte a prueba</span></h2>
+        <p>Seis preguntas con lo que leíste en esta página.</p>
+      </header>
+      <div class="card quiz" id="quizBox"></div>
+    </div>
+  </section>
+
+  <!-- GLOSARIO -->
+  <section class="sec" id="glosario" style="--hl: var(--hl-lilac)">
+    <div class="wrap">
+      <header class="sec-head reveal"><h2><span class="hd">Glosario</span></h2></header>
+      <div class="reveal">
+        <details class="acc"><summary>WMAN</summary><div class="body"><p>Red de área metropolitana inalámbrica: cubre una ciudad o una zona amplia.</p></div></details>
+        <details class="acc"><summary>Estación base y CPE</summary><div class="body"><p>La estación base es la antena del operador; el CPE (Customer Premises Equipment) es el equipo del cliente.</p></div></details>
+        <details class="acc"><summary>Backhaul</summary><div class="body"><p>Enlace que conecta la estación base con la red del operador.</p></div></details>
+        <details class="acc"><summary>LOS y NLOS</summary><div class="body"><p>Con línea de vista (Line of Sight) y sin línea de vista (Non Line of Sight).</p></div></details>
+        <details class="acc"><summary>OFDM y OFDMA</summary><div class="body"><p>Técnicas que reparten el canal en subportadoras. OFDMA además las asigna a distintos usuarios.</p></div></details>
+        <details class="acc"><summary>TDD y FDD</summary><div class="body"><p>TDD alterna subida y bajada en la misma frecuencia, por turnos. FDD usa frecuencias separadas.</p></div></details>
+        <details class="acc"><summary>QoS</summary><div class="body"><p>Calidad de servicio: la prioridad que recibe cada tipo de tráfico.</p></div></details>
+        <details class="acc"><summary>WiBro</summary><div class="body"><p>Nombre surcoreano del servicio basado en 802.16e (WiMAX móvil).</p></div></details>
+        <details class="acc"><summary>WiMAX 2 y WiMAX 2+</summary><div class="body"><p>WiMAX 2 es 802.16m, candidato 4G. WiMAX 2+ es el nombre comercial de UQ en Japón para WiMAX Release 2.1.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENCIAS -->
+  <section class="sec" id="referencias" style="--hl: var(--hl-pink)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Referencias bibliográficas</span></h2>
+        <p>Formato APA, 7.ª edición. Fecha de consulta de los recursos en línea: 29 de septiembre de 2026.</p>
+      </header>
+      <ol class="refs">
+        <li>Andrews, J. G., Ghosh, A., &amp; Muhamed, R. (2007). <em>Fundamentals of WiMAX: Understanding broadband wireless networking</em>. Prentice Hall.</li>
+        <li>ASCII.jp. (2020, 1 de abril). <em>UQの旧WiMAXサービスが3月31日に終了、2009年の開始から11年</em> [El servicio WiMAX original de UQ termina el 31 de marzo, 11 años después de su inicio]. <a href="https://ascii.jp/elem/000/004/007/4007958/">https://ascii.jp/elem/000/004/007/4007958/</a></li>
+        <li>AXS Bolivia. (s. f.). <em>AXS Bolivia</em> [Perfil de empresa]. LinkedIn. <a href="https://bo.linkedin.com/company/axs-bolivia">https://bo.linkedin.com/company/axs-bolivia</a></li>
+        <li>Belghith, A., Nuaymi, L., &amp; Maillé, P. (s. f.). <em>Pricing of differentiated-QoS services WiMAX networks</em>. TELECOM Bretagne.</li>
+        <li>CIO Australia. (2014). <em>Sprint's long, rocky WiMax journey will end next Nov. 6</em>. <a href="https://www2.cio.com.au/article/556978/sprint-long-rocky-wimax-journey-will-end-next-nov-6/">https://www2.cio.com.au/article/556978/sprint-long-rocky-wimax-journey-will-end-next-nov-6/</a></li>
+        <li>Colaboradores de Wikipedia. (s. f.-a). Entel (Bolivia). En <em>Wikipedia, la enciclopedia libre</em>. <a href="https://es.wikipedia.org/wiki/Entel_(Bolivia)">https://es.wikipedia.org/wiki/Entel_(Bolivia)</a></li>
+        <li>Colaboradores de Wikipedia. (s. f.-b). WiMAX. En <em>Wikipedia, la enciclopedia libre</em>. <a href="https://es.wikipedia.org/wiki/WiMAX">https://es.wikipedia.org/wiki/WiMAX</a></li>
+        <li>DPL News. (s. f.). <em>Chile encendió 5G y la batalla comercial entre operadores</em> [DPL News Weekly]. <a href="https://dplnews.com/dpl-news-weekly-27/">https://dplnews.com/dpl-news-weekly-27/</a></li>
+        <li>EBSCO. (s. f.). <em>WiMAX (Worldwide Interoperability for Microwave Access)</em>. EBSCO Research Starters. <a href="https://www.ebsco.com/research-starters/communication-and-mass-media/wimax-worldwide-interoperability-microwave-access">https://www.ebsco.com/research-starters/communication-and-mass-media/wimax-worldwide-interoperability-microwave-access</a></li>
+        <li>EE Times. (2006, 30 de junio). <em>South Korea launches WiBro service</em>. <a href="https://www.eetimes.com/?p=1162241">https://www.eetimes.com/?p=1162241</a></li>
+        <li>Eklund, C., Marks, R. B., Stanwood, K. L., &amp; Wang, S. (2002). IEEE Standard 802.16: A technical overview of the WirelessMAN air interface for broadband wireless access. <em>IEEE Communications Magazine, 40</em>(6), 98–107.</li>
+        <li>Encyclopedia MDPI. (2022). <em>WiMAX</em>. <a href="https://encyclopedia.pub/entry/32034">https://encyclopedia.pub/entry/32034</a></li>
+        <li>Energía Bolivia. (s. f.). <em>DOSSIER: Bolivia, la expansión de las telecomunicaciones</em>. <a href="https://www.energiabolivia.com/index.php?option=com_content&amp;view=article&amp;id=2150&amp;Itemid=113">https://www.energiabolivia.com/index.php?option=com_content&amp;view=article&amp;id=2150&amp;Itemid=113</a></li>
+        <li>Entel S.A. (s. f.-a). <em>Términos y condiciones del servicio de acceso a Internet Entel</em>. <a href="https://institucional.entel.bo/inicio3.0/files/ENT%2053639-3TyCInternetV400.pdf">https://institucional.entel.bo/inicio3.0/files/ENT%2053639-3TyCInternetV400.pdf</a></li>
+        <li>Entel S.A. (s. f.-b). <em>Wimax Premium</em>. <a href="http://www.entel.bo/inicio3.0/index.php/empresas-internet/nuestros-servicios/otros-servicios/wimax-premium">http://www.entel.bo/inicio3.0/index.php/empresas-internet/nuestros-servicios/otros-servicios/wimax-premium</a></li>
+        <li>Fierce Network. (2014). <em>Sprint to shutter WiMAX network around Nov. 6, 2015</em>. <a href="https://www.fierce-network.com/wireless/sprint-to-shutter-wimax-network-around-nov-6-2015">https://www.fierce-network.com/wireless/sprint-to-shutter-wimax-network-around-nov-6-2015</a></li>
+        <li>Gigazine. (2012, 31 de octubre). <em>UQ Communications adopt WiMAX Release 2.1 as the next-generation standard and offer «UQ WiMAX 2+ (provisional)»</em>. <a href="https://wbgsv0a.gigazine.net/gsc_news/en/20121031-uq-communications-wimax2">https://wbgsv0a.gigazine.net/gsc_news/en/20121031-uq-communications-wimax2</a></li>
+        <li>gori.me. (2018, 3 de septiembre). <em>UQ、「WiMAX」を2020年3月31日をもって終了、「WiMAX 2+」に切り替え</em> [UQ terminará «WiMAX» el 31 de marzo de 2020 y pasará a «WiMAX 2+»]. <a href="https://gori.me/it/109703">https://gori.me/it/109703</a></li>
+        <li>Guardian Nigeria. (s. f.). <em>Africa, Middle East offer best regional prospects for WiMAX</em>. <a href="https://guardian.ng/technology/tech/africa-middle-east-offer-best-regional-prospects-for-wimax/">https://guardian.ng/technology/tech/africa-middle-east-offer-best-regional-prospects-for-wimax/</a></li>
+        <li>IEEE 802.16 Working Group on Broadband Wireless Access Standards. (s. f.). <em>IEEE 802.16 Working Group on Broadband Wireless Access Standards</em>. IEEE 802 LAN/MAN Standards Committee. <a href="https://www.ieee802.org/16/">https://www.ieee802.org/16/</a> (citado como IEEE 802.16 WG)</li>
+        <li>Institute of Electrical and Electronics Engineers. (2004). <em>IEEE standard for local and metropolitan area networks—Part 16: Air interface for fixed broadband wireless access systems</em> (IEEE Std 802.16-2004). IEEE.</li>
+        <li>Institute of Electrical and Electronics Engineers. (2006). <em>IEEE standard for local and metropolitan area networks—Part 16: Air interface for fixed and mobile broadband wireless access systems—Amendment 2: Physical and medium access control layers for combined fixed and mobile operation in licensed bands</em> (IEEE Std 802.16e-2005). IEEE.</li>
+        <li>La Tercera. (2024, 21 de octubre). <em>FNE respalda a Entel para utilizar antigua banda de Wimax para 5G</em>. <a href="https://www.latercera.com/pulso/noticia/fne-respalda-a-entel-para-utilizar-antigua-banda-de-wimax-para-5g/TVRYVM53KJCQDK735BBWBZM4EE/">https://www.latercera.com/pulso/noticia/fne-respalda-a-entel-para-utilizar-antigua-banda-de-wimax-para-5g/TVRYVM53KJCQDK735BBWBZM4EE/</a></li>
+        <li>Light Reading. (2008, 24 de julio). <em>WiMax: What's working now</em>. <a href="https://www.lightreading.com/2g-3g-4g/wimax-what-s-working-now-659514">https://www.lightreading.com/2g-3g-4g/wimax-what-s-working-now-659514</a></li>
+        <li>Marks, R. B. (2017, 22 de febrero). <em>Curriculum vitae</em>. EthAirNet Associates. <a href="https://consensii.com/marks/Marks-CV.pdf">https://consensii.com/marks/Marks-CV.pdf</a></li>
+        <li>Microwaves &amp; RF. (s. f.). <em>Whatever happened to WiMAX?</em> <a href="https://www.mwrf.com/technologies/embedded/services/article/21846160/whatever-happened-to-wimax">https://www.mwrf.com/technologies/embedded/services/article/21846160/whatever-happened-to-wimax</a></li>
+        <li>Nuaymi, L. (2007). <em>WiMAX: Technology for broadband wireless access</em>. John Wiley &amp; Sons.</li>
+        <li>Silicon UK. (s. f.). <em>Tales in tech history: WiMax</em>. <a href="https://www.silicon.co.uk/networks/tales-tech-history-wimax-227889">https://www.silicon.co.uk/networks/tales-tech-history-wimax-227889</a></li>
+        <li>Sprint Corporation. (2014). <em>Form 10-K, fiscal year 2013</em>. U.S. Securities and Exchange Commission. <a href="https://www.sec.gov/Archives/edgar/data/0000101830/000010183014000012/sprintcorp201310-k.htm">https://www.sec.gov/Archives/edgar/data/0000101830/000010183014000012/sprintcorp201310-k.htm</a></li>
+        <li>Sprint Nextel. (2013, 9 de julio). <em>Sprint completes acquisition of Clearwire</em> [Comunicado de prensa, Formulario 8-K, Anexo 99.1]. U.S. Securities and Exchange Commission. <a href="https://www.sec.gov/Archives/edgar/data/0000101830/000119312513286106/d565289dex991.htm">https://www.sec.gov/Archives/edgar/data/0000101830/000119312513286106/d565289dex991.htm</a></li>
+        <li>Stop the Cap! (2014, 9 de abril). <em>Sprint will shut down Clear/4G WiMAX network by 2015; TD-LTE upgrade for most cell sites</em>. <a href="https://stopthecap.com/2014/04/09/sprint-will-shut-down-clear4g-wimax-network-by-2015-td-lte-upgrade-for-most-cell-sites/">https://stopthecap.com/2014/04/09/sprint-will-shut-down-clear4g-wimax-network-by-2015-td-lte-upgrade-for-most-cell-sites/</a></li>
+        <li>Telecombol. (2008, abril). <em>Entel ofrecerá la tecnología Wimax para todo el país</em>. Noticias de tecnología y telecomunicaciones. <a href="https://www.telecombol.com/2008/04/entel-ofrecer-la-tecnologa-wimax-para.html">https://www.telecombol.com/2008/04/entel-ofrecer-la-tecnologa-wimax-para.html</a></li>
+        <li>Telecoms.com. (2008a). <em>KT plots path for WiBro growth</em>. <a href="https://telecoms.com/3954/kt-plots-path-for-wibro-growth/">https://telecoms.com/3954/kt-plots-path-for-wibro-growth/</a></li>
+        <li>Telecoms.com. (2008b). <em>WiMAX heating up in Asia</em>. <a href="https://telecoms.com/opinion/wimax-heating-up-in-asia/">https://telecoms.com/opinion/wimax-heating-up-in-asia/</a></li>
+        <li>Telesemana. (2010, 26 de octubre). <em>Yota contrata a Bridgewater para despliegue de WiMAX en Latinoamérica</em>. <a href="https://www.telesemana.com/blog/2010/10/26/yota-contrata-a-bridgewater-para-despliegue-de-wimax-en-latinoamerica/">https://www.telesemana.com/blog/2010/10/26/yota-contrata-a-bridgewater-para-despliegue-de-wimax-en-latinoamerica/</a></li>
+        <li>TELETIME. (2007, 21 de agosto). <em>Encontro discute WiMAX na América Latina</em>. <a href="https://teletime.com.br/21/08/2007/encontro-discute-wimax-na-america-latina/">https://teletime.com.br/21/08/2007/encontro-discute-wimax-na-america-latina/</a></li>
+        <li>Wikipedia contributors. (s. f.-a). Entel (Bolivia). En <em>Wikipedia, the free encyclopedia</em>. <a href="https://en.wikipedia.org/wiki/Entel_(Bolivia)">https://en.wikipedia.org/wiki/Entel_(Bolivia)</a></li>
+        <li>Wikipedia contributors. (s. f.-b). WiBro. En <em>Wikipedia, the free encyclopedia</em>. <a href="https://en.wikipedia.org/wiki/WiBro">https://en.wikipedia.org/wiki/WiBro</a></li>
+        <li>WiMAX.com. (2010). <em>WiMax: 2010</em> [Blog]. <a href="https://wimaxcom.blogspot.com/2010/">https://wimaxcom.blogspot.com/2010/</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section class="sec" id="sobre-mi" style="--hl: var(--hl-mint)">
+    <div class="wrap">
+      <header class="sec-head reveal"><h2><span class="hd">Sobre mí</span></h2></header>
+      <div class="profile reveal">
+        <div class="avatar" id="avatar" aria-hidden="true">TN</div>
+        <div class="card">
+          <h3 data-f="alumno" style="font-size:1.5rem"></h3>
+          <p>Estudiante de <b data-f="carrera"></b> en <span data-f="instituto"></span>, <span data-f="curso"></span>.</p>
+          <p>Este blog reúne mis trabajos e investigaciones de <b data-f="materia"></b>, guiado por la docente <span data-f="docente"></span>.</p>
+          <p data-opt="sobreMi" data-f="sobreMi"></p>
+          <dl class="facts">
+            <div><dt>Nombre</dt><dd data-f="alumno"></dd></div>
+            <div><dt>Carrera</dt><dd data-f="carrera"></dd></div>
+            <div><dt>Instituto</dt><dd data-f="instituto"></dd></div>
+            <div><dt>Curso o semestre</dt><dd data-f="curso"></dd></div>
+            <div><dt>Materia</dt><dd data-f="materia"></dd></div>
+            <div><dt>Docente</dt><dd data-f="docente"></dd></div>
+            <div><dt>Gestión</dt><dd data-f="gestion"></dd></div>
+            <div data-opt="ciudad"><dt>Ciudad</dt><dd data-f="ciudad"></dd></div>
+            <div data-opt="correo"><dt>Correo</dt><dd data-f="correo"></dd></div>
+            <div data-opt="telefono"><dt>Teléfono</dt><dd data-f="telefono"></dd></div>
+          </dl>
+          <p style="margin-top:1.2rem"><b>Mis trabajos:</b> <a href="#datos">Investigación 01, Red WiMAX</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <strong>Ondas sin cable</strong>
+    <span>© <span data-f="gestion"></span> · <span data-f="alumno"></span> · <span data-f="instituto"></span></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  /* EDITA AQUÍ tus datos: se reemplazan automáticamente en todo el blog. */
+  var DATOS = {
+    alumno: "Tu nombre completo",
+    instituto: "INCOS El Alto",
+    carrera: "Tu carrera",
+    docente: "Nombre de tu docente",
+    curso: "Tu curso o semestre",
+    materia: "Redes de Computadoras I",
+    gestion: "2026",
+    ciudad: "",
+    correo: "",
+    telefono: "",
+    sobreMi: ""
+  };
+  $$("[data-f]").forEach(function (el) {
+    var k = el.getAttribute("data-f");
+    if (DATOS[k] && el.tagName !== "BUTTON") { el.textContent = DATOS[k]; }
+  });
+  $$("[data-opt]").forEach(function (el) {
+    if (!DATOS[el.getAttribute("data-opt")]) { el.hidden = true; }
+  });
+  var avatar = $("#avatar");
+  if (avatar) {
+    var ini = DATOS.alumno.split(/\s+/).filter(Boolean).slice(0, 2).map(function (w) { return w.charAt(0); }).join("").toUpperCase();
+    avatar.textContent = ini || "?";
+  }
+
+  /* Tema claro y oscuro */
+  var root = document.documentElement;
+  var themeBtn = $("#themeBtn");
+  function applyTheme(t) {
+    root.setAttribute("data-theme", t);
+    themeBtn.setAttribute("aria-pressed", t === "dark" ? "true" : "false");
+    themeBtn.textContent = t === "dark" ? "☀️" : "🌙";
+    themeBtn.setAttribute("aria-label", t === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+  }
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem("ondas-tema"); } catch (e) {}
+  var prefersDark = !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  applyTheme(savedTheme || (prefersDark ? "dark" : "light"));
+  themeBtn.addEventListener("click", function () {
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try { localStorage.setItem("ondas-tema", next); } catch (e) {}
+  });
+
+  /* Barra de progreso */
+  var bar = $("#progressBar");
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? h.scrollTop / max : 0;
+    bar.style.transform = "scaleX(" + Math.min(1, Math.max(0, p)) + ")";
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* Texto que se escribe */
+  var typed = $("#typed");
+  if (typed && !reduce) {
+    var full = typed.textContent;
+    typed.textContent = "";
+    var ti = 0;
+    var timer = setInterval(function () {
+      ti++;
+      typed.textContent = full.slice(0, ti);
+      if (ti >= full.length) { clearInterval(timer); }
+    }, 55);
+  }
+
+  /* Aparición al hacer scroll, contadores y barras */
+  function countTo(el) {
+    var to = parseFloat(el.getAttribute("data-to"));
+    if (reduce) { el.textContent = String(to); return; }
+    var start = null, dur = 1300;
+    function step(ts) {
+      if (start === null) { start = ts; }
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = String(Math.round(to * eased));
+      if (p < 1) { requestAnimationFrame(step); }
+    }
+    requestAnimationFrame(step);
+  }
+  function reveal(el) {
+    el.classList.add("in");
+    $$(".count", el).forEach(function (c) { if (!c.getAttribute("data-done")) { c.setAttribute("data-done", "1"); countTo(c); } });
+    $$(".bar i[data-w]", el).forEach(function (b) { b.style.width = b.getAttribute("data-w") + "%"; });
+  }
+  var revealEls = $$(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { reveal(en.target); io.unobserve(en.target); } });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(reveal);
+  }
+
+  /* Línea de tiempo */
+  var EVENTS = [
+    { y: "1998–99", t: "Nace el grupo 802.16", d: "El IEEE inicia y forma el grupo de trabajo sobre acceso inalámbrico de banda ancha en áreas metropolitanas. Roger Marks lo impulsó y luego lo presidió <span class='cite'>(Marks, 2017; IEEE 802.16 WG, s. f.)</span>." },
+    { y: "2001", t: "WiMAX Forum y primera norma", d: "En junio se forma el WiMAX Forum para certificar la compatibilidad entre equipos <span class='cite'>(Encyclopedia MDPI, 2022)</span>. En octubre queda completa la primera versión de 802.16, publicada el 8 de abril de 2002; funcionaba entre 10 y 66 GHz y exigía línea de vista <span class='cite'>(EBSCO, s. f.; Colaboradores de Wikipedia, s. f.-b)</span>." },
+    { y: "2003", t: "Clearwire", d: "Craig McCaw funda Clearwire, la empresa que más adelante operaría una de las mayores redes de WiMAX móvil de Estados Unidos <span class='cite'>(WiMAX.com, 2010)</span>." },
+    { y: "2004", t: "WiMAX fijo", d: "802.16-2004 añade la banda de 2 a 11 GHz y sube a 75 Mbps en teoría <span class='cite'>(EBSCO, s. f.; IEEE, 2004)</span>. En Corea, la primera fase de WiBro se estandariza a fines de 2004 <span class='cite'>(Wikipedia contributors, s. f.-b)</span>." },
+    { y: "2005", t: "WiMAX móvil", d: "En diciembre se aprueba 802.16e-2005, con movilidad y traspaso entre antenas <span class='cite'>(IEEE, 2006)</span>. A fines de 2005 la UIT recoge WiBro como IEEE 802.16e <span class='cite'>(Wikipedia contributors, s. f.-b)</span>." },
+    { y: "2006", t: "WiBro sale a la calle", d: "El 30 de junio, Corea del Sur lanza el servicio comercial de WiMAX móvil WiBro, con KT y SK Telecom en zonas de Seúl; KT prometía uso en movimiento hasta 120 km/h <span class='cite'>(EE Times, 2006)</span>. Ese año Sprint anuncia que basará su red móvil en WiMAX <span class='cite'>(EBSCO, s. f.)</span>." },
+    { y: "2007", t: "Todo Seúl y conferencia en Buenos Aires", d: "En abril KT amplía WiBro a toda el área de Seúl <span class='cite'>(Telecoms.com, 2008a)</span>. En Buenos Aires se realiza la conferencia Wimax 2007 sobre la tecnología en América Latina <span class='cite'>(TELETIME, 2007)</span>." },
+    { y: "Abr 2008", t: "Entel firma con Alcatel-Lucent", d: "Alcatel-Lucent informa del contrato con Entel para desplegar la primera red comercial de WiMAX en Bolivia <span class='cite'>(Telecombol, 2008)</span>." },
+    { y: "Jun 2008", t: "305 despliegues", d: "El WiMAX Forum estimaba 305 despliegues en 118 países, frente a 260 en 110 países en abril <span class='cite'>(Light Reading, 2008)</span>." },
+    { y: "Sep 2008", t: "Baltimore", d: "Sprint lanza WiMAX en Baltimore, con velocidades anunciadas de 2 a 4 Mbps. La red la construye y opera Clearwire <span class='cite'>(CIO Australia, 2014)</span>." },
+    { y: "Nov 2008", t: "El primer teléfono WiMAX", d: "El 12 de noviembre HTC presenta el Max 4G, disponible solo en Rusia, en la red Yota <span class='cite'>(Encyclopedia MDPI, 2022)</span>." },
+    { y: "2009", t: "UQ WiMAX en Japón", d: "UQ Communications inicia en febrero un servicio de prueba de WiMAX móvil y en julio el servicio oficial, con hasta 40 Mbps de bajada <span class='cite'>(ASCII.jp, 2020)</span>." },
+    { y: "2010", t: "EVO 4G y 559 despliegues", d: "El 23 de marzo sale el HTC EVO 4G <span class='cite'>(Encyclopedia MDPI, 2022)</span>. El WiMAX Forum contaba 559 despliegues en 147 países <span class='cite'>(WiMAX.com, 2010)</span>. Yota lanza WiMAX en Nicaragua y prepara Perú <span class='cite'>(Telesemana, 2010)</span>." },
+    { y: "2011", t: "WiMAX 2", d: "Se completa 802.16m, candidato a estándar 4G frente a LTE Advanced <span class='cite'>(Colaboradores de Wikipedia, s. f.-b)</span>." },
+    { y: "2012", t: "El giro hacia LTE", d: "En enero Sprint anuncia en el CES que dejará de ofrecer dispositivos WiMAX <span class='cite'>(Encyclopedia MDPI, 2022)</span>. En diciembre anuncia la compra de Clearwire <span class='cite'>(Sprint Nextel, 2013)</span>." },
+    { y: "2013", t: "Sprint compra Clearwire", d: "El 9 de julio Sprint completa la adquisición de Clearwire por unos 3.500 millones de dólares, para controlar su espectro de 2,5 GHz <span class='cite'>(Sprint Corporation, 2014)</span>." },
+    { y: "2014", t: "4G en Bolivia y fecha de apagado", d: "Entel incorpora LTE en La Paz, Cochabamba y Santa Cruz <span class='cite'>(Energía Bolivia, s. f.)</span>. Sprint confirma que apagará WiMAX alrededor del 6 de noviembre de 2015 <span class='cite'>(Fierce Network, 2014)</span>." },
+    { y: "2015", t: "Se apaga WiMAX en EE. UU.", d: "Sprint apaga su red WiMAX en torno al 6 de noviembre, fecha que había confirmado un año antes <span class='cite'>(Fierce Network, 2014)</span>. El 7 de octubre el IEEE disuelve el grupo de trabajo 802.16 <span class='cite'>(IEEE 802.16 WG, s. f.)</span>." },
+    { y: "2018", t: "Adiós a WiBro", d: "WiBro se cierra oficialmente a fines de 2018 en Corea del Sur <span class='cite'>(Wikipedia contributors, s. f.-b)</span>. En marzo se publica IEEE 802.16-2017 <span class='cite'>(IEEE 802.16 WG, s. f.)</span>." },
+    { y: "2020", t: "UQ apaga el WiMAX original", d: "El 31 de marzo UQ termina el servicio original de WiMAX, tras 11 años, y sigue con WiMAX 2+ <span class='cite'>(ASCII.jp, 2020; gori.me, 2018)</span>." }
+  ];
+  var tlStrip = $("#tlStrip"), tlPanel = $("#tlPanel"), tlCount = $("#tlCount"), tlMeter = $("#tlMeter");
+  var tlPrev = $("#tlPrev"), tlNext = $("#tlNext"), tlIdx = 0, tlBtns = [];
+  EVENTS.forEach(function (e, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "tl-year"; b.id = "tl-tab-" + i;
+    b.setAttribute("role", "tab"); b.setAttribute("aria-controls", "tlPanel");
+    b.setAttribute("aria-selected", "false"); b.tabIndex = -1;
+    b.textContent = e.y;
+    b.addEventListener("click", function () { showEvent(i, false); });
+    tlStrip.appendChild(b); tlBtns.push(b);
+  });
+  function showEvent(i, focus) {
+    tlIdx = i;
+    var e = EVENTS[i];
+    tlBtns.forEach(function (b, k) {
+      var on = k === i;
+      b.setAttribute("aria-selected", on ? "true" : "false");
+      b.tabIndex = on ? 0 : -1;
+    });
+    tlPanel.setAttribute("aria-labelledby", "tl-tab-" + i);
+    tlPanel.innerHTML = "<p class='big'>" + e.y + "</p><h3>" + e.t + "</h3><p>" + e.d + "</p>";
+    tlPanel.classList.remove("swap"); void tlPanel.offsetWidth; tlPanel.classList.add("swap");
+    tlCount.textContent = (i + 1) + " de " + EVENTS.length;
+    tlMeter.style.width = ((i + 1) / EVENTS.length * 100) + "%";
+    tlPrev.disabled = i === 0; tlNext.disabled = i === EVENTS.length - 1;
+    var btn = tlBtns[i];
+    tlStrip.scrollTo({ left: btn.offsetLeft - (tlStrip.clientWidth - btn.offsetWidth) / 2, behavior: reduce ? "auto" : "smooth" });
+    if (focus) { btn.focus({ preventScroll: true }); }
+  }
+  tlPrev.addEventListener("click", function () { if (tlIdx > 0) { showEvent(tlIdx - 1, false); } });
+  tlNext.addEventListener("click", function () { if (tlIdx < EVENTS.length - 1) { showEvent(tlIdx + 1, false); } });
+  tlStrip.addEventListener("keydown", function (ev) {
+    if (ev.key === "ArrowRight" && tlIdx < EVENTS.length - 1) { ev.preventDefault(); showEvent(tlIdx + 1, true); }
+    if (ev.key === "ArrowLeft" && tlIdx > 0) { ev.preventDefault(); showEvent(tlIdx - 1, true); }
+    if (ev.key === "Home") { ev.preventDefault(); showEvent(0, true); }
+    if (ev.key === "End") { ev.preventDefault(); showEvent(EVENTS.length - 1, true); }
+  });
+  tlStrip.style.position = "relative";
+  showEvent(0, false);
+
+  /* Tarjetas que voltean */
+  var PEOPLE = [
+    { n: "Roger B. Marks", r: "Presidente del grupo IEEE 802.16", e: "🧑‍🔬", c: "f-yellow", b: "Inició el grupo de trabajo y fue elegido presidente diez veces. Dirigió el desarrollo de 802.16 y logró que la UIT lo reconociera como IMT-2000 e IMT-Advanced. <span class='cite'>(Marks, 2017)</span>" },
+    { n: "Craig McCaw", r: "Fundador de Clearwire", e: "📶", c: "f-pink", b: "Pionero de la telefonía celular. Fundó Clearwire, que esperaba cubrir 120 millones de personas con su red 4G a fines de 2010. <span class='cite'>(WiMAX.com, 2010)</span>" },
+    { n: "Ron Resnick", r: "Presidente del WiMAX Forum", e: "🏛️", c: "f-blue", b: "Presidió el WiMAX Forum en los años en que la organización redujo su personal, cuando el mercado se movía hacia LTE. <span class='cite'>(WiMAX.com, 2010)</span>" },
+    { n: "Takashi Tanaka", r: "Líder de UQ Communications", e: "🇯🇵", c: "f-mint", b: "Cuando UQ lanzó WiMAX en Japón, la dirigía Takashi Tanaka, quien luego llegaría a presidente y presidente del directorio de KDDI. <span class='cite'>(ASCII.jp, 2020)</span>" },
+    { n: "Kitae Lee", r: "Presidente de la división de telecomunicaciones de Samsung", e: "🇰🇷", c: "f-lilac", b: "En 2006, durante una demostración de WiBro en Turín con Telecom Italia, aseguró que Samsung llegaría a 20–30 Mbit/s ese año y a más de 100 Mbit/s en 2008. <span class='cite'>(Wikipedia contributors, s. f.-b)</span>" },
+    { n: "Rizwan Tiwana", r: "Director técnico de Wateen Telecom", e: "🇵🇰", c: "f-yellow", b: "Contó que Wateen ya tenía WiMAX móvil en 22 ciudades de Pakistán, con equipos de Motorola en la banda de 3,5 GHz. <span class='cite'>(Telecoms.com, 2008b)</span>" },
+    { n: "Víctor Agnellini", r: "Presidente de Alcatel-Lucent para Latinoamérica y el Caribe", e: "🤝", c: "f-pink", b: "Al anunciar el contrato con Entel dijo que WiMAX permitía introducir con rapidez y bajo costo internet de banda ancha y telefonía de voz por IP. <span class='cite'>(Telecombol, 2008)</span>" },
+    { n: "Mauricio Cáceres", r: "Gerente de Tecnologías de Entel (2008)", e: "🇧🇴", c: "f-mint", b: "Explicó a la prensa boliviana que las antenas ya estaban instaladas en las capitales de los nueve departamentos. <span class='cite'>(Telecombol, 2008)</span>" }
+  ];
+  var flipGrid = $("#flipGrid");
+  PEOPLE.forEach(function (p, i) {
+    var w = document.createElement("article");
+    w.className = "flip";
+    w.innerHTML =
+      "<div class='flip-inner'>" +
+        "<div class='flip-face flip-front " + p.c + "'><span class='emo' aria-hidden='true'>" + p.e + "</span><h3>" + p.n + "</h3><p class='role'>" + p.r + "</p>" +
+        "<button type='button' class='btn' aria-pressed='false'>Voltear</button></div>" +
+        "<div class='flip-face flip-back' aria-hidden='true'><p>" + p.b + "</p>" +
+        "<button type='button' class='btn alt' aria-pressed='true' tabindex='-1'>Volver</button></div>" +
+      "</div>";
+    var front = w.querySelector(".flip-front"), back = w.querySelector(".flip-back");
+    var bf = front.querySelector("button"), bb = back.querySelector("button");
+    function set(flipped) {
+      w.classList.toggle("is-flipped", flipped);
+      front.setAttribute("aria-hidden", flipped ? "true" : "false");
+      back.setAttribute("aria-hidden", flipped ? "false" : "true");
+      bf.tabIndex = flipped ? -1 : 0; bb.tabIndex = flipped ? 0 : -1;
+      (flipped ? bb : bf).focus({ preventScroll: true });
+    }
+    bf.addEventListener("click", function () { set(true); });
+    bb.addEventListener("click", function () { set(false); });
+    flipGrid.appendChild(w);
+  });
+
+  /* Simulador de cobertura */
+  var MODES = { fijo: { max: 50, top: 75, rmax: 60, step: 1 }, movil: { max: 3.5, top: 40, rmax: 5, step: 0.1 } };
+  var TIERS = [
+    { n: "64-QAM", eff: 1, bars: 4, s: "Excelente" },
+    { n: "16-QAM", eff: 0.66, bars: 3, s: "Buena" },
+    { n: "QPSK 3/4", eff: 0.35, bars: 2, s: "Regular" },
+    { n: "QPSK 1/2 o BPSK", eff: 0.12, bars: 1, s: "Débil" },
+    { n: "Sin servicio", eff: 0, bars: 0, s: "Fuera de cobertura" }
+  ];
+  var mode = "fijo";
+  var range = $("#simRange"), kmOut = $("#simKm"), obst = $("#simObst");
+  var mFijo = $("#modeFijo"), mMovil = $("#modeMovil");
+  var zs = [$("#z1"), $("#z2"), $("#z3"), $("#z4")];
+  var marker = $("#marker");
+  function fmtKm(v) { return String(v).replace(".", ",") + " km"; }
+  function updateSim() {
+    var m = MODES[mode];
+    var d = parseFloat(range.value);
+    var f = obst.checked ? 2 : 1;
+    var r = (d / m.max) * f;
+    var ti = r <= 0.25 ? 0 : r <= 0.5 ? 1 : r <= 0.75 ? 2 : r <= 1 ? 3 : 4;
+    var t = TIERS[ti];
+    var sp = m.top * t.eff;
+    kmOut.textContent = fmtKm(d);
+    $("#outMod").textContent = t.n;
+    $("#outSpeed").textContent = ti === 4 ? "0 Mbps" : (sp >= 10 ? Math.round(sp) : sp.toFixed(1).replace(".", ",")) + " Mbps";
+    $("#outState").textContent = t.s;
+    $("#outSigTxt").textContent = t.s;
+    $$("#outSig i").forEach(function (b, k) { b.className = k < t.bars ? "on" : ""; });
+    var bounds = [0.25, 0.5, 0.75, 1].map(function (b) { return m.max * b / f; });
+    var prev = 0;
+    zs.forEach(function (z, k) {
+      var w = Math.max(0, Math.min(bounds[k], m.rmax) - prev) / m.rmax * 100;
+      z.style.width = w + "%";
+      prev = Math.max(prev, Math.min(bounds[k], m.rmax));
+    });
+    marker.style.left = (d / m.rmax * 100) + "%";
+  }
+  function setMode(k) {
+    mode = k;
+    var m = MODES[k];
+    range.max = m.rmax; range.step = m.step;
+    range.value = k === "fijo" ? 10 : 1;
+    mFijo.setAttribute("aria-pressed", k === "fijo" ? "true" : "false");
+    mMovil.setAttribute("aria-pressed", k === "movil" ? "true" : "false");
+    updateSim();
+  }
+  mFijo.addEventListener("click", function () { setMode("fijo"); });
+  mMovil.addEventListener("click", function () { setMode("movil"); });
+  range.addEventListener("input", updateSim);
+  obst.addEventListener("change", updateSim);
+  setMode("fijo");
+
+  /* Mapa esquemático */
+  var svg = $("#mapSvg"), gr = "";
+  var lon, lat;
+  for (lon = -180; lon <= 180; lon += 30) { gr += "<line class='grat' x1='" + ((lon + 180) / 360 * 800) + "' y1='0' x2='" + ((lon + 180) / 360 * 800) + "' y2='400'/>"; }
+  for (lat = -60; lat <= 60; lat += 30) { gr += "<line class='grat" + (lat === 0 ? " eq" : "") + "' x1='0' y1='" + ((90 - lat) / 180 * 400) + "' x2='800' y2='" + ((90 - lat) / 180 * 400) + "'/>"; }
+  svg.innerHTML = gr;
+  var PINS = [
+    { id: "seul", n: "Seúl", lon: 127, lat: 37.5, c: "pink", h: "Corea del Sur: WiBro", t: "El 30 de junio de 2006 KT y SK Telecom lanzaron el servicio comercial de WiMAX móvil WiBro en zonas de Seúl <span class='cite'>(EE Times, 2006)</span>. Operaba en 2,3 GHz y se cerró oficialmente a fines de 2018 <span class='cite'>(Wikipedia contributors, s. f.-b)</span>." },
+    { id: "tokio", n: "Tokio", lon: 139.7, lat: 35.7, c: "blue", h: "Japón: UQ WiMAX", t: "UQ Communications ofreció WiMAX móvil desde 2009 y apagó el servicio original el 31 de marzo de 2020, cuando quedó WiMAX 2+ <span class='cite'>(ASCII.jp, 2020)</span>." },
+    { id: "kl", n: "Kuala Lumpur", lon: 101.7, lat: 3.1, c: "yellow", h: "Malasia: YTL Communications", t: "YTL Communications figura entre los clientes asiáticos de WiMAX de Samsung <span class='cite'>(WiMAX.com, 2010)</span>." },
+    { id: "moscu", n: "Moscú", lon: 37.6, lat: 55.8, c: "mint", h: "Rusia: Yota y Comstar UTS", t: "En la red Yota salió el primer teléfono WiMAX, el HTC Max 4G, en 2008 <span class='cite'>(Encyclopedia MDPI, 2022)</span>. Comstar UTS desplegaba una red móvil 802.16e en la zona de Moscú <span class='cite'>(Light Reading, 2008)</span>." },
+    { id: "baltimore", n: "Baltimore", lon: -76.6, lat: 39.3, c: "lilac", h: "Estados Unidos: Baltimore", t: "Sprint lanzó allí WiMAX en septiembre de 2008 con velocidades anunciadas de 2 a 4 Mbps. La red la operaba Clearwire <span class='cite'>(CIO Australia, 2014)</span>. Se apagó en torno al 6 de noviembre de 2015 <span class='cite'>(Fierce Network, 2014)</span>." },
+    { id: "delhi", n: "Nueva Delhi", lon: 77.2, lat: 28.6, c: "pink", h: "India: BSNL, Tata y Reliance", t: "BSNL tenía servicios 802.16-2004 a 3,3 GHz en diez ciudades; Tata buscaba 1.000 estaciones base y Reliance desplegaba WiMAX fijo <span class='cite'>(Telecoms.com, 2008b)</span>." },
+    { id: "islamabad", n: "Islamabad", lon: 73.1, lat: 33.7, c: "blue", h: "Pakistán: Wateen Telecom", t: "Wateen llegó a WiMAX móvil en 22 ciudades a 3,5 GHz con equipos de Motorola <span class='cite'>(Telecoms.com, 2008b)</span>." },
+    { id: "abuja", n: "Nigeria", lon: 7.5, lat: 9.1, c: "yellow", h: "Nigeria: Mobitel", t: "Mobitel obtuvo una licencia de 2,3 GHz y anunció que lanzaría servicios sobre una plataforma WiMAX <span class='cite'>(Guardian Nigeria, s. f.)</span>." },
+    { id: "nairobi", n: "Kenia y África", lon: 36.8, lat: -1.3, c: "mint", h: "África: Safaricom, MTN y Orange", t: "Grandes operadores africanos usaron WiMAX, aunque a fines de 2009 había 192.400 abonados WiMAX en África frente a 6,2 millones de conexiones 3,5G o más <span class='cite'>(Guardian Nigeria, s. f.)</span>." },
+    { id: "managua", n: "Managua", lon: -86.3, lat: 12.1, c: "lilac", h: "Nicaragua: Yota", t: "Yota lanzó en julio de 2010 la primera red WiMAX móvil del país y preparaba su despliegue en Perú <span class='cite'>(Telesemana, 2010)</span>." },
+    { id: "saopaulo", n: "São Paulo", lon: -46.6, lat: -23.5, c: "pink", h: "Brasil: Brasil Telecom", t: "Desplegaba WiMAX 802.16e en São Paulo, Curitiba y Porto Alegre <span class='cite'>(Light Reading, 2008)</span>." },
+    { id: "santiago", n: "Santiago", lon: -70.7, lat: -33.4, c: "blue", h: "Chile: la banda de 3,5 GHz", t: "Las bandas de 3,5 GHz se concesionaron entre 2001 y 2007 para WiMAX; hoy el regulador discute su uso para 5G <span class='cite'>(La Tercera, 2024)</span>." },
+    { id: "lapaz", n: "La Paz", lon: -68.1, lat: -16.5, c: "yellow", h: "Bolivia: Entel y AXS", t: "Entel firmó en 2008 el contrato para la primera red comercial de WiMAX del país y ofreció «Wimax Premium» en La Paz, a 3,5 GHz <span class='cite'>(Telecombol, 2008; Entel, s. f.-b)</span>." }
+  ];
+  var mapPins = $("#mapPins"), mapChips = $("#mapChips"), mapInfo = $("#mapInfo");
+  var pinEls = {}, chipEls = {};
+  function selectPin(id) {
+    var p = PINS.filter(function (x) { return x.id === id; })[0];
+    Object.keys(pinEls).forEach(function (k) {
+      pinEls[k].setAttribute("aria-pressed", k === id ? "true" : "false");
+      chipEls[k].setAttribute("aria-pressed", k === id ? "true" : "false");
+    });
+    mapInfo.innerHTML = "<h3>" + p.h + "</h3><p>" + p.t + "</p>";
+    mapInfo.classList.remove("swap"); void mapInfo.offsetWidth; mapInfo.classList.add("swap");
+  }
+  PINS.forEach(function (p) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "pin c-" + p.c;
+    b.style.left = ((p.lon + 180) / 360 * 100) + "%";
+    b.style.top = ((90 - p.lat) / 180 * 100) + "%";
+    b.setAttribute("aria-label", p.n); b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", function () { selectPin(p.id); });
+    mapPins.appendChild(b); pinEls[p.id] = b;
+    var c = document.createElement("button");
+    c.type = "button"; c.textContent = p.n; c.setAttribute("aria-pressed", "false");
+    c.addEventListener("click", function () { selectPin(p.id); });
+    mapChips.appendChild(c); chipEls[p.id] = c;
+  });
+
+  /* Pestañas de Bolivia */
+  (function () {
+    var box = $("#bolTabs");
+    var tabs = $$("[role=tab]", box);
+    function sel(i, focus) {
+      tabs.forEach(function (t, k) {
+        var on = k === i;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.tabIndex = on ? 0 : -1;
+        var pnl = document.getElementById(t.getAttribute("aria-controls"));
+        pnl.hidden = !on;
+      });
+      if (focus) { tabs[i].focus(); }
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { sel(i, false); });
+      t.addEventListener("keydown", function (ev) {
+        if (ev.key === "ArrowRight") { ev.preventDefault(); sel((i + 1) % tabs.length, true); }
+        if (ev.key === "ArrowLeft") { ev.preventDefault(); sel((i - 1 + tabs.length) % tabs.length, true); }
+      });
+    });
+  })();
+
+  /* Filtro de empresas */
+  (function () {
+    var chips = $$("#empChips button");
+    var rows = $$("#empBody tr");
+    var q = $("#empSearch"), out = $("#empCount");
+    var active = "todas";
+    function apply() {
+      var term = q.value.trim().toLowerCase();
+      var n = 0;
+      rows.forEach(function (r) {
+        var ok = active === "todas" || r.getAttribute("data-tipo") === active || (active === "bolivia" && r.getAttribute("data-bolivia") === "1");
+        if (ok && term) { ok = r.textContent.toLowerCase().indexOf(term) > -1; }
+        r.hidden = !ok;
+        if (ok) { n++; }
+      });
+      out.textContent = n + (n === 1 ? " empresa" : " empresas");
+    }
+    chips.forEach(function (c) {
+      c.addEventListener("click", function () {
+        active = c.getAttribute("data-f");
+        chips.forEach(function (x) { x.setAttribute("aria-pressed", x === c ? "true" : "false"); });
+        apply();
+      });
+    });
+    q.addEventListener("input", apply);
+    apply();
+  })();
+
+  /* Quiz */
+  (function () {
+    var Q = [
+      { q: "¿Qué familia de estándares del IEEE es la base de WiMAX?", o: ["IEEE 802.3", "IEEE 802.11", "IEEE 802.16", "IEEE 802.15"], a: 2, e: "WiMAX se basa en IEEE 802.16. IEEE 802.11 es la base de Wi-Fi." },
+      { q: "¿Qué versión añadió movilidad y traspaso entre antenas?", o: ["802.16 de 2001", "802.16-2004", "802.16e-2005", "802.16-2017"], a: 2, e: "802.16e-2005 es el WiMAX móvil. 802.16-2004 era el WiMAX fijo." },
+      { q: "¿En qué banda ofreció Entel su servicio WiMAX en Bolivia?", o: ["900 MHz", "2,4 GHz", "3,5 GHz", "5,8 GHz"], a: 2, e: "Los términos y condiciones de Entel indican la banda de 3,5 GHz." },
+      { q: "¿Qué país lanzó WiBro comercialmente el 30 de junio de 2006?", o: ["Japón", "Corea del Sur", "Rusia", "Estados Unidos"], a: 1, e: "KT y SK Telecom lanzaron WiBro en Corea del Sur." },
+      { q: "¿Qué empresa apagó su red WiMAX en torno al 6 de noviembre de 2015?", o: ["Sprint", "Yota", "Entel", "UQ Communications"], a: 0, e: "Sprint confirmó esa fecha un año antes. UQ apagó el WiMAX original en 2020." },
+      { q: "¿Cuál fue el primer teléfono con WiMAX?", o: ["HTC Evo 4G", "HTC Max 4G", "Samsung Galaxy S III", "iPhone 4"], a: 1, e: "El HTC Max 4G, presentado el 12 de noviembre de 2008, solo en Rusia con Yota." }
+    ];
+    var box = $("#quizBox"), i = 0, score = 0;
+    function render() {
+      if (i >= Q.length) {
+        var msg = score === Q.length ? "¡Perfecto!" : score >= 4 ? "¡Muy bien!" : "Repasa las secciones y vuelve a intentarlo.";
+        box.innerHTML = "<p class='score'>" + score + " de " + Q.length + "</p><p>" + msg + "</p><button type='button' class='btn' id='qAgain'>Jugar de nuevo</button>";
+        $("#qAgain").addEventListener("click", function () { i = 0; score = 0; render(); });
+        return;
+      }
+      var q = Q[i];
+      var h = "<div class='qmeter' aria-hidden='true'><i style='width:" + (i / Q.length * 100) + "%'></i></div>" +
+        "<p class='cite' style='margin:0 0 .3rem'>Pregunta " + (i + 1) + " de " + Q.length + "</p><h3>" + q.q + "</h3><div class='opts'>";
+      q.o.forEach(function (o, k) { h += "<button type='button' class='opt' data-k='" + k + "'>" + o + "</button>"; });
+      h += "</div><p class='fb' aria-live='polite'></p><button type='button' class='btn' id='qNext' hidden>" + (i === Q.length - 1 ? "Ver resultado" : "Siguiente") + "</button>";
+      box.innerHTML = h;
+      $$(".opt", box).forEach(function (b) {
+        b.addEventListener("click", function () {
+          var k = parseInt(b.getAttribute("data-k"), 10);
+          var ok = k === q.a;
+          if (ok) { score++; }
+          $$(".opt", box).forEach(function (x, idx) {
+            x.disabled = true;
+            if (idx === q.a) { x.classList.add("ok"); }
+            else if (x === b) { x.classList.add("bad"); }
+          });
+          $(".fb", box).textContent = (ok ? "¡Correcto! " : "No exactamente. ") + q.e;
+          var nx = $("#qNext");
+          nx.hidden = false; nx.focus();
+          nx.addEventListener("click", function () { i++; render(); });
+        });
+      });
+    }
+    render();
+  })();
+})();
+</script>
+</body>
+</html>

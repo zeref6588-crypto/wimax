@@ -1302,6 +1302,17 @@
     </div>
   </section>
 
+  <!-- QUIZ -->
+  <section class="sec" id="quiz" style="--hl: var(--hl-yellow)">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <h2><span class="hd">Ponte a prueba</span></h2>
+        <p>Seis preguntas con lo que leíste en esta página. Puedes responder con el ratón o pulsando las teclas 1 a 4.</p>
+      </header>
+      <div class="card quiz" id="quizBox"></div>
+    </div>
+  </section>
+
   <!-- GLOSARIO -->
   <section class="sec" id="glosario" style="--hl: var(--hl-lilac)">
     <div class="wrap">
@@ -1813,6 +1824,7 @@
       { q: "¿Cuál fue el primer teléfono con WiMAX?", o: ["HTC Evo 4G", "HTC Max 4G", "Samsung Galaxy S III", "iPhone 4"], a: 1, e: "El HTC Max 4G, presentado el 12 de noviembre de 2008, solo en Rusia con Yota." }
     ];
     var box = $("#quizBox"), i = 0, score = 0;
+    if (!box) { return; }
     function render() {
       if (i >= Q.length) {
         var msg = score === Q.length ? "¡Perfecto!" : score >= 4 ? "¡Muy bien!" : "Repasa las secciones y vuelve a intentarlo.";

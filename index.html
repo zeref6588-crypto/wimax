@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
-<meta name="description" content="Blog de Redes de Computadoras I sobre WiMAX (IEEE 802.16): historia interactiva, cómo funciona, simulador de cobertura, mapa de despliegues, galería de fotos, WiMAX en Bolivia, quiz y referencias APA.">
+<meta name="description" content="Blog de Redes de Computadoras I sobre WiMAX (IEEE 802.16): historia interactiva, cómo funciona, simulador de cobertura, mapa de despliegues, galería de fotos, WiMAX en Bolivia y referencias APA.">
 <meta name="author" content="Juan Daniel Mamani Coro">
 <meta name="keywords" content="WiMAX, IEEE 802.16, WiBro, 802.16e, banda ancha inalámbrica, OFDMA, redes de computadoras, Entel, Bolivia">
 <meta name="robots" content="index, follow">
@@ -22,7 +22,7 @@
 <meta property="og:description" content="Historia interactiva, simulador de cobertura, mapa de despliegues, galería de fotos y referencias APA sobre WiMAX.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ondas sin cable · WiMAX (IEEE 802.16)">
-<meta name="twitter:description" content="Historia, simulador de cobertura, mapa, galería de fotos y quiz sobre WiMAX.">
+<meta name="twitter:description" content="Historia, simulador de cobertura, mapa, galería de fotos y referencias sobre WiMAX.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='24'%20fill='%23ffd84a'/%3E%3Cpath%20d='M22%2046a28%2028%200%200%201%2056%200'%20fill='none'%20stroke='%23ff4f93'%20stroke-width='8'/%3E%3Ccircle%20cx='50'%20cy='46'%20r='9'%20fill='%230b1030'/%3E%3Cpath%20d='M50%2055v31M38%2088h24M50%2066l10%2014M50%2066l-10%2014'%20fill='none'%20stroke='%230b1030'%20stroke-width='8'%20stroke-linecap='round'/%3E%3C/svg%3E">
 <script type="application/ld+json">
 {
@@ -342,20 +342,6 @@
   .why .card:nth-child(4) { background: var(--hl-yellow); }
   .why .card { color: var(--ink); }
 
-  /* Quiz */
-  .quiz { max-width: 44rem; }
-  .quiz h3 { font-size: 1.2rem; line-height: 1.35; }
-  .quiz .opts { display: grid; gap: .7rem; margin: 1rem 0; }
-  .quiz .opt { text-align: left; font: inherit; font-weight: 700; border: 3px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 14px; padding: .7rem 1rem; cursor: pointer; box-shadow: 3px 3px 0 var(--shadow-c); }
-  .quiz .opt:hover:not([disabled]) { background: var(--hl-yellow); }
-  .quiz .opt.ok { background: var(--mint); color: #0b1030; }
-  .quiz .opt.bad { background: var(--pink); color: #0b1030; animation: shake .4s; }
-  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
-  .quiz .fb { min-height: 3rem; font-weight: 500; }
-  .quiz .score { font-family: var(--display); font-weight: 900; font-size: clamp(2rem, 6vw, 3rem); margin: 0 0 .5rem; }
-  .qmeter { height: 12px; border: 3px solid var(--line); border-radius: 999px; overflow: hidden; margin-bottom: 1rem; background: var(--surface); }
-  .qmeter i { display: block; height: 100%; width: 0; background: var(--blue); transition: width .35s; }
-
   /* Referencias */
   ol.refs { list-style: none; padding: 0; margin: 1rem 0 0; max-width: 78ch; }
   ol.refs li { padding-left: 2rem; text-indent: -2rem; margin-bottom: .85rem; overflow-wrap: anywhere; font-size: .98rem; }
@@ -596,15 +582,9 @@
   .toast { position: fixed; left: 50%; bottom: 1.2rem; transform: translateX(-50%) translateY(1.5rem); z-index: 96; background: var(--ink); color: var(--bg); border: 3px solid var(--line); border-radius: 999px; padding: .5rem 1.1rem; font-weight: 700; font-size: .9rem; opacity: 0; transition: opacity .25s, transform .25s; pointer-events: none; max-width: 90vw; text-align: center; }
   .toast.on { opacity: 1; transform: translateX(-50%); }
 
-  /* Confeti del quiz */
-  .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 80; overflow: hidden; }
-  .confetti i { position: absolute; top: -2rem; width: .7rem; height: 1rem; border: 2px solid var(--line); border-radius: 3px; animation: fall linear forwards; }
-  @keyframes fall { to { transform: translateY(108vh) rotate(540deg); } }
-
-  /* Utilidades de las referencias y el quiz */
+  /* Utilidades de las referencias */
   .copyref { font-family: var(--display); font-size: .62rem; font-weight: 700; border: 2px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: .05rem .5rem; cursor: pointer; margin-left: .35rem; vertical-align: .12rem; }
   .copyref:hover { background: var(--mint); }
-  .best { font-weight: 700; color: var(--muted); }
 
   /* Pie de página ampliado */
   footer.site .wrap { align-items: flex-start; }
@@ -619,7 +599,7 @@
   .foot-legal .btn.alt { background: var(--surface); color: var(--ink); }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero::before, .hero::after, .stage .s-dash, .sc-grid i.pulse, .confetti i, .photo .shot, .hot[aria-pressed="true"]::after { animation: none !important; }
+    .hero::before, .hero::after, .stage .s-dash, .sc-grid i.pulse, .photo .shot, .hot[aria-pressed="true"]::after { animation: none !important; }
     .photo, .photo:nth-child(3n+1), .photo:nth-child(3n+2), .polaroid-hero { transform: none; }
     .sc-grid i, .vs-track i, .toast { transition: none; }
   }
@@ -692,7 +672,7 @@
   </div>
 </header>
 
-<noscript><div class="wrap"><div class="card">Activa JavaScript para ver la línea de tiempo, el simulador, el mapa, el visor de fotos, el visualizador de tráfico, el comparador y el quiz. Las fotos, el texto y las referencias se leen igual sin JavaScript.</div></div></noscript>
+<noscript><div class="wrap"><div class="card">Activa JavaScript para ver la línea de tiempo, el simulador, el mapa, el visor de fotos, el visualizador de tráfico y el comparador. Las fotos, el texto y las referencias se leen igual sin JavaScript.</div></div></noscript>
 
 <main id="contenido">
 
@@ -716,7 +696,7 @@
       <nav class="index reveal" aria-label="Contenido de la investigación 01">
         <strong>Dentro de la investigación 01</strong>
         <div>
-          <a href="#datos">Datos</a><a href="#historia">Historia</a><a href="#personajes">Personajes</a><a href="#funcionamiento">Cómo funciona</a><a href="#qosviz">Tráfico y QoS</a><a href="#anatomia">Anatomía</a><a href="#cobertura">Cobertura</a><a href="#mapa">Mapa</a><a href="#galeria">Galería de fotos</a><a href="#bolivia">Bolivia</a><a href="#empresas">Empresas</a><a href="#legado">Legado</a><a href="#vs">Comparador</a><a href="#vida">Línea de vida</a><a href="#quiz">Quiz</a><a href="#glosario">Glosario</a><a href="#referencias">Referencias</a>
+          <a href="#datos">Datos</a><a href="#historia">Historia</a><a href="#personajes">Personajes</a><a href="#funcionamiento">Cómo funciona</a><a href="#qosviz">Tráfico y QoS</a><a href="#anatomia">Anatomía</a><a href="#cobertura">Cobertura</a><a href="#mapa">Mapa</a><a href="#galeria">Galería de fotos</a><a href="#bolivia">Bolivia</a><a href="#empresas">Empresas</a><a href="#legado">Legado</a><a href="#vs">Comparador</a><a href="#vida">Línea de vida</a><a href="#glosario">Glosario</a><a href="#referencias">Referencias</a>
         </div>
       </nav>
     </div>
@@ -1302,17 +1282,6 @@
     </div>
   </section>
 
-  <!-- QUIZ -->
-  <section class="sec" id="quiz" style="--hl: var(--hl-yellow)">
-    <div class="wrap">
-      <header class="sec-head reveal">
-        <h2><span class="hd">Ponte a prueba</span></h2>
-        <p>Seis preguntas con lo que leíste en esta página. Puedes responder con el ratón o pulsando las teclas 1 a 4.</p>
-      </header>
-      <div class="card quiz" id="quizBox"></div>
-    </div>
-  </section>
-
   <!-- GLOSARIO -->
   <section class="sec" id="glosario" style="--hl: var(--hl-lilac)">
     <div class="wrap">
@@ -1418,7 +1387,7 @@
       <p class="foot-tag">Blog de investigación sobre WiMAX (IEEE 802.16) · <span data-f="materia"></span></p>
     </div>
     <nav class="foot-nav" aria-label="Enlaces del pie de página">
-      <a href="#datos">Datos</a><a href="#historia">Historia</a><a href="#funcionamiento">Cómo funciona</a><a href="#mapa">Mapa</a><a href="#galeria">Galería</a><a href="#bolivia">Bolivia</a><a href="#quiz">Quiz</a><a href="#glosario">Glosario</a><a href="#referencias">Referencias</a>
+      <a href="#datos">Datos</a><a href="#historia">Historia</a><a href="#funcionamiento">Cómo funciona</a><a href="#mapa">Mapa</a><a href="#galeria">Galería</a><a href="#bolivia">Bolivia</a><a href="#glosario">Glosario</a><a href="#referencias">Referencias</a>
     </nav>
     <div class="foot-legal">
       <span>© <span data-f="gestion"></span> · <span data-f="alumno"></span> · <span data-f="instituto"></span></span>
@@ -1813,51 +1782,6 @@
     apply();
   })();
 
-  /* Quiz */
-  (function () {
-    var Q = [
-      { q: "¿Qué familia de estándares del IEEE es la base de WiMAX?", o: ["IEEE 802.3", "IEEE 802.11", "IEEE 802.16", "IEEE 802.15"], a: 2, e: "WiMAX se basa en IEEE 802.16. IEEE 802.11 es la base de Wi-Fi." },
-      { q: "¿Qué versión añadió movilidad y traspaso entre antenas?", o: ["802.16 de 2001", "802.16-2004", "802.16e-2005", "802.16-2017"], a: 2, e: "802.16e-2005 es el WiMAX móvil. 802.16-2004 era el WiMAX fijo." },
-      { q: "¿En qué banda ofreció Entel su servicio WiMAX en Bolivia?", o: ["900 MHz", "2,4 GHz", "3,5 GHz", "5,8 GHz"], a: 2, e: "Los términos y condiciones de Entel indican la banda de 3,5 GHz." },
-      { q: "¿Qué país lanzó WiBro comercialmente el 30 de junio de 2006?", o: ["Japón", "Corea del Sur", "Rusia", "Estados Unidos"], a: 1, e: "KT y SK Telecom lanzaron WiBro en Corea del Sur." },
-      { q: "¿Qué empresa apagó su red WiMAX en torno al 6 de noviembre de 2015?", o: ["Sprint", "Yota", "Entel", "UQ Communications"], a: 0, e: "Sprint confirmó esa fecha un año antes. UQ apagó el WiMAX original en 2020." },
-      { q: "¿Cuál fue el primer teléfono con WiMAX?", o: ["HTC Evo 4G", "HTC Max 4G", "Samsung Galaxy S III", "iPhone 4"], a: 1, e: "El HTC Max 4G, presentado el 12 de noviembre de 2008, solo en Rusia con Yota." }
-    ];
-    var box = $("#quizBox"), i = 0, score = 0;
-    if (!box) { return; }
-    function render() {
-      if (i >= Q.length) {
-        var msg = score === Q.length ? "¡Perfecto!" : score >= 4 ? "¡Muy bien!" : "Repasa las secciones y vuelve a intentarlo.";
-        box.innerHTML = "<p class='score'>" + score + " de " + Q.length + "</p><p>" + msg + "</p><button type='button' class='btn' id='qAgain'>Jugar de nuevo</button>";
-        $("#qAgain").addEventListener("click", function () { i = 0; score = 0; render(); });
-        return;
-      }
-      var q = Q[i];
-      var h = "<div class='qmeter' aria-hidden='true'><i style='width:" + (i / Q.length * 100) + "%'></i></div>" +
-        "<p class='cite' style='margin:0 0 .3rem'>Pregunta " + (i + 1) + " de " + Q.length + "</p><h3>" + q.q + "</h3><div class='opts'>";
-      q.o.forEach(function (o, k) { h += "<button type='button' class='opt' data-k='" + k + "'>" + o + "</button>"; });
-      h += "</div><p class='fb' aria-live='polite'></p><button type='button' class='btn' id='qNext' hidden>" + (i === Q.length - 1 ? "Ver resultado" : "Siguiente") + "</button>";
-      box.innerHTML = h;
-      $$(".opt", box).forEach(function (b) {
-        b.addEventListener("click", function () {
-          var k = parseInt(b.getAttribute("data-k"), 10);
-          var ok = k === q.a;
-          if (ok) { score++; }
-          $$(".opt", box).forEach(function (x, idx) {
-            x.disabled = true;
-            if (idx === q.a) { x.classList.add("ok"); }
-            else if (x === b) { x.classList.add("bad"); }
-          });
-          $(".fb", box).textContent = (ok ? "¡Correcto! " : "No exactamente. ") + q.e;
-          var nx = $("#qNext");
-          nx.hidden = false; nx.focus();
-          nx.addEventListener("click", function () { i++; render(); });
-        });
-      });
-    }
-    render();
-  })();
-
   /* ===== Avisos flotantes ===== */
   var toastEl = $("#toast"), toastTimer = null;
   function toast(msg) {
@@ -1886,7 +1810,6 @@
     { id: "legado", n: "Por qué perdió frente a LTE", d: "Razones, mitos y realidad" },
     { id: "vs", n: "Comparador", d: "WiMAX frente a Wi-Fi, LTE y 5G" },
     { id: "vida", n: "Línea de vida", d: "Cuánto duró cada servicio" },
-    { id: "quiz", n: "Quiz", d: "Seis preguntas para repasar" },
     { id: "glosario", n: "Glosario", d: "Siglas y términos" },
     { id: "referencias", n: "Referencias", d: "Fuentes en formato APA" },
     { id: "sobre-mi", n: "Sobre mí", d: "Datos del autor" }
@@ -1953,7 +1876,7 @@
         return !term || (s.n + " " + s.d).toLowerCase().indexOf(term) > -1;
       });
       if (!view.length) {
-        list.innerHTML = "<li class='pal-empty'>Sin resultados. Prueba con «mapa», «quiz», «Bolivia» o «fotos».</li>";
+        list.innerHTML = "<li class='pal-empty'>Sin resultados. Prueba con «mapa», «glosario», «Bolivia» o «fotos».</li>";
         return;
       }
       if (sel >= view.length) { sel = 0; }
@@ -2006,7 +1929,7 @@
       if (e.key === "Escape" && !box.hidden) { close(); return; }
       if (typing || e.ctrlKey || e.metaKey || e.altKey) { return; }
       if (e.key === "/") { e.preventDefault(); open(); }
-      else if (e.key === "?") { toast("Atajos: Ctrl+K buscar · / buscar · T cambiar tema · 1-4 responder el quiz · ← → en la línea de tiempo"); }
+      else if (e.key === "?") { toast("Atajos: Ctrl+K buscar · / buscar · T cambiar tema · ← → en la línea de tiempo · Esc cerrar el visor"); }
       else if (e.key === "t" || e.key === "T") { $("#themeBtn").click(); }
     });
   })();
@@ -2402,70 +2325,6 @@
       });
       head.appendChild(all);
     }
-  })();
-  /* Quiz: respuestas con el teclado, récord guardado y confeti */
-  (function () {
-    var box = $("#quizBox");
-    if (!box) { return; }
-    var best = null;
-    try {
-      var raw = localStorage.getItem("ondas-quiz");
-      best = raw === null ? null : parseInt(raw, 10);
-    } catch (e) { best = null; }
-    if (isNaN(best)) { best = null; }
-
-    document.addEventListener("keydown", function (e) {
-      var opts = $$(".opt", box);
-      if (!opts.length || e.ctrlKey || e.metaKey || e.altKey) { return; }
-      var n = parseInt(e.key, 10);
-      if (n >= 1 && n <= opts.length && !opts[n - 1].disabled) {
-        e.preventDefault();
-        opts[n - 1].click();
-      }
-    });
-
-    function confetti() {
-      if (reduce) { return; }
-      var wrap = document.createElement("div");
-      wrap.className = "confetti";
-      var colors = ["var(--pink)", "var(--yellow)", "var(--mint)", "var(--lilac)", "var(--blue)"];
-      for (var i = 0; i < 70; i++) {
-        var p = document.createElement("i");
-        p.style.left = (Math.random() * 100).toFixed(1) + "%";
-        p.style.background = colors[i % colors.length];
-        p.style.animationDuration = (1.6 + Math.random() * 1.8).toFixed(2) + "s";
-        p.style.animationDelay = (Math.random() * 0.5).toFixed(2) + "s";
-        wrap.appendChild(p);
-      }
-      document.body.appendChild(wrap);
-      setTimeout(function () { if (wrap.parentNode) { wrap.parentNode.removeChild(wrap); } }, 4300);
-    }
-
-    if (!("MutationObserver" in window)) { return; }
-    var obs = new MutationObserver(function () {
-      var sc = $(".score", box);
-      if (!sc || $(".best", box)) { return; }
-      var m = /(\d+)\s*de\s*(\d+)/.exec(sc.textContent || "");
-      if (!m) { return; }
-      var got = parseInt(m[1], 10), tot = parseInt(m[2], 10);
-      var msg;
-      if (best === null || got > best) {
-        best = got;
-        try { localStorage.setItem("ondas-quiz", String(got)); } catch (e) {}
-        msg = "Nuevo récord: " + got + " de " + tot + ".";
-      } else {
-        msg = "Tu mejor resultado hasta hoy: " + best + " de " + tot + ".";
-      }
-      var p = document.createElement("p");
-      p.className = "best";
-      p.textContent = msg + " También puedes responder con el teclado: pulsa 1, 2, 3 o 4.";
-      box.appendChild(p);
-      if (got === tot) {
-        confetti();
-        toast("¡Perfecto! " + got + " de " + tot + " respuestas correctas.");
-      }
-    });
-    obs.observe(box, { childList: true, subtree: true });
   })();
 })();
 </script>

@@ -17,13 +17,13 @@ Está escrito con **HTML, CSS y JavaScript puros**: no necesita compilación, ni
 - **Galería de fotos** con visor ampliado, modo carrusel y pase automático.
 - **WiMAX en Bolivia** (Entel, AXS, 3,5 GHz) y **empresas** con filtros y búsqueda.
 - **Por qué perdió frente a LTE**, comparador WiMAX vs Wi-Fi/LTE/5G y línea de vida 2001–2026.
-- **Quiz** de seis preguntas con récord guardado, y **glosario** y **referencias APA (7.ª ed.)**.
+- **Glosario** de siglas y **referencias bibliográficas en APA (7.ª ed.)**.
 
 ## Extras de la interfaz
 
 - Tema claro y oscuro con preferencia guardada.
 - Buscador rápido de la página: `Ctrl + K` o `/`.
-- Atajos: `T` cambia el tema, `?` muestra la ayuda, `1`–`4` responden el quiz, `←`/`→` recorren la línea de tiempo.
+- Atajos: `T` cambia el tema, `?` muestra la ayuda y `←`/`→` recorren la línea de tiempo.
 - Navegación lateral con seguimiento del scroll, botón de volver arriba con anillo de progreso y estilos de impresión/PDF.
 - Accesible: foco visible, etiquetas ARIA, textos alternativos y respeto por `prefers-reduced-motion`.
 
